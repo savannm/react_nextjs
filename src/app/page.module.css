@@ -1,0 +1,190 @@
+/*
+  page.module.css — Styles for the Home Page
+  ===========================================
+  This is a "CSS Module" file. It only applies to the component that imports it
+  (in this case, page.tsx). Class names are automatically made unique by Next.js,
+  so .page here won't accidentally clash with a .page class somewhere else.
+
+  You use these styles in JSX like this:
+    import styles from "./page.module.css";
+    <div className={styles.page}>
+*/
+
+/* ── Page Container ────────────────────────────────────────────────────────
+   .page is the outermost wrapper for the entire homepage.
+   We define our colour palette here as CSS variables (custom properties),
+   so they're easy to change in one place and update everywhere.
+*/
+.page {
+  /* Colour variables for light mode */
+  --background: #fafafa;            /* Light grey page background */
+  --foreground: #fff;               /* White card background */
+  --text-primary: #000;             /* Black heading text */
+  --text-secondary: #666;           /* Grey paragraph text */
+  --button-primary-hover: #383838;  /* Dark grey on primary button hover */
+  --button-secondary-hover: #f2f2f2;/* Light grey on secondary button hover */
+  --button-secondary-border: #ebebeb;/* Border colour for the outline button */
+
+  /* Layout — centres the content both horizontally and vertically */
+  display: flex;
+  flex: 1;                   /* Takes up remaining vertical space */
+  flex-direction: column;    /* Stacks children top-to-bottom */
+  align-items: center;       /* Centres children horizontally */
+  justify-content: center;   /* Centres children vertically */
+
+  font-family: var(--font-geist-sans); /* Uses the font loaded in layout.tsx */
+  background-color: var(--background);
+}
+
+/* ── Main Content Card ─────────────────────────────────────────────────────
+   .main is the white card that holds all the page content.
+   max-width stops it from stretching too wide on large screens.
+*/
+.main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  max-width: 800px;              /* Don't let the card get wider than 800px */
+  flex-direction: column;        /* Stack children vertically */
+  align-items: flex-start;       /* Align children to the left */
+  justify-content: space-between;/* Push items to top and bottom of the card */
+  background-color: var(--foreground);
+  padding: 120px 60px;           /* Top/bottom: 120px, Left/right: 60px */
+}
+
+/* ── Intro Text Block ──────────────────────────────────────────────────────
+   .intro wraps the heading and paragraph text.
+   gap adds space between children without needing margin.
+*/
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 24px; /* 24px of space between the h1 and the p */
+}
+
+/* Styles for the <h1> heading inside .intro */
+.intro h1 {
+  max-width: 320px;
+  font-size: 40px;
+  font-weight: 600;        /* Semi-bold */
+  line-height: 48px;       /* Space between lines of text */
+  letter-spacing: -2.4px;  /* Tighten letters together (modern look) */
+  text-wrap: balance;      /* Evenly distribute text across lines */
+  color: var(--text-primary);
+}
+
+/* Styles for the <p> paragraph inside .intro */
+.intro p {
+  max-width: 440px;
+  font-size: 18px;
+  line-height: 32px;
+  text-wrap: balance;
+  color: var(--text-secondary);
+}
+
+/* Styles for any <a> links inside .intro */
+.intro a {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ── Call-to-Action Buttons ────────────────────────────────────────────────
+   .ctas is the row containing the two action buttons.
+   flex-direction: row puts them side by side.
+*/
+.ctas {
+  display: flex;
+  flex-direction: row;  /* Place buttons side by side */
+  width: 100%;
+  max-width: 440px;
+  gap: 16px;            /* Space between the two buttons */
+  font-size: 14px;
+}
+
+/* Base styles shared by BOTH buttons */
+.ctas a {
+  display: flex;
+  justify-content: center;  /* Centre content horizontally */
+  align-items: center;      /* Centre content vertically */
+  height: 40px;
+  padding: 0 16px;          /* 0 top/bottom, 16px left/right */
+  border-radius: 128px;     /* Large value = fully rounded / pill shape */
+  border: 1px solid transparent;
+  transition: 0.2s;         /* Smooth animation on hover (0.2 seconds) */
+  cursor: pointer;          /* Show a hand cursor on hover */
+  width: fit-content;       /* Only as wide as the content inside */
+  font-weight: 500;
+}
+
+/* Primary button (dark background, light text) */
+a.primary {
+  background: var(--text-primary); /* Dark background */
+  color: var(--background);        /* Light text */
+  gap: 8px;                        /* Space between the icon and text */
+}
+
+/* Secondary button (no background, just an outline border) */
+a.secondary {
+  border-color: var(--button-secondary-border);
+}
+
+/* ── Hover Effects ─────────────────────────────────────────────────────────
+   This @media query targets only devices with a mouse (not touchscreens),
+   so hover effects don't accidentally trigger on mobile taps.
+*/
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+}
+
+/* ── Responsive Design (Mobile) ────────────────────────────────────────────
+   @media (max-width: 600px) means: apply these styles ONLY when the screen
+   is 600px wide or smaller (i.e. mobile phones).
+   We reduce padding and font sizes so everything fits comfortably.
+*/
+@media (max-width: 600px) {
+  .main {
+    padding: 48px 24px; /* Less padding on small screens */
+  }
+
+  .intro {
+    gap: 16px; /* Tighter gap between heading and paragraph */
+  }
+
+  .intro h1 {
+    font-size: 32px;       /* Smaller heading on mobile */
+    line-height: 40px;
+    letter-spacing: -1.92px;
+  }
+}
+
+/* ── Dark Mode Overrides ───────────────────────────────────────────────────
+   When the user's OS is in dark mode, we override the colour variables
+   so the page automatically switches to a dark colour palette.
+*/
+@media (prefers-color-scheme: dark) {
+  /* Invert the logo image so it's visible on a dark background */
+  .logo {
+    filter: invert();
+  }
+
+  /* Override the colour variables with dark mode values */
+  .page {
+    --background: #000;
+    --foreground: #000;
+    --text-primary: #ededed;          /* Light grey text */
+    --text-secondary: #999;           /* Medium grey text */
+    --button-primary-hover: #ccc;     /* Light hover on primary button */
+    --button-secondary-hover: #1a1a1a;/* Very dark hover on secondary button */
+    --button-secondary-border: #1a1a1a;
+  }
+}

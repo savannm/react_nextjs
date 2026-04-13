@@ -1,0 +1,79 @@
+/*
+  globals.css — Global Styles
+  ===========================
+  These styles apply to EVERY page in the app.
+  Think of this as your "base" stylesheet.
+
+  It's imported once in layout.tsx and automatically affects all pages.
+*/
+
+/* ── CSS Variables ─────────────────────────────────────────────────────────
+   CSS variables (also called "custom properties") let you define values
+   once and reuse them everywhere. Here we define our colour palette.
+   :root means "apply these to the whole page".
+*/
+:root {
+  --background: #ffffff; /* White background (light mode) */
+  --foreground: #171717; /* Near-black text (light mode) */
+}
+
+/* ── Dark Mode ─────────────────────────────────────────────────────────────
+   @media rules let you apply styles based on conditions.
+   "prefers-color-scheme: dark" detects if the user's OS is in dark mode.
+   If so, we override the colour variables above with darker values.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a; /* Very dark background */
+    --foreground: #ededed; /* Light grey text */
+  }
+
+  html {
+    color-scheme: dark; /* Tells the browser UI elements (e.g. scrollbars) to go dark too */
+  }
+}
+
+/* ── Box Model Reset ───────────────────────────────────────────────────────
+   By default, browsers add padding/margin to elements, which can be
+   unpredictable. This "reset" removes those defaults so we start fresh.
+   box-sizing: border-box means padding is included in an element's width.
+*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── HTML & Body Layout ────────────────────────────────────────────────────
+   We set the body to fill the full viewport height and prevent horizontal scrolling.
+   display: flex and flex-direction: column makes child elements stack vertically.
+*/
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;    /* Never wider than the viewport */
+  overflow-x: hidden;  /* Hide any horizontal overflow (prevents side-scrolling) */
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);           /* Use the CSS variable we defined above */
+  background: var(--background);      /* Use the CSS variable we defined above */
+  font-family: Arial, Helvetica, sans-serif; /* Fallback fonts if Google Fonts fail */
+  -webkit-font-smoothing: antialiased;       /* Makes text look sharper on Mac/iOS */
+  -moz-osx-font-smoothing: grayscale;        /* Same for Firefox on Mac */
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────────
+   By default, links are blue and underlined — we reset them here.
+   "color: inherit" means links use the same colour as the text around them.
+*/
+a {
+  color: inherit;
+  text-decoration: none;
+}

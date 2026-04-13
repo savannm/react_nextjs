@@ -1,0 +1,112 @@
+/*
+  Navbar.module.css — Styles for the Navigation Bar
+  ==================================================
+  This CSS Module only applies to Navbar.tsx.
+  It styles the top menu bar that appears on every page.
+*/
+
+/* ── Navbar Container ──────────────────────────────────────────────────────
+   The <nav> element. We use flexbox to place the brand on the left
+   and the links on the right, with space between them.
+   position: sticky makes it "stick" to the top as you scroll down.
+*/
+.navbar {
+  display: flex;
+  flex-direction: row;          /* Place brand and links side by side */
+  align-items: center;          /* Vertically centre the items */
+  justify-content: space-between; /* Push brand left, links right */
+
+  position: sticky;  /* Stays at the top of the viewport when scrolling */
+  top: 0;            /* Sticks to the very top of the screen */
+  z-index: 100;      /* Sits above other content (higher = in front) */
+
+  width: 100%;
+  padding: 0 40px;   /* Left and right breathing room */
+  height: 64px;      /* Fixed navbar height */
+
+  background-color: #fff;                        /* White background */
+  border-bottom: 1px solid #ebebeb;              /* Subtle bottom border */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);    /* Soft drop shadow */
+}
+
+/* ── Brand / Logo ──────────────────────────────────────────────────────────
+   The site name on the left side of the navbar.
+*/
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+/* Styles for the brand link text */
+.brandLink {
+  font-size: 18px;
+  font-weight: 700;   /* Bold */
+  color: #000;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+/* ── Navigation Links ──────────────────────────────────────────────────────
+   The <ul> list of nav links on the right side.
+   We clear the default bullet points (list-style: none) and use flexbox
+   so the links sit side by side horizontally.
+*/
+.navLinks {
+  display: flex;
+  flex-direction: row;  /* Links side by side */
+  align-items: center;
+  gap: 32px;            /* Space between each link */
+  list-style: none;     /* Remove default bullet points from the list */
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles for individual nav links */
+.link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  transition: color 0.2s; /* Smooth colour change on hover */
+}
+
+/* Change colour when hovering over a link */
+.link:hover {
+  color: #000;
+}
+
+/* ── Dark Mode ─────────────────────────────────────────────────────────────
+   Automatically switch to dark colours when the OS is in dark mode.
+*/
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background-color: #0a0a0a;
+    border-bottom-color: #1a1a1a;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .brandLink {
+    color: #ededed;
+  }
+
+  .link {
+    color: #999;
+  }
+
+  .link:hover {
+    color: #ededed;
+  }
+}
+
+/* ── Mobile Responsive ─────────────────────────────────────────────────────
+   On small screens, reduce the padding so nothing gets cut off.
+*/
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .navLinks {
+    gap: 20px; /* Tighter spacing between links on mobile */
+  }
+}
