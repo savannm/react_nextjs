@@ -29,24 +29,24 @@ export default function AddMember() {
 
       <div className={styles.inputGroup}>
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" required placeholder="Jane Doe" />
+        <input type="text" id="username" name="username" required placeholder="Savmax" />
       </div>
 
       <div className={styles.inputRow}>
         <div className={styles.inputGroup}>
           <label htmlFor="role">Role</label>
-          <input type="text" id="role" name="role" required placeholder={'user'} />
+          <input type="text" id="role" name="role" required placeholder={'eg: editor'} />
         </div>
 
         <div className={styles.inputGroup}>
           <label htmlFor="password">Password</label>
-          <input type="text" id="password" name="password" placeholder="password" />
+          <input type="text" id="password" name="password" required placeholder="eg: Password@&41" />
         </div>
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="image_url">Thumbnail Image URL</label>
-        <input type="url" id="image_url" name="image_url" required defaultValue="http://www.jorvann.com/images/savann.jpg" />
+        <label htmlFor="image_url">Profile Image URL</label>
+        <input type="url" id="image_url" name="image_url" placeholder="your image url" />
       </div>
 
       <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>

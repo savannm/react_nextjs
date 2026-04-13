@@ -17,23 +17,49 @@
 */
 .page {
   /* Colour variables for light mode */
-  --background: #fafafa;            /* Light grey page background */
-  --foreground: #fff;               /* White card background */
-  --text-primary: #000;             /* Black heading text */
-  --text-secondary: #666;           /* Grey paragraph text */
-  --button-primary-hover: #383838;  /* Dark grey on primary button hover */
-  --button-secondary-hover: #f2f2f2;/* Light grey on secondary button hover */
-  --button-secondary-border: #ebebeb;/* Border colour for the outline button */
-
+  --background: #fafafa;
+  /* Light grey page background */
+  --foreground: #fff;
+  /* White card background */
+  --text-primary: #000;
+  /* Black heading text */
+  --text-secondary: #666;
+  /* Grey paragraph text */
+  --button-primary-hover: #383838;
+  /* Dark grey on primary button hover */
+  --button-secondary-hover: #f2f2f2;
+  /* Light grey on secondary button hover */
+  --button-secondary-border: #ebebeb;
+  /* Border colour for the outline button */
   /* Layout — centres the content both horizontally and vertically */
   display: flex;
-  flex: 1;                   /* Takes up remaining vertical space */
-  flex-direction: column;    /* Stacks children top-to-bottom */
-  align-items: center;       /* Centres children horizontally */
-  justify-content: center;   /* Centres children vertically */
+  flex: 1;
+  /* Takes up remaining vertical space */
+  flex-direction: column;
+  /* Stacks children top-to-bottom */
+  align-items: center;
+  /* Centres children horizontally */
+  justify-content: center;
+  /* Centres children vertically */
 
-  font-family: var(--font-geist-sans); /* Uses the font loaded in layout.tsx */
+  font-family: var(--font-geist-sans);
+  /* Uses the font loaded in layout.tsx */
   background-color: var(--background);
+}
+
+.page_contact {
+  background-image: url('../assets/images/image1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.hs_form_frame,
+.hs-form-frame {
+  width: 100%;
+  display: block;
+  max-width: 800px;
 }
 
 /* ── Main Content Card ─────────────────────────────────────────────────────
@@ -44,12 +70,17 @@
   display: flex;
   flex: 1;
   width: 100%;
-  max-width: 800px;              /* Don't let the card get wider than 800px */
-  flex-direction: column;        /* Stack children vertically */
-  align-items: flex-start;       /* Align children to the left */
-  justify-content: space-between;/* Push items to top and bottom of the card */
+  max-width: 800px;
+  /* Don't let the card get wider than 800px */
+  flex-direction: column;
+  /* Stack children vertically */
+  align-items: flex-start;
+  /* Align children to the left */
+  justify-content: space-between;
+  /* Push items to top and bottom of the card */
   background-color: var(--foreground);
-  padding: 120px 60px;           /* Top/bottom: 120px, Left/right: 60px */
+  padding: 120px 60px;
+  /* Top/bottom: 120px, Left/right: 60px */
 }
 
 /* ── Intro Text Block ──────────────────────────────────────────────────────
@@ -61,17 +92,23 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  gap: 24px; /* 24px of space between the h1 and the p */
+  gap: 24px;
+  width: 100%;
+  /* 24px of space between the h1 and the p */
 }
 
 /* Styles for the <h1> heading inside .intro */
 .intro h1 {
   max-width: 320px;
   font-size: 40px;
-  font-weight: 600;        /* Semi-bold */
-  line-height: 48px;       /* Space between lines of text */
-  letter-spacing: -2.4px;  /* Tighten letters together (modern look) */
-  text-wrap: balance;      /* Evenly distribute text across lines */
+  font-weight: 600;
+  /* Semi-bold */
+  line-height: 48px;
+  /* Space between lines of text */
+  letter-spacing: -2.4px;
+  /* Tighten letters together (modern look) */
+  text-wrap: balance;
+  /* Evenly distribute text across lines */
   color: var(--text-primary);
 }
 
@@ -96,33 +133,45 @@
 */
 .ctas {
   display: flex;
-  flex-direction: row;  /* Place buttons side by side */
+  flex-direction: row;
+  /* Place buttons side by side */
   width: 100%;
   max-width: 440px;
-  gap: 16px;            /* Space between the two buttons */
+  gap: 16px;
+  /* Space between the two buttons */
   font-size: 14px;
 }
 
 /* Base styles shared by BOTH buttons */
 .ctas a {
   display: flex;
-  justify-content: center;  /* Centre content horizontally */
-  align-items: center;      /* Centre content vertically */
+  justify-content: center;
+  /* Centre content horizontally */
+  align-items: center;
+  /* Centre content vertically */
   height: 40px;
-  padding: 0 16px;          /* 0 top/bottom, 16px left/right */
-  border-radius: 128px;     /* Large value = fully rounded / pill shape */
+  padding: 0 16px;
+  /* 0 top/bottom, 16px left/right */
+  border-radius: 128px;
+  /* Large value = fully rounded / pill shape */
   border: 1px solid transparent;
-  transition: 0.2s;         /* Smooth animation on hover (0.2 seconds) */
-  cursor: pointer;          /* Show a hand cursor on hover */
-  width: fit-content;       /* Only as wide as the content inside */
+  transition: 0.2s;
+  /* Smooth animation on hover (0.2 seconds) */
+  cursor: pointer;
+  /* Show a hand cursor on hover */
+  width: fit-content;
+  /* Only as wide as the content inside */
   font-weight: 500;
 }
 
 /* Primary button (dark background, light text) */
 a.primary {
-  background: var(--text-primary); /* Dark background */
-  color: var(--background);        /* Light text */
-  gap: 8px;                        /* Space between the icon and text */
+  background: var(--text-primary);
+  /* Dark background */
+  color: var(--background);
+  /* Light text */
+  gap: 8px;
+  /* Space between the icon and text */
 }
 
 /* Secondary button (no background, just an outline border) */
@@ -153,15 +202,18 @@ a.secondary {
 */
 @media (max-width: 600px) {
   .main {
-    padding: 48px 24px; /* Less padding on small screens */
+    padding: 48px 24px;
+    /* Less padding on small screens */
   }
 
   .intro {
-    gap: 16px; /* Tighter gap between heading and paragraph */
+    gap: 16px;
+    /* Tighter gap between heading and paragraph */
   }
 
   .intro h1 {
-    font-size: 32px;       /* Smaller heading on mobile */
+    font-size: 32px;
+    /* Smaller heading on mobile */
     line-height: 40px;
     letter-spacing: -1.92px;
   }
@@ -172,6 +224,7 @@ a.secondary {
    so the page automatically switches to a dark colour palette.
 */
 @media (prefers-color-scheme: dark) {
+
   /* Invert the logo image so it's visible on a dark background */
   .logo {
     filter: invert();
@@ -181,10 +234,14 @@ a.secondary {
   .page {
     --background: #000;
     --foreground: #000;
-    --text-primary: #ededed;          /* Light grey text */
-    --text-secondary: #999;           /* Medium grey text */
-    --button-primary-hover: #ccc;     /* Light hover on primary button */
-    --button-secondary-hover: #1a1a1a;/* Very dark hover on secondary button */
+    --text-primary: #ededed;
+    /* Light grey text */
+    --text-secondary: #999;
+    /* Medium grey text */
+    --button-primary-hover: #ccc;
+    /* Light hover on primary button */
+    --button-secondary-hover: #1a1a1a;
+    /* Very dark hover on secondary button */
     --button-secondary-border: #1a1a1a;
   }
 }

@@ -47,6 +47,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link href="/member" className={styles.link}>
+            Member
+          </Link>
+        </li>
+        <li>
           <Link href="/contact" className={styles.link}>
             Contact
           </Link>

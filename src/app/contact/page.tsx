@@ -7,75 +7,44 @@
 // We import the Image component from Next.js.
 // It's like a regular <img> tag, but smarter — it auto-optimises images.
 import Image from "next/image";
+import Script from "next/script";
 
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
 import styles from "../page.module.css";
 
-// This is the Home component — the main content of the homepage.
+// This is the Contact component — the main content of the contact page.
 // "export default" means this is the main thing exported from this file,
 // and Next.js will use it to render the page.
 export default function Contact() {
     // "return" sends back the JSX (HTML-like code) that gets displayed on screen.
     return (
         // A <div> is a generic container — here it wraps the whole page.
-        <div className={styles.page}>
-
+        <div className={styles.page_contact}>
             {/* <main> is a semantic HTML tag that marks the main content area. */}
             <main className={styles.main}>
 
-                {/* The Next.js logo image */}
-                <Image
-                    className={styles.logo}
-                    src="/next.svg"         // Path to the image in the /public folder
-                    alt="Next.js logo"      // Alt text for accessibility (screen readers)
-                    width={100}             // Display width in pixels
-                    height={20}             // Display height in pixels
-                    priority                // Load this image immediately (above the fold)
-                />
-
                 {/* Introductory text block */}
                 <div className={styles.intro}>
-                    <h1>Contact Page</h1>
+                    <h1>Get in Touch</h1>
                     <p>
-                        Edit <code>src/app/page.tsx</code> to get started.
+                        Have a question or want to work together? Fill out the form below and we'll get back to you as soon as possible.
                     </p>
+
+                    {/* HubSpot Form Embedding */}
+                    <Script src="https://js-ap1.hsforms.net/forms/embed/442933338.js" defer />
+
+                    <div className={styles.hs_form_frame}>
+                        <div
+                            className="hs-form-frame"
+                            data-region="ap1"
+                            data-form-id="708b29da-e267-4c9d-bf64-7dfe5e2b0702"
+                            data-portal-id="442933338"
+                        ></div>
+                    </div>
                 </div>
 
-                {/* Call-to-action buttons */}
-                <div className={styles.ctas}>
-
-                    {/* Primary button — links to Vercel deployment */}
-                    <a
-                        className={styles.primary}
-                        href="https://vercel.com/new"
-                        target="_blank"           // Opens in a new browser tab
-                        rel="noopener noreferrer" // Security best practice for external links
-                    >
-                        {/* The Vercel logo image inside the button */}
-                        <Image
-                            className={styles.logo}
-                            src="/vercel.svg"
-                            alt="Vercel logomark"
-                            width={16}
-                            height={16}
-                        />
-                        Deploy Now
-                    </a>
-
-                    {/* Secondary button — links to the Next.js docs */}
-                    <a
-                        className={styles.secondary}
-                        href="https://nextjs.org/docs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Documentation
-                    </a>
-
-                </div>
             </main>
-
         </div>
     );
 }

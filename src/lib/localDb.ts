@@ -7,6 +7,13 @@ interface ArticleMeta {
   tags: string[];
 }
 
+export interface MemberInfoProps {
+  username: string;
+  role: string;
+  password: string;
+  image_url: string;
+}
+
 // Create a connection pool using the DATABASE_URL environment variable
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
@@ -32,6 +39,7 @@ export async function getLocalArticleMeta(id: number): Promise<ArticleMeta | nul
 }
 
 
+
 // Pulls from database, all the rows for mapping
 export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
   try {
@@ -45,6 +53,25 @@ export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
   } catch (error) {
     console.error('Error fetching all articles from Postgres:', error);
     return [];
+  }
+}
+
+// Pulls one member from the database by username
+export async function getMember(username: string): Promise<MemberInfoProps | null> {
+  try {
+    const result = await pool.query(
+      'SELECT username, role, password, image_url FROM members WHERE username = $1',
+      [username]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows[0] as MemberInfoProps;
+  } catch (error) {
+    console.error('Error fetching member from local Postgres database:', error);
+    return null;
   }
 }
 
