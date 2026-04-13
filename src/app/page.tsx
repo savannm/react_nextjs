@@ -38,7 +38,7 @@ export default function Home() {
       this.age = age;
       this.address = {
         street: "123 Main St",
-        city: "Anytown",
+        city: "Town",
         country: "USA"
       }
       this.myAction = () => {
