@@ -11,6 +11,7 @@ import { Suspense } from "react";
 
 // ArticleViewer is a Server Component that fetches from two data sources.
 import ArticleViewer from "@/components/ArticleViewer";
+import AllArticlesViewer from "@/components/DatabaseMapAll";
 
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
@@ -83,7 +84,8 @@ export default function Home() {
         <section style={{ margin: '4rem 0', width: '100%' }}>
           <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Latest Article</h2>
           <Suspense fallback={<div style={{ textAlign: 'center' }}>Loading article...</div>}>
-            <ArticleViewer articleId={1} />
+            <ArticleViewer articleId={2} />
+            <AllArticlesViewer />
           </Suspense>
         </section>
 
