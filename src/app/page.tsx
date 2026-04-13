@@ -16,6 +16,7 @@ import AllArticlesViewer from "@/components/DatabaseMapAll";
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
 import styles from "./page.module.css";
+import AddMember from '@/components/AddMember';
 
 // This is the Home component — the main content of the homepage.
 // "export default" means this is the main thing exported from this file,
@@ -61,6 +62,11 @@ export default function Home() {
 
       {/* <main> is a semantic HTML tag that marks the main content area. */}
       <main className={styles.main}>
+
+        <section style={{ margin: '4rem 0', width: '100%' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Signup to latest News</h2>
+          <AddMember />
+        </section>
 
         {/* The Next.js logo image */}
         <Image

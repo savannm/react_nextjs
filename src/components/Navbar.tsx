@@ -37,6 +37,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link href="/add" className={styles.link}>
+            New Post
+          </Link>
+        </li>
+        <li>
           <Link href="/service" className={styles.link}>
             Service
           </Link>
