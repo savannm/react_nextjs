@@ -262,7 +262,7 @@ export default function AiChat() {
                     </form>
                 </div>
             ) : (
-                <button className={styles.fab} onClick={() => setIsOpen(true)} title="Open AI Chat">
+                <button className={styles.fab} onClick={() => setIsOpen(true)} suppressHydrationWarning>
                     💬
                 </button>
             )}
