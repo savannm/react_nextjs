@@ -18,35 +18,12 @@ export default function Members() {
             {/* <main> is a semantic HTML tag that marks the main content area. */}
             <main className={styles.main}>
 
-                {/* The Next.js logo image */}
-                <Image
-                    className={styles.logo}
-                    src="/next.svg"         // Path to the image in the /public folder
-                    alt="Next.js logo"      // Alt text for accessibility (screen readers)
-                    width={100}             // Display width in pixels
-                    height={20}             // Display height in pixels
-                    priority                // Load this image immediately (above the fold)
-                />
-
                 {/* Introductory text block */}
                 <div className={styles.intro}>
                     <h1>Members Page</h1>
                     {/* AddMemberGet fetches data from the database. 
                         It defaults to "Zax Max" if no username is passed. */}
-                    <Memberinfo />
-                </div>
-
-                {/* Call-to-action buttons */}
-                <div className={styles.ctas}>
-                    <a
-                        className={styles.secondary}
-                        href="https://nextjs.org/docs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Documentation
-                    </a>
-
+                    <Memberinfo username="Zax Max" />
                 </div>
             </main>
 
