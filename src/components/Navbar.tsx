@@ -5,7 +5,7 @@
 //
 // "Link" from Next.js works like an <a> tag but navigates between pages
 // WITHOUT doing a full browser reload — much faster!
-
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 
@@ -21,7 +21,14 @@ export default function Navbar() {
       <div className={styles.brand}>
         {/* Link to the homepage ("/") */}
         <Link href="/" className={styles.brandLink}>
-          My App
+          <Image
+            className={styles.logo}
+            src="/logo.png"         // Path to the image in the /public folder
+            alt="strata company logo"      // Alt text for accessibility (screen readers)
+            width={150}             // Display width in pixels
+            height={80}             // Display height in pixels
+            priority                // Load this image immediately (above the fold)
+          />
         </Link>
       </div>
 
