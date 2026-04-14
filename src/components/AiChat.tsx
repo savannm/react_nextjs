@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import styles from './AIChat.module.css';
 
 export default function AiChat() {
@@ -16,7 +17,7 @@ export default function AiChat() {
     // - setMessages([]) — clears the conversation for "New Chat"
     // - status: 'submitted' | 'streaming' | 'ready' | 'error'
     const { messages, sendMessage, setMessages, status } = useChat({
-        api: '/api/chat',
+        transport: new DefaultChatTransport({ api: '/api/chat' }),
     });
 
     const isLoading = status === 'submitted' || status === 'streaming';
