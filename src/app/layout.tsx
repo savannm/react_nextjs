@@ -11,6 +11,10 @@ import type { Metadata } from "next";
 // Any component you create goes in src/components/ by convention.
 import Navbar from "@/components/Navbar";
 
+//AICHAT
+import AiChat from '@/components/AiChat';
+
+
 // We're importing two Google Fonts to use across the whole app.
 // Geist is for regular text, Geist Mono is for code-style text.
 import { Geist, Geist_Mono } from "next/font/google";
@@ -21,42 +25,46 @@ import "./globals.css";
 // Set up the Geist font and give it a CSS variable name.
 // The variable name lets us reference this font in CSS with "--font-geist-sans".
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"], // Only load the characters we need (Latin alphabet)
+    variable: "--font-geist-sans",
+    subsets: ["latin"], // Only load the characters we need (Latin alphabet)
 });
 
 // Same thing for the monospace font.
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 // This object sets the metadata for our site (shown in browser tabs & search engines).
 export const metadata: Metadata = {
-  title: "My Next.js App",
-  description: "A simple Next.js project",
+    title: "My Next.js App",
+    description: "A simple Next.js project",
 };
 
 // This is the Root Layout component.
 // "children" refers to the content of whatever page the user is currently on.
 // The type annotation tells TypeScript that children must be valid React content.
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    // The outermost HTML tag. We set lang="en" for accessibility (screen readers).
-    // We pass the font variables as class names so CSS can use them.
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      {/* The body tag wraps all visible content. */}
-      <body>
-        {/* Navbar appears at the top of EVERY page because it's in the layout. */}
-        <Navbar />
+    return (
+        // The outermost HTML tag. We set lang="en" for accessibility (screen readers).
+        // We pass the font variables as class names so CSS can use them.
+        <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
 
-        {/* {children} is where the current page's content gets inserted. */}
-        {children}
-      </body>
-    </html>
-  );
+            {/* The body tag wraps all visible content. */}
+            {/* suppressHydrationWarning prevents hydration errors from browser extensions adding classes to body */}
+            <body suppressHydrationWarning>
+                {/* Navbar appears at the top of EVERY page because it's in the layout. */}
+
+                <Navbar />
+                <AiChat />
+
+                {/* {children} is where the current page's content gets inserted. */}
+                {children}
+            </body>
+        </html>
+    );
 }

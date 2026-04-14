@@ -9,11 +9,12 @@
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 
+
 // The Navbar component. No props needed — the links are hardcoded here.
 export default function Navbar() {
   return (
     // <nav> is a semantic HTML tag that tells browsers (and screen readers)
-    // this section contains navigation links.
+    // this section contains navigation links.                  
     <nav className={styles.navbar}>
 
       {/* Left side: the site logo / brand name */}
@@ -37,13 +38,13 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link href="/add" className={styles.link}>
-            New Post
+          <Link href="/blog" className={styles.link}>
+            Blog
           </Link>
         </li>
         <li>
-          <Link href="/service" className={styles.link}>
-            Service
+          <Link href="/ServiceAi" className={styles.link}>
+            AI Agent Service
           </Link>
         </li>
         <li>

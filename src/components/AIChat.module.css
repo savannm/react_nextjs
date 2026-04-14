@@ -1,0 +1,384 @@
+.chatWidget {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.fab {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #FF5E5E;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: transform 0.2s;
+    margin: 24px;
+}
+
+.fab:hover {
+    transform: scale(1.05);
+}
+
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+    height: 800px;
+    max-height: 100vh;
+    background-color: #ffffff;
+    color: #333333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.05);
+    border-left: 1px solid #e0e0e0;
+}
+
+.header {
+    padding: 24px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #007c89;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.headerRight {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s;
+}
+
+.iconBtn:hover {
+    opacity: 0.6;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.greetingContainer {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-bottom: 40px;
+}
+
+.greetingText1 {
+    font-size: 36px;
+    font-weight: 300;
+    color: #FF5E5E;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.greetingText2 {
+    font-size: 36px;
+    font-weight: 300;
+    color: #D3217B;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 15px;
+    word-wrap: break-word;
+}
+
+.userMessage {
+    align-self: flex-end;
+    background-color: #f0f0f0;
+    color: #111;
+    border-bottom-right-radius: 4px;
+}
+
+.aiMessage {
+    align-self: flex-start;
+    background-color: transparent;
+    color: #111;
+    border: 1px solid #e0e0e0;
+    border-bottom-left-radius: 4px;
+}
+
+.inputForm {
+    padding: 24px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 16px 16px 10px;
+    border: 1px solid #cccccc;
+    transition: border-color 0.2s;
+    gap: 8px;
+}
+
+.inputWrapper:focus-within {
+    border-color: #aaa;
+}
+
+.input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #333333;
+    font-size: 15px;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+}
+
+.input::placeholder {
+    color: #999999;
+}
+
+/* ── Input actions row (paperclip + send) ── */
+.inputActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* New Chat button in header */
+.newChatBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.newChatBtn:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+/* Paperclip / attachment button */
+.attachBtn {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.attachBtn:hover:not(:disabled) {
+    color: #555;
+    background-color: #f0f0f0;
+}
+
+.attachBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Badge showing number of attached files */
+.attachBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #D3217B;
+    color: white;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* Send button */
+.submitBtn {
+    background: #F9D0E0;
+    border: none;
+    color: #c5447e;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background-color: #f0aac7;
+    color: #fff;
+}
+
+.submitBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.quickActions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.actionBtn {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    color: #333;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.actionBtn:hover {
+    background-color: #ececec;
+    opacity: 0.9;
+}
+
+.attachmentImage {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.attachmentsPreview {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.previewItem {
+    position: relative;
+    min-width: 48px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.previewItem img {
+    width: 48px;
+    height: 56px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Generic file card (non-image) */
+.fileIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    height: 100%;
+    color: #888;
+    gap: 2px;
+    min-width: 72px;
+}
+
+.fileName {
+    font-size: 9px;
+    color: #666;
+    max-width: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.removePreview {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+    color: #999;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

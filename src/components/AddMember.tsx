@@ -22,8 +22,8 @@ export default function AddMember() {
   return (
     <form className={styles.formContainer} action={formAction}>
       <header className={styles.formHeader}>
-        <h2>Publish New Entry</h2>
-        <p>Push data securely straight into your PostgreSQL database via Server Actions.</p>
+        <h2>Sign Up</h2>
+        <p>Please sign up to begin Demo</p>
       </header>
 
 
