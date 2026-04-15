@@ -102,6 +102,7 @@ export default function Home() {
                 <li>Dynamic Routing</li>
                 <li>3D Slider Component</li>
                 <li>Service AI Page</li>
+                <li>Secure Authentication</li>
               </ul>
             </div>
           </div>

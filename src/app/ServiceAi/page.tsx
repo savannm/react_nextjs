@@ -3,10 +3,6 @@ import styles from "./serviceai.module.css";
 
 export default function ServiceAiPage() {
     return (
-
-
-
         < ServiceSlider />
-
     );
 }
