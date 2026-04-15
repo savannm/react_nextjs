@@ -23,17 +23,14 @@ export default function Contact() {
         <div className={styles.page_contact}>
             {/* <main> is a semantic HTML tag that marks the main content area. */}
             <main className={styles.main}>
-
                 {/* Introductory text block */}
                 <div className={styles.intro}>
                     <h1>Get in Touch</h1>
                     <p>
                         Have a question or want to work together? Fill out the form below and we'll get back to you as soon as possible.
                     </p>
-
                     {/* HubSpot Form Embedding */}
                     <Script src="https://js-ap1.hsforms.net/forms/embed/442933338.js" defer />
-
                     <div className={styles.hs_form_frame}>
                         <div
                             className="hs-form-frame"

@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 // Import our Navbar component so we can use it in the layout.
 // Any component you create goes in src/components/ by convention.
 import Navbar from "@/components/Navbar";
+import TopBanner from "@/components/TopBanner";
 
 //AICHAT
 import AiChat from '@/components/AiChat';
@@ -37,8 +38,8 @@ const geistMono = Geist_Mono({
 
 // This object sets the metadata for our site (shown in browser tabs & search engines).
 export const metadata: Metadata = {
-    title: "My Next.js App",
-    description: "A simple Next.js project",
+    title: "Experience Dev",
+    description: "An experimental web project",
 };
 
 // This is the Root Layout component.
@@ -59,6 +60,8 @@ export default function RootLayout({
             <body suppressHydrationWarning>
                 {/* Navbar appears at the top of EVERY page because it's in the layout. */}
 
+                {/* Dismissable announcement banner — sits above the Navbar */}
+                <TopBanner />
                 <Navbar />
                 <AiChat />
 

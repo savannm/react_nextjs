@@ -51,7 +51,7 @@ export default function Navbar() {
         </li>
         <li>
           <Link href="/ServiceAi" className={styles.link}>
-            AI Agent Service
+            Services
           </Link>
         </li>
         <li>
