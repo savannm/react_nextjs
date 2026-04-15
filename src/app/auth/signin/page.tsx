@@ -1,10 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import styles from './signin.module.css';
 
-export default function SignInPage() {
+function SignInContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
@@ -36,7 +37,7 @@ export default function SignInPage() {
               />
               <path
                 fill="#FBBC05"
-                d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12a7.077 7.077 0 0 1 .357-2.235L1.24 6.65c-.808 1.636-1.24 3.471-1.24 5.35 0 1.879.432 3.714 1.24 5.35l4.026-3.115z"
+                d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12a7.077 7.077 0 0 1 .357-2.235L1.24 6.65c-.808 1.636-1.24 3.471-1.24 5.35-0 1.879.432 3.714 1.24 5.35l4.026-3.115z"
               />
             </svg>
             <span>Continue with Google</span>
@@ -52,5 +53,19 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <p className={styles.subtitle}>Loading sign-in...</p>
+        </div>
+      </div>
+    }>
+      <SignInContent />
+    </Suspense>
   );
 }
