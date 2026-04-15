@@ -88,6 +88,7 @@ export default function Home() {
                 <li>React Server Components</li>
                 <li>Suspense & Streaming</li>
                 <li>REST APIs & Fetch</li>
+                <li>Git & CI/CD</li>
               </ul>
             </div>
 
