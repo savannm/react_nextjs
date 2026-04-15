@@ -263,8 +263,23 @@ export default function AiChat() {
                     </form>
                 </div>
             ) : (
-                <button className={styles.fab} onClick={() => setIsOpen(true)} suppressHydrationWarning>
-                    💬
+                <button className={styles.fab} onClick={() => setIsOpen(true)} suppressHydrationWarning aria-label="Open AI chat">
+                    {/* Animated AI assistant icon */}
+                    <span className={styles.fabInner}>
+                        {/* Outer orbit ring */}
+                        <span className={styles.fabOrbit} />
+                        {/* Inner glow core */}
+                        <span className={styles.fabCore}>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                {/* Brain / neural spark lines */}
+                                <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.9" />
+                                <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                <path d="M5.64 5.64l2.12 2.12M16.24 16.24l2.12 2.12M5.64 18.36l2.12-2.12M16.24 7.76l2.12-2.12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                        </span>
+                        {/* Pulse ring */}
+                        <span className={styles.fabPulse} />
+                    </span>
                 </button>
             )}
         </div>
