@@ -28,35 +28,32 @@ export default function Home() {
   // "return" sends back the JSX (HTML-like code) that gets displayed on screen.
 
 
-  const sav = class {
-    name: string;
-    age: number;
-    address: {
-      street: string;
-      city: string;
-      country: string;
-    }
+  // const sav = class {
+  //   name: string;
+  //   age: number;
+  //   address: {
+  //     street: string;
+  //     city: string;
+  //     country: string;
+  //   }
 
-    myAction: () => string;
-    constructor(name: string, age: number) {
-      this.name = name;
-      this.age = age;
-      this.address = {
-        street: "123 Main St",
-        city: "Town",
-        country: "USA"
-      }
-      this.myAction = () => {
-        return (
-          `${this.age} and ${this.address.city}`
-        );
-      };
-    }
-  }
-  const person1 = new sav("Savann", 25);
-
-
-
+  //   myAction: () => string;
+  //   constructor(name: string, age: number) {
+  //     this.name = name;
+  //     this.age = age;
+  //     this.address = {
+  //       street: "123 Main St",
+  //       city: "Town",
+  //       country: "USA"
+  //     }
+  //     this.myAction = () => {
+  //       return (
+  //         `${this.age} and ${this.address.city}`
+  //       );
+  //     };
+  //   }
+  // }
+  // const person1 = new sav("Savann", 25);
 
 
   return (

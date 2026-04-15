@@ -7,13 +7,11 @@
 // This lets us define things like the browser tab title and description.
 import type { Metadata } from "next";
 
+
 //authentication
 //authentication
 import { AuthProviders } from '@/components/AuthProviders';
-import AuthButton from '@/components/Auth';
-
-// Import our Navbar component so we can use it in the layout.
-// Any component you create goes in src/components/ by convention.
+import AuthHeader from '@/components/AuthHeader';
 import Navbar from "@/components/Navbar";
 import TopBanner from "@/components/TopBanner";
 import Footer from "@/components/Footer";
@@ -68,9 +66,7 @@ export default function RootLayout({
                     {/* Dismissable announcement banner — sits above the Navbar */}
                     <TopBanner />
                     <Navbar />
-                    <div style={{ textAlign: 'right', padding: '10px 40px', backgroundColor: '#000' }}>
-                        <AuthButton />
-                    </div>
+                    <AuthHeader />
                     <AiChat />
                     <main>{children}</main>
                     <Footer />

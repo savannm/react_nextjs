@@ -10,6 +10,7 @@ export default async function Members() {
 
     // If no session exists, redirect them to the sign-in page
     if (!session) {
+        //goes to signin page and then back to member page after signin
         redirect('/api/auth/signin?callbackUrl=/member');
     }
 
@@ -21,7 +22,7 @@ export default async function Members() {
                     <p style={{ marginBottom: '20px', color: '#666' }}>
                         Welcome back, <strong>{session.user?.email}</strong>!
                     </p>
-                    
+
                     {/* Protected content below */}
                     <Memberinfo username="Zax Max" />
                 </div>
