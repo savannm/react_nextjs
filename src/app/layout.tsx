@@ -68,7 +68,7 @@ export default function RootLayout({
                     {/* Dismissable announcement banner — sits above the Navbar */}
                     <TopBanner />
                     <Navbar />
-                    <div style={{ display: 'block', justifyContent: '', textAlign: 'right', padding: '10px 40px', backgroundColor: '#000000' }}>
+                    <div style={{ textAlign: 'right', padding: '10px 40px', backgroundColor: '#000' }}>
                         <AuthButton />
                     </div>
                     <AiChat />

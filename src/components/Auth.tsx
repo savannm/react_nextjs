@@ -5,21 +5,22 @@ export default function AuthButton() {
     const { data: session, status } = useSession();
 
     if (status === 'loading') {
-        return <div style={{ fontSize: '14px', color: '#666' }}>Checking session...</div>;
+        return <div style={{ fontSize: '14px', color: '#999', textAlign: 'right' }}>Checking session...</div>;
     }
 
     if (session) {
         return (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '15px', color: '#fff' }}>
                 <span style={{ fontSize: '14px' }}>
                     Logged in as <strong>{session.user?.email}</strong>
                 </span>
-                <button 
+                <button
                     onClick={() => signOut()}
                     style={{
                         padding: '6px 12px',
                         borderRadius: '6px',
                         border: '1px solid #ddd',
+                        color: '#000',
                         background: '#fff',
                         cursor: 'pointer',
                         fontSize: '14px'
@@ -32,7 +33,7 @@ export default function AuthButton() {
     }
 
     return (
-        <button 
+        <button
             onClick={() => signIn('google')}
             style={{
                 padding: '8px 16px',
