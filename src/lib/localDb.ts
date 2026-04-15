@@ -15,14 +15,14 @@ export interface MemberInfoProps {
 }
 
 // Create a connection pool using the DATABASE_URL environment variable
-const pool = new Pool({
+export const db = new Pool({
   connectionString: process.env.POSTGRES_URL,
 });
 
 //Pulls One row in the database.
 export async function getLocalArticleMeta(id: number): Promise<ArticleMeta | null> {
   try {
-    const result = await pool.query(
+    const result = await db.query(
       'SELECT id, author, date::text, tags FROM articles WHERE id = $1',
       [id]
     );
@@ -44,7 +44,7 @@ export async function getLocalArticleMeta(id: number): Promise<ArticleMeta | nul
 export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
   try {
     // Select all rows from the articles table
-    const result = await pool.query(
+    const result = await db.query(
       'SELECT id, author, date::text, tags FROM articles ORDER BY id DESC'
     );
 
@@ -59,7 +59,7 @@ export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
 // Pulls one member from the database by username
 export async function getMember(username: string): Promise<MemberInfoProps | null> {
   try {
-    const result = await pool.query(
+    const result = await db.query(
       'SELECT username, role, password, image_url FROM members WHERE username = $1',
       [username]
     );

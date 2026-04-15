@@ -1,0 +1,46 @@
+import { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { db } from '@/lib/localDb';
+import bcrypt from 'bcryptjs';
+
+export const authOptions: NextAuthOptions = {
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+        }),
+        CredentialsProvider({
+            name: 'Credentials',
+            credentials: {
+                email: { label: 'Email', type: 'email' },
+                password: { label: 'Password', type: 'password' }
+            },
+            async authorize(credentials) {
+                if (!credentials?.email || !credentials?.password) return null;
+
+                const userResult = await db.query(
+                    'SELECT * FROM users WHERE email = $1',
+                    [credentials.email]
+                );
+                
+                const user = userResult.rows[0];
+                if (!user) return null;
+
+                const isValid = await bcrypt.compare(
+                    credentials.password,
+                    user.password
+                );
+
+                return isValid ? { id: user.id, email: user.email, name: user.username } : null;
+            }
+        })
+    ],
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: 'jwt'
+    },
+    pages: {
+        signIn: '/auth/signin', // Optional: if you have a custom signin page
+    }
+};

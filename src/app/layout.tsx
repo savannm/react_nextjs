@@ -7,6 +7,11 @@
 // This lets us define things like the browser tab title and description.
 import type { Metadata } from "next";
 
+//authentication
+//authentication
+import { AuthProviders } from '@/components/AuthProviders';
+import AuthButton from '@/components/Auth';
+
 // Import our Navbar component so we can use it in the layout.
 // Any component you create goes in src/components/ by convention.
 import Navbar from "@/components/Navbar";
@@ -59,19 +64,18 @@ export default function RootLayout({
             {/* The body tag wraps all visible content. */}
             {/* suppressHydrationWarning prevents hydration errors from browser extensions adding classes to body */}
             <body suppressHydrationWarning>
-                {/* Navbar appears at the top of EVERY page because it's in the layout. */}
-
-                {/* Dismissable announcement banner — sits above the Navbar */}
-                <TopBanner />
-                <Navbar />
-                <AiChat />
-
-                {/* {children} is where the current page's content gets inserted. */}
-                {children}
-
-                {/* Footer appears at the bottom of EVERY page because it's in the layout. */}
-                <Footer />
+                <AuthProviders>
+                    {/* Dismissable announcement banner — sits above the Navbar */}
+                    <TopBanner />
+                    <Navbar />
+                    <div style={{ display: 'block', justifyContent: '', textAlign: 'right', padding: '10px 40px', backgroundColor: '#000000' }}>
+                        <AuthButton />
+                    </div>
+                    <AiChat />
+                    <main>{children}</main>
+                    <Footer />
+                </AuthProviders>
             </body>
-        </html>
+        </html >
     );
 }
