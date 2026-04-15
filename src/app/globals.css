@@ -78,7 +78,11 @@ body {
   -webkit-font-smoothing: antialiased;
   /* Makes text look sharper on Mac/iOS */
   -moz-osx-font-smoothing: grayscale;
+
   /* Same for Firefox on Mac */
+  main {
+    min-height: 80vh;
+  }
 }
 
 ai_chat {
