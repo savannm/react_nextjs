@@ -69,7 +69,7 @@ export default function Home() {
 
 
         <section style={{ margin: '4rem 0', width: '100%' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>A development Sandbox for coding experiments.</h2>
+          <h2 style={{ textAlign: 'left', marginBottom: '2rem' }}>A development Sandbox for coding experiments.</h2>
 
           {/* 2-column list layout */}
           <div style={{
