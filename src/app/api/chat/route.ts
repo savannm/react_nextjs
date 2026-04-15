@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const { messages }: { messages: UIMessage[] } = await req.json();
 
     const result = streamText({
-      model: xaiProvider('grok-3-mini'),
+      model: xaiProvider('grok-4.20-non-reasoning'),
       messages: await convertToModelMessages(messages),
       system: "You are Grok, an AI created by xAI. You are helpful, intelligent, and sometimes humorous.",
     });

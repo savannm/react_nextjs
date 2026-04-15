@@ -1,0 +1,292 @@
+/* ── ServiceAi Page ─────────────────────────────────────────────────────── */
+
+.wrapper {
+  min-height: 100vh;
+  background: radial-gradient(ellipse 120% 60% at 50% 0%, #2d1b69 0%, #0d0822 35%, #0a0412 70%);
+  font-family: var(--font-geist-sans, 'Inter', sans-serif);
+  padding: 80px 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Header Section ─────────────────────────────────────────────────────── */
+
+.header {
+  text-align: center;
+  margin-bottom: 72px;
+  max-width: 680px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #a78bfa;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+
+.badge span {
+  width: 6px;
+  height: 6px;
+  background: #8b5cf6;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.header h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header p {
+  font-size: 18px;
+  line-height: 1.75;
+  color: #6b7280;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── Services Grid ──────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* ── Service Card ───────────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Per-card accent colours */
+.card1 { --accent: #8b5cf6; --accent2: #6d28d9; }
+.card2 { --accent: #3b82f6; --accent2: #1d4ed8; }
+.card3 { --accent: #ec4899; --accent2: #be185d; }
+.card4 { --accent: #10b981; --accent2: #047857; }
+.card5 { --accent: #f59e0b; --accent2: #b45309; }
+.card6 { --accent: #06b6d4; --accent2: #0e7490; }
+
+.card1:hover { border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 24px 60px rgba(139, 92, 246, 0.15); }
+.card2:hover { border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 24px 60px rgba(59, 130, 246, 0.15); }
+.card3:hover { border-color: rgba(236, 72, 153, 0.4); box-shadow: 0 24px 60px rgba(236, 72, 153, 0.15); }
+.card4:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 24px 60px rgba(16, 185, 129, 0.15); }
+.card5:hover { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 24px 60px rgba(245, 158, 11, 0.15); }
+.card6:hover { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 24px 60px rgba(6, 182, 212, 0.15); }
+
+.card::before {
+  background: radial-gradient(circle at top left, rgba(var(--accent-rgb), 0.08), transparent 70%);
+}
+
+/* Glow orb in top-right */
+.cardGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.06;
+  filter: blur(40px);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover .cardGlow {
+  opacity: 0.15;
+}
+
+/* ── Icon ───────────────────────────────────────────────────────────────── */
+
+.iconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.card1:hover .iconWrap { background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.35); }
+.card2:hover .iconWrap { background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.35); }
+.card3:hover .iconWrap { background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.35); }
+.card4:hover .iconWrap { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); }
+.card5:hover .iconWrap { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.35); }
+.card6:hover .iconWrap { background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.35); }
+
+/* ── Card Text ──────────────────────────────────────────────────────────── */
+
+.cardLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f9fafb;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.cardDesc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #6b7280;
+  flex: 1;
+}
+
+/* ── Card Tags ──────────────────────────────────────────────────────────── */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #9ca3af;
+  letter-spacing: 0.2px;
+}
+
+/* ── Card Footer ────────────────────────────────────────────────────────── */
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.learnMore {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s ease;
+}
+
+.card:hover .learnMore {
+  gap: 10px;
+}
+
+.learnMore svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover .learnMore svg {
+  transform: translateX(2px);
+}
+
+.aiBadge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .wrapper {
+    padding: 60px 24px 80px;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .wrapper {
+    padding: 48px 16px 64px;
+  }
+  .header h1 {
+    font-size: 32px;
+  }
+  .card {
+    padding: 28px 24px;
+  }
+}

@@ -23,10 +23,10 @@ export default function Navbar() {
         <Link href="/" className={styles.brandLink}>
           <Image
             className={styles.logo}
-            src="/logo.png"         // Path to the image in the /public folder
-            alt="strata company logo"      // Alt text for accessibility (screen readers)
+            src="/logo-jorvann-white.png"         // Path to the image in the /public folder
+            alt="jorvann company logo"      // Alt text for accessibility (screen readers)
             width={150}             // Display width in pixels
-            height={80}             // Display height in pixels
+            height={50}             // Display height in pixels
             priority                // Load this image immediately (above the fold)
           />
         </Link>

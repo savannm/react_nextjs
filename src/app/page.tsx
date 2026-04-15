@@ -17,7 +17,7 @@ import AllArticlesViewer from "@/components/DatabaseMapAll";
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
 import styles from "./page.module.css";
-import AddMember from '@/components/AddMember';
+
 
 
 
@@ -66,18 +66,44 @@ export default function Home() {
 
       {/* <main> is a semantic HTML tag that marks the main content area. */}
       <main className={styles.main}>
-        {/* The Next.js logo image */}
-        <Image
-          className={styles.logo}
-          src="/logo.png"         // Path to the image in the /public folder
-          alt="strata company logo"      // Alt text for accessibility (screen readers)
-          width={150}             // Display width in pixels
-          height={80}             // Display height in pixels
-          priority                // Load this image immediately (above the fold)
-        />
+
+
         <section style={{ margin: '4rem 0', width: '100%' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Advanced Blogging Platform</h2>
-          <AddMember />
+          <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>A development Sandbox for coding experiments.</h2>
+
+          {/* 2-column list layout */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '2rem',
+            marginTop: '1.5rem',
+          }}>
+            {/* Column 1 */}
+            <div>
+              <h3 style={{ marginBottom: '0.75rem', fontSize: '1.1rem', fontWeight: 600 }}>🛠 Technologies Used</h3>
+              <ul style={{ paddingLeft: '1.25rem', lineHeight: '2', color: '#444' }}>
+                <li>Next.js (App Router)</li>
+                <li>TypeScript</li>
+                <li>CSS Modules</li>
+                <li>React Server Components</li>
+                <li>Suspense & Streaming</li>
+                <li>REST APIs & Fetch</li>
+              </ul>
+            </div>
+
+            {/* Column 2 */}
+            <div>
+              <h3 style={{ marginBottom: '0.75rem', fontSize: '1.1rem', fontWeight: 600 }}>🚀 Features & Experiments</h3>
+              <ul style={{ paddingLeft: '1.25rem', lineHeight: '2', color: '#444' }}>
+                <li>AI Chat Integration</li>
+                <li>Blog & Article System</li>
+                <li>Database Member Mapping</li>
+                <li>Dynamic Routing</li>
+                <li>3D Slider Component</li>
+                <li>Service AI Page</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
 
