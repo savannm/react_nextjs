@@ -72,8 +72,7 @@ export default function ServiceSlider() {
       {/* Heading */}
       <div className={styles.heading}>
         <h2>
-          <span className={styles.accent}>6 AI</span> Services Built{" "}
-          <span className={styles.accentGreen}>for You</span>
+          <span className={styles.accent}>6 Intelligent</span> Services Built for you {" "}
         </h2>
         <p>
           Click any card or use the arrows to explore every AI-powered service

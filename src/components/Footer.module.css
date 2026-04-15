@@ -1,0 +1,239 @@
+/*
+  Footer.module.css — Styles for the Site Footer
+  ================================================
+  A multi-column professional footer with dark mode support,
+  subtle animations, and responsive layout.
+*/
+
+/* ── Footer Container ──────────────────────────────────────────────────────
+   Full-width footer pinned at the bottom with a refined dark background.
+*/
+.footer {
+  width: 100%;
+  background: #0d0d0d;
+  color: #c0c0c0;
+  font-family: inherit;
+  border-top: 1px solid #1e1e1e;
+}
+
+/* ── Main Content Area ─────────────────────────────────────────────────────
+   Constrained max-width with auto margins to centre the content.
+*/
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 40px 40px;
+}
+
+/* ── Top Grid — Brand + Columns ────────────────────────────────────────────
+   Auto-fit columns: brand takes more space, nav columns share the rest.
+*/
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+/* ── Brand Column ──────────────────────────────────────────────────────────
+*/
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.tagline {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #7a7a7a;
+  max-width: 260px;
+}
+
+/* Social icons row */
+.socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.socialBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  font-size: 15px;
+}
+
+.socialBtn:hover {
+  background: #252525;
+  color: #ffffff;
+  border-color: #3a3a3a;
+  transform: translateY(-2px);
+}
+
+/* ── Link Columns ──────────────────────────────────────────────────────────
+*/
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.columnTitle {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.footerLink {
+  font-size: 13.5px;
+  color: #7a7a7a;
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1.5;
+}
+
+.footerLink:hover {
+  color: #e0e0e0;
+}
+
+/* ── Divider ───────────────────────────────────────────────────────────────
+*/
+.divider {
+  height: 1px;
+  background: #1e1e1e;
+  margin-bottom: 28px;
+}
+
+/* ── Bottom Bar ────────────────────────────────────────────────────────────
+   Copyright on the left, extra links on the right.
+*/
+.bottomBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.copyright {
+  font-size: 12.5px;
+  color: #555;
+}
+
+.bottomLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.bottomLink {
+  font-size: 12.5px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bottomLink:hover {
+  color: #c0c0c0;
+}
+
+/* ── Status / Badge ────────────────────────────────────────────────────────
+   Small animated "live" dot beside version/status info.
+*/
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+  }
+}
+
+/* ── Light Mode Override ───────────────────────────────────────────────────
+   If the OS is in light mode we keep a slightly-dark footer so it still
+   stands out from the page content.
+*/
+@media (prefers-color-scheme: light) {
+  .footer {
+    background: #111111;
+  }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────
+*/
+@media (max-width: 900px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+    /* brand spans full width on tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .footerInner {
+    padding: 48px 24px 32px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .brand {
+    grid-column: auto;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

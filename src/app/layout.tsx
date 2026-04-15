@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 // Any component you create goes in src/components/ by convention.
 import Navbar from "@/components/Navbar";
 import TopBanner from "@/components/TopBanner";
+import Footer from "@/components/Footer";
 
 //AICHAT
 import AiChat from '@/components/AiChat';
@@ -67,6 +68,9 @@ export default function RootLayout({
 
                 {/* {children} is where the current page's content gets inserted. */}
                 {children}
+
+                {/* Footer appears at the bottom of EVERY page because it's in the layout. */}
+                <Footer />
             </body>
         </html>
     );

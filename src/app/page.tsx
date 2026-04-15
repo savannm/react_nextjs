@@ -84,7 +84,7 @@ export default function Home() {
               <ul style={{ paddingLeft: '1.25rem', lineHeight: '2', color: '#444' }}>
                 <li>Next.js (App Router)</li>
                 <li>TypeScript</li>
-                <li>CSS Modules</li>
+                <li>Databases</li>
                 <li>React Server Components</li>
                 <li>Suspense & Streaming</li>
                 <li>REST APIs & Fetch</li>
