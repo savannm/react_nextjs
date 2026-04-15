@@ -2,7 +2,7 @@ import AddBlogForm from '@/components/AddBlogForm';
 import AddMember from '@/components/AddMember';
 
 export const metadata = {
-  title: 'Publish New Entry | Next.js App',
+  title: 'Blog',
   description: 'Add a new blog post directly into your PostgreSQL database.',
 };
 
