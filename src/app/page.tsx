@@ -9,10 +9,6 @@
 import Image from "next/image";
 import { Suspense } from "react";
 
-// ArticleViewer is a Server Component that fetches from two data sources.
-import ArticleViewer from "@/components/ArticleViewer";
-import AllArticlesViewer from "@/components/DatabaseMapAll";
-
 
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
