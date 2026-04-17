@@ -3,6 +3,7 @@ import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Memberinfo from '@/components/AddMemberGet';
 import styles from "../page.module.css";
+import UploadResume from '@/components/ResumeUpload';
 
 export default async function Members() {
     // Check if the user is authenticated on the server
@@ -27,6 +28,11 @@ export default async function Members() {
                     <Memberinfo username="Zax Max" />
                 </div>
             </main>
+            <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+
+                <h3 style={{ margin: '30px 0 15px' }}>Upload and Parse Resume</h3>
+                <UploadResume />
+            </div>
         </div>
     );
 }

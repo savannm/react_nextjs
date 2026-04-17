@@ -1,4 +1,4 @@
-import { getAllLocalArticles } from '@/lib/localDb';
+import { getAllLocalArticles } from '@/lib/db';
 import ArticleCard from '@/components/ArticleCard';
 import { getCdnArticleContent } from '@/lib/cdnDb';
 

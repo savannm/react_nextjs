@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { db } from '@/lib/localDb';
+import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
                     'SELECT * FROM users WHERE email = $1',
                     [credentials.email]
                 );
-                
+
                 const user = userResult.rows[0];
                 if (!user) return null;
 

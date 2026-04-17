@@ -1,4 +1,4 @@
-import { getLocalArticleMeta } from '../lib/localDb';
+import { getLocalArticleMeta } from '../lib/db';
 import { getCdnArticleContent } from '../lib/cdnDb';
 import ArticleCard from './ArticleCard';
 

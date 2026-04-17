@@ -74,10 +74,6 @@ export default function ServiceSlider() {
         <h2>
           <span className={styles.accent}>6 Intelligent</span> Services Built for you {" "}
         </h2>
-        <p>
-          Click any card or use the arrows to explore every AI-powered service
-          we offer.
-        </p>
       </div>
 
       {/* 3-D stage */}

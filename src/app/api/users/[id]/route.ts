@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { db } from '@/lib/localDb';
+import { db } from '@/lib/db';
 
 export async function GET(req: Request, { params }: { params: any }) {
     const session = await getServerSession(authOptions);
@@ -17,11 +17,11 @@ export async function GET(req: Request, { params }: { params: any }) {
         const data = await db.query(
             'SELECT id, username, email FROM users WHERE id = $1', [resolvedParams.id]
         );
-        
+
         if (data.rows.length === 0) {
             return Response.json({ error: 'User not found' }, { status: 404 });
         }
-        
+
         return Response.json(data.rows[0]);
     } catch (error) {
         return Response.json({ error: 'Internal Server Error' }, { status: 500 });

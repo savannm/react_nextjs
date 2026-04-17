@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 import styles from './ArticleCard.module.css';
-import { getMember, MemberInfoProps } from '../lib/localDb';
+import { getMember, MemberInfoProps } from '../lib/db';
 
 /**
  * Presentational component to display member information.
  */
-export function MemberInfo({ username, role, password, image_url }: MemberInfoProps) {
+export function MemberInfo({ username, role, password, image_url, resume }: MemberInfoProps) {
   return (
     <article className={styles.card}>
       <header className={styles.header}>
@@ -17,6 +17,7 @@ export function MemberInfo({ username, role, password, image_url }: MemberInfoPr
       <div className={styles.content}>
         <p><strong>Hashed Password:</strong> <code className={styles.hash}>{password}</code></p>
         <p><strong>Profile Image:</strong> {image_url}</p>
+        <p><strong>Resume:</strong> {resume}</p>
       </div>
       <footer className={styles.footer}>
       </footer>

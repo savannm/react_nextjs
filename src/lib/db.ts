@@ -12,6 +12,7 @@ export interface MemberInfoProps {
   role: string;
   password: string;
   image_url: string;
+  resume: string;
 }
 
 // Create a connection pool using the DATABASE_URL environment variable
@@ -60,7 +61,7 @@ export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
 export async function getMember(username: string): Promise<MemberInfoProps | null> {
   try {
     const result = await db.query(
-      'SELECT username, role, password, image_url FROM members WHERE username = $1',
+      'SELECT username, role, password, image_url, resume FROM members WHERE username = $1',
       [username]
     );
 
@@ -75,3 +76,17 @@ export async function getMember(username: string): Promise<MemberInfoProps | nul
   }
 }
 
+// Saves a resume to the database
+export async function saveResume(username: string, content: string): Promise<boolean> {
+  try {
+    // Update existing member record where the username/email matches. $1 is 1st in the array below.
+    await db.query(
+      'UPDATE members SET resume = $2 WHERE email = $1',
+      [username, content]
+    );
+    return true;
+  } catch (error) {
+    console.error('Error saving resume to Postgres:', error);
+    return false;
+  }
+}
