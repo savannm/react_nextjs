@@ -29,13 +29,13 @@ export function MemberInfo({ username, role, password, image_url, resume }: Memb
  * Server Component that fetches a member by username and renders MemberInfo.
  * If no username is provided, it defaults to "Zax Max".
  */
-export default async function AddMemberGet({ username = "sav" }: { username?: string }) {
-  const member = await getMember(username);
+export default async function AddMemberGet({ email = "" }: { email?: string }) {
+  const member = await getMember(email);
 
   if (!member) {
     return (
       <div className={styles.card}>
-        <p>Member "{username}" not found in database.</p>
+        <p>Member "{email}" not found in database.</p>
         <p>Check your <code>members</code> table for existing records.</p>
       </div>
     );

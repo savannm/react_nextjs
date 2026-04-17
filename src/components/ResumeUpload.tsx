@@ -54,7 +54,7 @@ export default function ResumeUpload() {
                 <input
                     type="file"
                     name="file"
-                    accept=".pdf"
+                    accept=".pdf | .docx"
                     required
                     style={{
                         marginBottom: '10px',

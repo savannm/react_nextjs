@@ -58,11 +58,11 @@ export async function getAllLocalArticles(): Promise<ArticleMeta[]> {
 }
 
 // Pulls one member from the database by username
-export async function getMember(username: string): Promise<MemberInfoProps | null> {
+export async function getMember(email: string): Promise<MemberInfoProps | null> {
   try {
     const result = await db.query(
-      'SELECT username, role, password, image_url, resume FROM members WHERE username = $1',
-      [username]
+      'SELECT username, role, password, image_url, resume FROM members WHERE email = $1',
+      [email]
     );
 
     if (result.rows.length === 0) {
