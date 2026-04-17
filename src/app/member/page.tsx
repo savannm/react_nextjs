@@ -26,7 +26,7 @@ export default async function Members() {
                     </p>
 
                     {/* Protected content below */}
-                    <Memberinfo email={session.user.email} />
+                    <Memberinfo email={session?.user?.email ?? ""} />
                 </div>
             </main>
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>

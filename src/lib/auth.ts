@@ -55,10 +55,9 @@ export const authOptions: NextAuthOptions = {
                     );
 
                     if (memberCheck.rows.length === 0) {
-                        // If they don't exist, insert them as a new member     
                         await db.query(
-                            'INSERT INTO members (username, email) VALUES ($1, $2)',
-                            [user.name, user.email]
+                            'INSERT INTO members (username, email, role, image_url) VALUES ($1, $2, $3, $4)',
+                            [user.name, user.email, 'Google User', user.image || '']
                         );
                         console.log(`Successfully added Google user to members table: ${user.email}`);
                     }
