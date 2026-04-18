@@ -8,9 +8,26 @@
 
 "use server";
 
+// Polyfills for PDF.js in Node.js environment (fixes ReferenceError: DOMMatrix is not defined)
+if (typeof window === "undefined") {
+    (global as any).DOMMatrix = (global as any).DOMMatrix || class DOMMatrix {
+        constructor() { }
+    };
+    (global as any).DOMPoint = (global as any).DOMPoint || class DOMPoint {
+        constructor() { }
+    };
+    (global as any).DOMRect = (global as any).DOMRect || class DOMRect {
+        constructor() { }
+    };
+    (global as any).Path2D = (global as any).Path2D || class Path2D {
+        constructor() { }
+    };
+}
+
 import fs from "fs";
 import path from "path";
-import { PDFParse } from "pdf-parse";
+// Removed static import to prevent 'ReferenceError' during module evaluation
+// import { PDFParse } from "pdf-parse";
 import { put } from "@vercel/blob";
 
 import { saveResume } from "@/lib/db";
@@ -31,58 +48,44 @@ export type ImportPdfResult = {
  */
 export async function importPdf(data: string | FormData): Promise<ImportPdfResult> {
     try {
-        // Configure worker for Vercel/Serverless stability (Server-side ONLY)
+        // Dynamically import PDFParse to ensure polyfills above are applied first
+        const { PDFParse } = await import("pdf-parse");
+
+        // 1. Worker Setup
+        console.log("Step 1: Setting up PDF Worker...");
         if (typeof window === "undefined") {
             try {
-                const workerPath = path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs");
-                if (fs.existsSync(workerPath)) {
-                    const workerData = fs.readFileSync(workerPath);
-                    const workerBase64 = `data:application/javascript;base64,${workerData.toString("base64")}`;
-                    PDFParse.setWorker(workerBase64);
-                } else {
-                    // Fallback to CDN if for some reason the file is missing
-                    PDFParse.setWorker("https://unpkg.com/pdfjs-dist@5.4.296/legacy/build/pdf.worker.min.mjs");
-                }
-            } catch (e) {
-                console.error("Failed to set up PDF worker:", e);
+                const worker = await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
+                PDFParse.setWorker(worker as any);
+                console.log("Worker setup successful.");
+            } catch (e: any) {
+                console.error("Worker setup failed:", e.message);
+                PDFParse.setWorker("https://unpkg.com/pdfjs-dist@5.4.296/legacy/build/pdf.worker.min.mjs");
             }
         }
 
-        // Extract bytes from either a file path or an uploaded file
+        // 2. Data Extraction
+        console.log("Step 2: Extracting PDF data...");
         let bytes: ArrayBuffer;
         let finalUrl: string;
 
         if (typeof data === "string" && data.startsWith("http")) {
-            // Case 1: URL provided (e.g., from client-side Vercel Blob upload)
-            console.log(`Fetching PDF from URL: ${data}`);
+            console.log(`Fetching from URL: ${data}`);
             const response = await fetch(data);
-            if (!response.ok) throw new Error(`Failed to fetch PDF from URL: ${response.statusText}`);
+            if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
             bytes = await response.arrayBuffer();
             finalUrl = data;
         } else if (data instanceof FormData) {
-            // Case 2: FormData provided (traditional upload)
             const file = data.get("file") as File;
             if (!file) throw new Error("No file uploaded");
-
-            // Upload to Vercel Blob for persistence (if not already uploaded)
-            const blob = await put(`resumes/${Date.now()}-${file.name}`, file, {
-                access: "public",
-                addRandomSuffix: true
-            });
-
-            console.log(`File uploaded to Vercel Blob: ${blob.url}`);
             bytes = await file.arrayBuffer();
-            finalUrl = blob.url;
+            finalUrl = "local-upload";
         } else {
-            throw new Error("Invalid data format or missing file");
+            throw new Error("Invalid input format");
         }
 
-        console.log(`Processing PDF bytes: ${bytes.byteLength}`);
-        if (bytes.byteLength === 0) {
-            return { error: "The PDF file is empty." };
-        }
-
-        // 3. Parse and return text content with robust settings for serverless environment.
+        // 3. Parsing
+        console.log(`Step 3: Parsing PDF bits (${bytes.byteLength} bytes)...`);
         const parser = new PDFParse({
             data: new Uint8Array(bytes),
             verbosity: 0,
@@ -93,8 +96,16 @@ export async function importPdf(data: string | FormData): Promise<ImportPdfResul
         });
 
         const { text } = await parser.getText();
+        console.log(`Parsing successful: ${text.length} chars found.`);
 
-        console.log(`Successfully parsed PDF (${text.length} characters)`);
+        // 4. Session & Save
+        console.log("Step 4: Checking session...");
+        const session = await getServerSession(authOptions);
+        if (session?.user?.email) {
+            console.log(`Saving resume for: ${session.user.email}`);
+            await saveResume(session.user.email, text);
+        }
+
         return { text, url: finalUrl };
     } catch (error: any) {
         console.error("PDF Import error details:", error);

@@ -38,7 +38,7 @@ export default function GrokResumeAnalyzer() {
 
             // 2. Send the URL to the server for PDF text extraction & AI analysis
             const result: ImportPdfResult = await importPdf(blob.url);
-            
+
             if (result && result.text) {
                 setResumeText(result.text);
                 if (result.url) setResumeUrl(result.url);
