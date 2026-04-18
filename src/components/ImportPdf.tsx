@@ -11,40 +11,60 @@
 import fs from "fs";
 import path from "path";
 import { PDFParse } from "pdf-parse";
+import { put } from "@vercel/blob";
 
 import { saveResume } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-// Configure worker for Vercel/Serverless stability.
-// We use a Data URL to bypass Node.js ESM loader restrictions on 'https' protocols.
-if (typeof window === "undefined") {
-    try {
-        const workerPath = path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs");
-        if (fs.existsSync(workerPath)) {
-            const workerData = fs.readFileSync(workerPath);
-            const workerBase64 = `data:application/javascript;base64,${workerData.toString("base64")}`;
-            PDFParse.setWorker(workerBase64);
-        } else {
-            // Fallback to CDN if for some reason the file is missing
-            PDFParse.setWorker("https://unpkg.com/pdfjs-dist@5.4.296/legacy/build/pdf.worker.min.mjs");
-        }
-    } catch (e) {
-        console.error("Failed to set up PDF worker:", e);
-    }
-}
+/**
+ * Result type for the PDF import process.
+ */
+export type ImportPdfResult = {
+    text?: string;
+    url?: string;
+    error?: string;
+};
 
 /**
  * Simplified Server Action to parse a PDF from a path or an upload.
  */
-
-export async function importPdf(data: string | FormData) {
-    console.log("Sav");
+export async function importPdf(data: string | FormData): Promise<ImportPdfResult> {
     try {
+        // Configure worker for Vercel/Serverless stability (Server-side ONLY)
+        if (typeof window === "undefined") {
+            try {
+                const workerPath = path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs");
+                if (fs.existsSync(workerPath)) {
+                    const workerData = fs.readFileSync(workerPath);
+                    const workerBase64 = `data:application/javascript;base64,${workerData.toString("base64")}`;
+                    PDFParse.setWorker(workerBase64);
+                } else {
+                    // Fallback to CDN if for some reason the file is missing
+                    PDFParse.setWorker("https://unpkg.com/pdfjs-dist@5.4.296/legacy/build/pdf.worker.min.mjs");
+                }
+            } catch (e) {
+                console.error("Failed to set up PDF worker:", e);
+            }
+        }
+
         // Extract bytes from either a file path or an uploaded file
-        const bytes = typeof data === "string"
-            ? fs.readFileSync(path.resolve(data))
-            : await (data.get("file") as File).arrayBuffer();
+        // 1. Upload to Vercel Blob for persistence
+        if (!(data instanceof FormData)) {
+            throw new Error("Invalid data format or missing file");
+        }
+        const file = data.get("file") as File;
+        if (!file) throw new Error("No file uploaded");
+
+        const blob = await put(`resumes/${Date.now()}-${file.name}`, file, {
+            access: "public",
+            addRandomSuffix: true
+        });
+
+        console.log(`File uploaded to Vercel Blob: ${blob.url}`);
+
+        // 2. Extract bytes for parsing
+        const bytes = await file.arrayBuffer();
 
         console.log(`Received PDF bytes: ${bytes.byteLength}`);
         if (bytes.byteLength === 0) {
@@ -52,7 +72,7 @@ export async function importPdf(data: string | FormData) {
         }
 
         // Parse and return text content with robust settings for serverless environments
-        const { text } = await new PDFParse({ 
+        const { text } = await new PDFParse({
             data: new Uint8Array(bytes),
             verbosity: 0,
             cMapUrl: "https://unpkg.com/pdfjs-dist@5.4.296/cmaps/",
@@ -62,7 +82,7 @@ export async function importPdf(data: string | FormData) {
         }).getText();
 
         console.log(`Successfully parsed PDF (${text.length} characters)`);
-        return { text };
+        return { text, url: blob.url };
     } catch (error: any) {
         console.error("PDF Import error details:", error);
         return { error: `PDF Processing Error: ${error.message || "Unknown error"}` };

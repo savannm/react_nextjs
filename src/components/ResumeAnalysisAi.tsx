@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { importPdf } from "./ImportPdf";
+import { importPdf, ImportPdfResult } from "./ImportPdf";
 
 export default function GrokResumeAnalyzer() {
     const [resumeText, setResumeText] = useState<string>("");
+    const [resumeUrl, setResumeUrl] = useState<string>("");
     const [isParsing, setIsParsing] = useState(false);
 
     // Grok Chat Integration using your existing /api/chat route
@@ -22,9 +23,10 @@ export default function GrokResumeAnalyzer() {
         setMessages([]); // Clear previous analysis
         setResumeText("");
         try {
-            const result = await importPdf(formData);
-            if (result && "text" in result && result.text) {
+            const result: ImportPdfResult = await importPdf(formData);
+            if (result && result.text) {
                 setResumeText(result.text);
+                if ("url" in result && result.url) setResumeUrl(result.url);
             } else if (result && "error" in result) {
                 alert(result.error);
             }

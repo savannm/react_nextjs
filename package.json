@@ -16,6 +16,7 @@
     "bcryptjs": "^3.0.3",
     "next": "16.2.2",
     "next-auth": "^4.24.14",
+    "@vercel/blob": "^0.23.4",
     "pdf-parse": "^2.4.5",
     "pdfjs-dist": "5.4.296",
     "pg": "^8.20.0",
