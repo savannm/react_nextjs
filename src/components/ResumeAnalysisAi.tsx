@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { importPdf, ImportPdfResult } from "./ImportPdf";
+import { upload } from "@vercel/blob/client";
 
 export default function GrokResumeAnalyzer() {
     const [resumeText, setResumeText] = useState<string>("");
@@ -23,16 +24,30 @@ export default function GrokResumeAnalyzer() {
         setMessages([]); // Clear previous analysis
         setResumeText("");
         try {
-            const result: ImportPdfResult = await importPdf(formData);
+            const file = formData.get('file') as File;
+            if (!file) throw new Error("Please select a file.");
+
+            // 1. Direct Client-Side Upload to Vercel Blob
+            // This is more stable on Vercel than passing large files through Server Actions
+            const blob = await upload(file.name, file, {
+                access: 'public',
+                handleUploadUrl: '/api/upload',
+            });
+
+            console.log(`Successfully uploaded to Vercel Blob: ${blob.url}`);
+
+            // 2. Send the URL to the server for PDF text extraction & AI analysis
+            const result: ImportPdfResult = await importPdf(blob.url);
+            
             if (result && result.text) {
                 setResumeText(result.text);
-                if ("url" in result && result.url) setResumeUrl(result.url);
-            } else if (result && "error" in result) {
+                if (result.url) setResumeUrl(result.url);
+            } else if (result && result.error) {
                 alert(result.error);
             }
-        } catch (error) {
-            console.error(error);
-            alert("Failed to parse PDF.");
+        } catch (error: any) {
+            console.error("Upload/Parse Error:", error);
+            alert(`Failed: ${error.message || "Unknown error"}`);
         } finally {
             setIsParsing(false);
         }
