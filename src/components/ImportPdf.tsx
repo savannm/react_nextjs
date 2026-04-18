@@ -49,40 +49,53 @@ export async function importPdf(data: string | FormData): Promise<ImportPdfResul
         }
 
         // Extract bytes from either a file path or an uploaded file
-        // 1. Upload to Vercel Blob for persistence
-        if (!(data instanceof FormData)) {
+        let bytes: ArrayBuffer;
+        let finalUrl: string;
+
+        if (typeof data === "string" && data.startsWith("http")) {
+            // Case 1: URL provided (e.g., from client-side Vercel Blob upload)
+            console.log(`Fetching PDF from URL: ${data}`);
+            const response = await fetch(data);
+            if (!response.ok) throw new Error(`Failed to fetch PDF from URL: ${response.statusText}`);
+            bytes = await response.arrayBuffer();
+            finalUrl = data;
+        } else if (data instanceof FormData) {
+            // Case 2: FormData provided (traditional upload)
+            const file = data.get("file") as File;
+            if (!file) throw new Error("No file uploaded");
+
+            // Upload to Vercel Blob for persistence (if not already uploaded)
+            const blob = await put(`resumes/${Date.now()}-${file.name}`, file, {
+                access: "public",
+                addRandomSuffix: true
+            });
+
+            console.log(`File uploaded to Vercel Blob: ${blob.url}`);
+            bytes = await file.arrayBuffer();
+            finalUrl = blob.url;
+        } else {
             throw new Error("Invalid data format or missing file");
         }
-        const file = data.get("file") as File;
-        if (!file) throw new Error("No file uploaded");
 
-        const blob = await put(`resumes/${Date.now()}-${file.name}`, file, {
-            access: "public",
-            addRandomSuffix: true
-        });
-
-        console.log(`File uploaded to Vercel Blob: ${blob.url}`);
-
-        // 2. Extract bytes for parsing
-        const bytes = await file.arrayBuffer();
-
-        console.log(`Received PDF bytes: ${bytes.byteLength}`);
+        console.log(`Processing PDF bytes: ${bytes.byteLength}`);
         if (bytes.byteLength === 0) {
-            return { error: "The uploaded file is empty." };
+            return { error: "The PDF file is empty." };
         }
 
-        // Parse and return text content with robust settings for serverless environments
-        const { text } = await new PDFParse({
+        // 3. Parse and return text content with robust settings for serverless environment.
+        const parser = new PDFParse({
             data: new Uint8Array(bytes),
             verbosity: 0,
             cMapUrl: "https://unpkg.com/pdfjs-dist@5.4.296/cmaps/",
             cMapPacked: true,
             standardFontDataUrl: "https://unpkg.com/pdfjs-dist@5.4.296/standard_fonts/",
             disableFontFace: true,
-        }).getText();
+        });
+
+        const { text } = await parser.getText();
 
         console.log(`Successfully parsed PDF (${text.length} characters)`);
-        return { text, url: blob.url };
+        return { text, url: finalUrl };
     } catch (error: any) {
         console.error("PDF Import error details:", error);
         return { error: `PDF Processing Error: ${error.message || "Unknown error"}` };
