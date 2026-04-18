@@ -11,35 +11,19 @@
 import fs from "fs";
 import path from "path";
 import { PDFParse } from "pdf-parse";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
+// @ts-ignore - Importing the worker module directly for ESM port compatibility
+import * as pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker.mjs";
 
 import { saveResume } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-// Configure worker for Vercel/Serverless stability.
-// We use a Data URL to bypass Node.js ESM loader restrictions on 'https' protocols.
-if (typeof window === "undefined") {
-    try {
-        const workerPath = path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs");
-        if (fs.existsSync(workerPath)) {
-            const workerData = fs.readFileSync(workerPath);
-            const workerBase64 = `data:application/javascript;base64,${workerData.toString("base64")}`;
-            PDFParse.setWorker(workerBase64);
-        } else {
-            // Fallback to CDN if for some reason the file is missing
-            PDFParse.setWorker("https://unpkg.com/pdfjs-dist@5.4.296/legacy/build/pdf.worker.min.mjs");
-        }
-    } catch (e) {
-        console.error("Failed to set up PDF worker:", e);
-    }
-}
-
 /**
  * Simplified Server Action to parse a PDF from a path or an upload.
  */
-
 export async function importPdf(data: string | FormData) {
-    console.log("Sav");
+    console.log("Processing PDF upload...");
     try {
         // Extract bytes from either a file path or an uploaded file
         const bytes = typeof data === "string"
@@ -52,14 +36,18 @@ export async function importPdf(data: string | FormData) {
         }
 
         // Parse and return text content with robust settings for serverless environments
-        const { text } = await new PDFParse({ 
+        const parser = new PDFParse({ 
             data: new Uint8Array(bytes),
+            // Use the imported worker module directly as a port to avoid URL/filesystem/protocol issues
+            worker: new pdfjs.PDFWorker({ port: pdfjsWorker as any }),
             verbosity: 0,
             cMapUrl: "https://unpkg.com/pdfjs-dist@5.4.296/cmaps/",
             cMapPacked: true,
             standardFontDataUrl: "https://unpkg.com/pdfjs-dist@5.4.296/standard_fonts/",
             disableFontFace: true,
-        }).getText();
+        });
+        
+        const { text } = await parser.getText();
 
         console.log(`Successfully parsed PDF (${text.length} characters)`);
         return { text };
@@ -68,8 +56,6 @@ export async function importPdf(data: string | FormData) {
         return { error: `PDF Processing Error: ${error.message || "Unknown error"}` };
     }
 }
-
-
 
 /**
  * Server Action to save parsed resume text to the database.
