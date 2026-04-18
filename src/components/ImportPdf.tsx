@@ -1,11 +1,3 @@
-// ### **1. Transfer (Client → Server)**  
-// - Browser wraps the PDF into a **FormData** object.  
-// - Sends it via a **secure POST** request to the Next.js server (Server Action).  
-
-// ### **2. Multi‑part Receipt (Server Processing)**  
-// - Server **receives the byte stream** of the PDF.  
-// - `importPdf` in **ImportPdf.tsx** runs on the **server CPU**, not the browser.  
-
 "use server";
 
 // Polyfills for PDF.js in Node.js environment (fixes ReferenceError: DOMMatrix is not defined)
@@ -24,11 +16,8 @@ if (typeof window === "undefined") {
     };
 }
 
-import fs from "fs";
-import path from "path";
 // Removed static import to prevent 'ReferenceError' during module evaluation
 // import { PDFParse } from "pdf-parse";
-import { put } from "@vercel/blob";
 
 import { saveResume } from "@/lib/db";
 import { getServerSession } from "next-auth";
@@ -49,12 +38,15 @@ export type ImportPdfResult = {
 export async function importPdf(data: string | FormData): Promise<ImportPdfResult> {
     try {
         // Dynamically import PDFParse to ensure polyfills above are applied first
-        const { PDFParse } = await import("pdf-parse");
+        // @ts-ignore
+        const pdfParseModule: any = await import("pdf-parse");
+        const PDFParse = pdfParseModule.PDFParse || pdfParseModule.default?.PDFParse || pdfParseModule.default;
 
         // 1. Worker Setup
         console.log("Step 1: Setting up PDF Worker...");
         if (typeof window === "undefined") {
             try {
+                // @ts-ignore
                 const worker = await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
                 PDFParse.setWorker(worker as any);
                 console.log("Worker setup successful.");
@@ -75,8 +67,8 @@ export async function importPdf(data: string | FormData): Promise<ImportPdfResul
             if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
             bytes = await response.arrayBuffer();
             finalUrl = data;
-        } else if (data instanceof FormData) {
-            const file = data.get("file") as File;
+        } else if (data instanceof (global as any).FormData || (data && (data as any).get)) {
+            const file = (data as any).get("file") as any;
             if (!file) throw new Error("No file uploaded");
             bytes = await file.arrayBuffer();
             finalUrl = "local-upload";

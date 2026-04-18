@@ -24,7 +24,7 @@ export default function GrokResumeAnalyzer() {
         setMessages([]); // Clear previous analysis
         setResumeText("");
         try {
-            const file = formData.get('file') as File;
+            const file = formData.get('file') as any;
             if (!file) throw new Error("Please select a file.");
 
             // 1. Direct Client-Side Upload to Vercel Blob
