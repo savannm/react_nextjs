@@ -32,6 +32,7 @@ export default function GrokResumeAnalyzer() {
             const blob = await upload(file.name, file, {
                 access: 'public',
                 handleUploadUrl: '/api/upload',
+
             });
 
             console.log(`Successfully uploaded to Vercel Blob: ${blob.url}`);
@@ -103,7 +104,7 @@ export default function GrokResumeAnalyzer() {
                     fontWeight: 'bold',
                     fontSize: '0.85rem',
                     letterSpacing: '1px'
-                }}>GROK AI</div>
+                }}>Resume Analysis</div>
                 <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700, color: '#111' }}>Resume Intelligence</h3>
             </div>
 
