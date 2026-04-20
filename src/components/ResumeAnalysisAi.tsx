@@ -180,7 +180,7 @@ export default function GrokResumeAnalyzer() {
                             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
                         }}
                     >
-                        {isAiThinking ? "Grok is analyzing..." : "⚡ Run Grok Analysis"}
+                        {isAiThinking ? "Your resume is being analysed..." : "⚡ Run Resume Analysis"}
                     </button>
                     <button
                         onClick={() => setResumeText("")}
