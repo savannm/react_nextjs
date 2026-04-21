@@ -61,7 +61,7 @@ export default function GrokResumeAnalyzer() {
 
         const prompt = `
             You are an expert HR recruitment assistant. It's the year ${new Date().getFullYear()}.
-            Below is the text content from a resume.
+            Below is the text content from a resume. Applying for web developer position.
             Please analyze it and provide:
             1. A 3-sentence executive summary.
             2. Top 5 technical skills identified.
