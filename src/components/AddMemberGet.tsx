@@ -17,7 +17,7 @@ export function MemberInfo({ username, role, password, image_url, resume }: Memb
       <div className={styles.content}>
         <p><strong>Hashed Password:</strong> <code className={styles.hash}>{password}</code></p>
         <p><strong>Profile Image:</strong> {image_url}</p>
-        <p><strong>Resume:</strong> {resume}</p>
+        <p><strong>Info:</strong> {resume}</p>
       </div>
       <footer className={styles.footer}>
       </footer>

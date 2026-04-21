@@ -31,12 +31,12 @@ export default async function Members() {
             </main>
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
                 <h3 style={{ margin: '30px 0 15px' }}>Grok AI Resume Analysis</h3>
-                <GrokResumeAnalyzer />
+                {/* <GrokResumeAnalyzer /> */}
 
                 <hr style={{ margin: '40px 0', border: 'none', borderTop: '1px solid #eee' }} />
 
                 <h3 style={{ margin: '30px 0 15px' }}>Simple PDF Parser</h3>
-                <UploadResume />
+                {/* <UploadResume /> */}
             </div>
         </div>
     );
