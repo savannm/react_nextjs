@@ -6,6 +6,7 @@ import { DefaultChatTransport } from "ai";
 import { importPdf, ImportPdfResult } from "./ImportPdf";
 import { upload } from "@vercel/blob/client";
 
+
 export default function GrokResumeAnalyzer() {
     const [resumeText, setResumeText] = useState<string>("");
     const [resumeUrl, setResumeUrl] = useState<string>("");
@@ -59,13 +60,14 @@ export default function GrokResumeAnalyzer() {
         if (!resumeText) return;
 
         const prompt = `
-            You are an expert HR recruitment assistant. 
-            Below is the text content from a resume. 
+            You are an expert HR recruitment assistant. It's the year ${new Date().getFullYear()}.
+            Below is the text content from a resume.
             Please analyze it and provide:
             1. A 3-sentence executive summary.
             2. Top 5 technical skills identified.
             3. A 'Candidate Strength' rating out of 10.
             4. Suggested improvements for the resume.
+            5. rewrite the full resume in a 2026-optimized version based on this analysis, and rate this version candidate strength.
 
             RESUME CONTENT:
             ${resumeText.substring(0, 4000)} // Limiting to first 4k chars for prompt safety
@@ -122,12 +124,13 @@ export default function GrokResumeAnalyzer() {
                     <p style={{ color: '#4b5563', marginBottom: '20px', fontWeight: 500 }}>
                         Select a resume PDF to begin analysis
                     </p>
+
                     <input
                         type="file"
                         name="file"
                         accept=".pdf"
                         required
-                        style={{ marginBottom: '20px', display: 'block', margin: '0 auto 20px' }}
+                        style={{ color: 'black', marginBottom: '20px', display: 'block', margin: '0 auto 20px' }}
                     />
                     <button
                         type="submit"
@@ -147,89 +150,94 @@ export default function GrokResumeAnalyzer() {
                         {isParsing ? "Reading Data..." : "Upload & Parse"}
                     </button>
                 </form>
-            )}
+            )
+            }
 
             {/* Step 2: Analysis Action */}
-            {resumeText && !getAiResponse() && (
-                <div style={{
-                    textAlign: 'center',
-                    padding: '30px',
-                    background: '#f0fdf4',
-                    borderRadius: '16px',
-                    border: '1px solid #bbf7d0'
-                }}>
-                    <p style={{ color: '#166534', fontSize: '1rem', marginBottom: '20px', fontWeight: 600 }}>
-                        ✅ Resume parsed successfully
-                    </p>
-                    <button
-                        onClick={startAnalysis}
-                        disabled={isAiThinking}
-                        style={{
-                            background: '#000',
-                            color: '#fff',
-                            padding: '14px 40px',
-                            borderRadius: '50px',
-                            border: 'none',
-                            cursor: isAiThinking ? 'not-allowed' : 'pointer',
-                            fontWeight: 700,
-                            fontSize: '1rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            margin: '0 auto',
-                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-                        }}
-                    >
-                        {isAiThinking ? "Your resume is being analysed..." : "⚡ Run Resume Analysis"}
-                    </button>
-                    <button
-                        onClick={() => setResumeText("")}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: '#6b7280',
-                            marginTop: '15px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            textDecoration: 'underline'
-                        }}
-                    >
-                        Upload different file
-                    </button>
-                </div>
-            )}
-
-            {/* Result Area */}
-            {getAiResponse() && (
-                <div style={{
-                    marginTop: '10px',
-                    padding: '24px',
-                    background: '#fff',
-                    borderRadius: '16px',
-                    border: '1px solid #e5e7eb',
-                    maxHeight: '600px',
-                    overflowY: 'auto'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                        <h4 style={{ margin: 0, color: '#111', fontSize: '1.1rem' }}>Grok Insights:</h4>
+            {
+                resumeText && !getAiResponse() && (
+                    <div style={{
+                        textAlign: 'center',
+                        padding: '30px',
+                        background: '#f0fdf4',
+                        borderRadius: '16px',
+                        border: '1px solid #bbf7d0'
+                    }}>
+                        <p style={{ color: '#166534', fontSize: '1rem', marginBottom: '20px', fontWeight: 600 }}>
+                            ✅ Resume parsed successfully
+                        </p>
                         <button
-                            onClick={() => { setMessages([]); setResumeText(""); }}
-                            style={{ background: '#f3f4f6', border: 'none', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                            onClick={startAnalysis}
+                            disabled={isAiThinking}
+                            style={{
+                                background: '#000',
+                                color: '#fff',
+                                padding: '14px 40px',
+                                borderRadius: '50px',
+                                border: 'none',
+                                cursor: isAiThinking ? 'not-allowed' : 'pointer',
+                                fontWeight: 700,
+                                fontSize: '1rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                margin: '0 auto',
+                                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                            }}
                         >
-                            Reset
+                            {isAiThinking ? "Your resume is being analysed..." : "⚡ Run Resume Analysis"}
+                        </button>
+                        <button
+                            onClick={() => setResumeText("")}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#6b7280',
+                                marginTop: '15px',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem',
+                                textDecoration: 'underline'
+                            }}
+                        >
+                            Upload different file
                         </button>
                     </div>
+                )
+            }
+
+            {/* Result Area */}
+            {
+                getAiResponse() && (
                     <div style={{
-                        whiteSpace: 'pre-wrap',
-                        lineHeight: '1.7',
-                        color: '#374151',
-                        fontSize: '1rem'
+                        marginTop: '10px',
+                        padding: '24px',
+                        background: '#fff',
+                        borderRadius: '16px',
+                        border: '1px solid #e5e7eb',
+                        maxHeight: '600px',
+                        overflowY: 'auto'
                     }}>
-                        {getAiResponse()}
-                        {isAiThinking && <span style={{ opacity: 0.5 }}>...</span>}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                            <h4 style={{ margin: 0, color: '#111', fontSize: '1.1rem' }}>Grok Insights:</h4>
+                            <button
+                                onClick={() => { setMessages([]); setResumeText(""); }}
+                                style={{ background: '#f3f4f6', border: 'none', padding: '4px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                            >
+                                Reset
+                            </button>
+                        </div>
+                        <div style={{
+                            whiteSpace: 'pre-wrap',
+                            lineHeight: '1.7',
+                            color: '#374151',
+                            fontSize: '1rem'
+                        }}>
+                            {getAiResponse()}
+                            {isAiThinking && <span style={{ opacity: 0.5 }}>...</span>}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
