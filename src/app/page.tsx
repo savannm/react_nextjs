@@ -6,8 +6,14 @@
 
 // We import the Image component from Next.js.
 // It's like a regular <img> tag, but smarter — it auto-optimises images.
+"use client"
+import RAGDemo from "@/components/rag-demo";
+
 import Image from "next/image";
 import { Suspense } from "react";
+import CryptoDashboard from "@/components/CryptoDashboard";
+
+
 
 
 // We import our CSS styles from a "CSS Module" file.
@@ -24,32 +30,32 @@ export default function Home() {
   // "return" sends back the JSX (HTML-like code) that gets displayed on screen.
 
 
-  // const sav = class {
-  //   name: string;
-  //   age: number;
-  //   address: {
-  //     street: string;
-  //     city: string;
-  //     country: string;
-  //   }
+  const sav = class {
+    name: string;
+    age: number;
+    address: {
+      street: string;
+      city: string;
+      country: string;
+    }
 
-  //   myAction: () => string;
-  //   constructor(name: string, age: number) {
-  //     this.name = name;
-  //     this.age = age;
-  //     this.address = {
-  //       street: "123 Main St",
-  //       city: "Town",
-  //       country: "USA"
-  //     }
-  //     this.myAction = () => {
-  //       return (
-  //         `${this.age} and ${this.address.city}`
-  //       );
-  //     };
-  //   }
-  // }
-  // const person1 = new sav("Savann", 25);
+    myAction: () => string;
+    constructor(name: string, age: number, street: string, city: string, country: string) {
+      this.name = name;
+      this.age = age;
+      this.address = {
+        street: street,
+        city: city,
+        country: country
+      }
+      this.myAction = () => {
+        return (
+          `${this.name}, ${this.age}, ${this.address.city}`
+        );
+      };
+    }
+  }
+  const person1 = new sav("Savann", 25, "11", "lucca", "australia");
 
 
   return (
@@ -87,7 +93,7 @@ export default function Home() {
 
             {/* Column 2 */}
             <div>
-              <h3 style={{ marginBottom: '0.75rem', fontSize: '1.1rem', fontWeight: 600 }}>🚀 Features & Experiments</h3>
+              <h3 style={{ marginBottom: '0.75rem', fontSize: '1.1rem', fontWeight: 600 }}>Features & Experiments</h3>
               <ul style={{ paddingLeft: '1.25rem', lineHeight: '2', color: '#444' }}>
                 <li>AI Chat Integration</li>
                 <li>Blog & Article System</li>
@@ -106,6 +112,9 @@ export default function Home() {
         {/* Introductory text block */}
         <div className={styles.intro}>
           {/* <div>{person1.myAction()}</div> */}
+          <RAGDemo />
+          <CryptoDashboard />
+
         </div>
 
         {/* <section style={{ margin: '4rem 0', width: '100%' }}>
