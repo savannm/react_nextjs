@@ -60,6 +60,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link href="/React" className={styles.link}>
+            React Reference
+          </Link>
+        </li>
+        <li>
           <Link href="/contact" className={styles.link}>
             Contact
           </Link>

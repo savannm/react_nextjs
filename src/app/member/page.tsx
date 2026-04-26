@@ -30,7 +30,7 @@ export default async function Members() {
                 </div>
                 <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
                     {/* <h3 style={{ margin: '30px 0 15px' }}>AI Resume Analysis</h3> */}
-                    <GrokResumeAnalyzer />
+                    {/* <GrokResumeAnalyzer /> */}
                     <h3 style={{ margin: '30px 0 15px' }}>Uploads PDF, and saves to database into user info.</h3>
                     <UploadResume />
                 </div>
