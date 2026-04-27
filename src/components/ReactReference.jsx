@@ -2704,15 +2704,25 @@ const ALL_ITEMS = SECTIONS.flatMap(s => s.items.map(item => ({ ...item, sectionI
 // SYNTAX HIGHLIGHTING (simple tokenizer)
 // ============================================================
 function highlight(code) {
-  const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return escaped
-    .replace(/(\/\/[^\n]*)/g, '<span class="c">$1</span>')
+  const tokens = [];
+  let escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  // 1. Extract comments and strings (to avoid highlighting keywords inside them)
+  escaped = escaped.replace(/(\/\/[^\n]*)|(`[^`]*`)|('[^']*')|("(?:[^"\\]|\\.)*")/g, (match, c) => {
+    const type = c ? 'c' : 'str';
+    const i = tokens.length;
+    tokens.push(`<span class="${type}">${match}</span>`);
+    return `__TOKEN_${i}__`;
+  });
+
+  // 2. Highlight keywords, hooks, and numbers
+  escaped = escaped
     .replace(/\b(import|export|from|const|let|var|function|return|async|await|new|if|else|switch|case|default|class|extends|try|catch|finally|throw|typeof|instanceof|in|of|for|while|true|false|null|undefined|void|this|super|static|get|set|type|interface|enum)\b/g, '<span class="kw">$1</span>')
     .replace(/\b(useState|useEffect|useRef|useCallback|useMemo|useReducer|useContext|useId|useLayoutEffect|useTransition|useDeferredValue|useSyncExternalStore|useOptimistic|createContext|memo|forwardRef|lazy|Suspense|Fragment|useImperativeHandle)\b/g, '<span class="hook">$1</span>')
-    .replace(/(`[^`]*`)/g, '<span class="str">$1</span>')
-    .replace(/('[^']*')/g, '<span class="str">$1</span>')
-    .replace(/("(?:[^"\\]|\\.)*")/g, '<span class="str">$1</span>')
     .replace(/\b(\d+)\b/g, '<span class="num">$1</span>');
+
+  // 3. Restore tokens
+  return escaped.replace(/__TOKEN_(\d+)__/g, (match, i) => tokens[i]);
 }
 
 // ============================================================

@@ -59,10 +59,22 @@ export default function Navbar() {
             Member
           </Link>
         </li>
-        <li>
-          <Link href="/React" className={styles.link}>
-            React Reference
+        <li className={styles.dropdown}>
+          <Link href="/Documentation" className={styles.link}>
+            React Reference <span className={styles.arrow}>▼</span>
           </Link>
+          <div className={styles.dropdownContent}>
+            <Link href="/Documentation/React" className={styles.dropdownItem}>
+              React
+            </Link>
+            <Link href="/Documentation/GoogleMaps" className={styles.dropdownItem}>
+              Google Maps
+            </Link>
+            <Link href="/Documentation/Contentful" className={styles.dropdownItem}>
+              Contentful
+            </Link>
+
+          </div>
         </li>
         <li>
           <Link href="/contact" className={styles.link}>

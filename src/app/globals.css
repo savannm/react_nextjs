@@ -82,6 +82,7 @@ body {
   /* Same for Firefox on Mac */
   main {
     min-height: 80vh;
+    z-index: 1;
   }
 }
 
