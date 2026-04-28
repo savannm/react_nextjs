@@ -59,19 +59,37 @@ export default function Navbar() {
             Member
           </Link>
         </li>
+
         <li className={styles.dropdown}>
-          <Link href="/Documentation" className={styles.link}>
-            React Reference <span className={styles.arrow}>▼</span>
+          <Link href="/api_showcase" className={styles.link}>
+            API showcase <span className={styles.arrow}>▼</span>
           </Link>
+
           <div className={styles.dropdownContent}>
-            <Link href="/Documentation/React" className={styles.dropdownItem}>
-              React
-            </Link>
-            <Link href="/Documentation/GoogleMaps" className={styles.dropdownItem}>
+            <Link href="/api_showcase/Google" className={styles.dropdownItem}>
               Google Maps
             </Link>
-            <Link href="/Documentation/Contentful" className={styles.dropdownItem}>
+            <Link href="/api_showcase/OpenWeather" className={styles.dropdownItem}>
+              OpenWeather
+            </Link>
+          </div>
+        </li>
+        <li className={styles.dropdown}>
+          <Link href="/Resources" className={styles.link}>
+            Resources <span className={styles.arrow}>▼</span>
+          </Link>
+          <div className={styles.dropdownContent}>
+            <Link href="/Resources/React" className={styles.dropdownItem}>
+              React
+            </Link>
+            <Link href="/Resources/Contentful" className={styles.dropdownItem}>
               Contentful
+            </Link>
+            <Link href="/Resources/Api" className={styles.dropdownItem}>
+              Api
+            </Link>
+            <Link href="/docs/Google_Maps_API.html" target="_blank" className={styles.dropdownItem}>
+              Google Maps
             </Link>
 
           </div>
@@ -83,6 +101,6 @@ export default function Navbar() {
         </li>
       </ul>
 
-    </nav>
+    </nav >
   );
 }

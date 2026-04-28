@@ -1,0 +1,2932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps API - Complete Reference Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            background: linear-gradient(135deg, #4285F4 0%, #EA4335 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .toc {
+            background: #f9f9f9;
+            border-left: 4px solid #4285F4;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .toc h2 {
+            color: #4285F4;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #4285F4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #EA4335;
+            text-decoration: underline;
+        }
+
+        section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #4285F4;
+        }
+
+        section h2 {
+            color: #4285F4;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4285F4;
+        }
+
+        section h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #EA4335;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8f8f2;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            backdrop-filter: blur(2px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4285F4;
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .code-block code {
+            color: #f8f8f2;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .highlight strong {
+            color: #856404;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
+            border-color: #4285F4;
+            transform: translateY(-2px);
+        }
+
+        .feature-card h4 {
+            color: #4285F4;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .feature-card p {
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .api-method {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .api-method .method-name {
+            background: #4285F4;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .parameters {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .parameters strong {
+            color: #333;
+        }
+
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .tip strong {
+            color: #1976D2;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .warning strong {
+            color: #f57c00;
+        }
+
+        .api-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .service-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .service-box h4 {
+            color: #4285F4;
+            margin-bottom: 10px;
+        }
+
+        .service-box p {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #4285F4;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .badge.new {
+            background: #4caf50;
+        }
+
+        .badge.premium {
+            background: #ff9800;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #4285F4;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table th {
+            background: #4285F4;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .expand-btn {
+            background: #4285F4;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 12px;
+            display: inline-block;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .expand-btn:hover {
+            background: #3367d6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .extra-info {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .extra-info.visible {
+            display: block;
+        }
+
+        .extra-info h5 {
+            color: #333;
+            margin: 10px 0 5px 0;
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+
+        .extra-info p {
+            margin-bottom: 10px;
+            font-size: 0.9em !important;
+        }
+
+        .extra-info .code-block {
+            margin: 5px 0;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🗺️ Google Maps API in React & Next.js</h1>
+            <p>Modern implementation guide using @vis.gl/react-google-maps and Next.js App Router</p>
+        </header>
+
+        <div class="toc">
+            <h2>📋 Table of Contents</h2>
+            <ul>
+                <li><a href="#quick-start">Next.js & React Quick Start</a></li>
+                <li><a href="#api-keys">Environment Variables</a></li>
+                <li><a href="#correct-usage">Correct Usage (React Pattern)</a></li>
+                <li><a href="#core-features">Core Features (1-30)</a></li>
+                <li><a href="#maps-api">Maps JavaScript API (31-60)</a></li>
+                <li><a href="#places-api">Places API (61-90)</a></li>
+                <li><a href="#advanced-features">Advanced Features (91-120)</a></li>
+                <li><a href="#integrations">API Integrations (121-150)</a></li>
+                <li><a href="#best-practices">Best Practices & Tips</a></li>
+                <li><a href="#resources">Resources & References</a></li>
+            </ul>
+        </div>
+
+        <!-- Quick Start Section -->
+        <section id="quick-start">
+            <h2>🚀 Next.js & React Quick Start</h2>
+
+            <h3>Step 1: Install Dependencies</h3>
+            <p>We use the official Google-maintained React wrapper for the best performance and developer experience.
+            </p>
+            <div class="code-block"><code>npm install @vis.gl/react-google-maps</code></div>
+
+            <h3>Step 2: Setup Environment Variables</h3>
+            <p>Create or edit your <code>.env.local</code> file in the root of your project. Use the
+                <code>NEXT_PUBLIC_</code> prefix so the key is available on the client side.
+            </p>
+            <div class="code-block"><code>NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_actual_api_key_here</code></div>
+
+            <h3>Step 3: Create a Map Component</h3>
+            <p>In Next.js App Router, components using interactive maps <strong>must</strong> be Client Components.</p>
+            <div class="code-block"><code>'use client';
+
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+
+export default function GoogleMap() {
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+  return (
+    &lt;APIProvider apiKey={API_KEY}&gt;
+      &lt;div style={{ height: '400px', width: '100%' }}&gt;
+        &lt;Map
+          defaultCenter={{ lat: -34.397, lng: 150.644 }}
+          defaultZoom={12}
+          gestureHandling={'greedy'}
+          disableDefaultUI={false}
+        &gt;
+          &lt;Marker position={{ lat: -34.397, lng: 150.644 }} /&gt;
+        &lt;/Map&gt;
+      &lt;/div&gt;
+    &lt;/APIProvider&gt;
+  );
+}</code></div>
+
+            <div class="highlight">
+                <strong>💡 Next.js Tip:</strong> If you use the map in multiple places, wrap your
+                <code>layout.tsx</code> (or a dedicated provider component) with <code>&lt;APIProvider&gt;</code> to
+                load the Google Maps script only once for the entire app.
+            </div>
+        </section>
+
+        <section id="correct-usage">
+            <h2>✅ How to Use Correctly (The React Way)</h2>
+            <p>When using <code>@vis.gl/react-google-maps</code>, you should prioritize <strong>Declarative
+                    Components</strong>. Avoid using <code>new google.maps.*</code> inside <code>useEffect</code> unless
+                absolutely necessary.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Declarative (Best Practice)</h4>
+                    <p>Standard features like Markers, InfoWindows, Polygons, and Circles should be used as React
+                        components. This allows React to manage their lifecycle and props automatically.</p>
+                    <div class="code-block"><code>&lt;Map&gt;
+  &lt;Marker position={pos} /&gt;
+  &lt;Polygon paths={paths} fillColor="#ff0000" /&gt;
+  &lt;Circle center={center} radius={1000} /&gt;
+&lt;/Map&gt;</code></div>
+                </div>
+                <div class="feature-card">
+                    <h4>Imperative (Special Cases)</h4>
+                    <p>Only use the <code>useMap()</code> hook when you need to call methods directly on the map
+                        instance (e.g., <code>map.panTo()</code>, <code>map.fitBounds()</code>) or when a specific
+                        feature doesn't have a React component yet.</p>
+                    <div class="code-block"><code>const map = useMap();
+useEffect(() =&gt; {
+  if (map) {
+    map.setHeading(45); // Direct API call
+  }
+}, [map]);</code></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="api-keys">
+            <h2>🔑 Environment Variables & Security</h2>
+            <h3>Standard Configuration</h3>
+            <table>
+                <tr>
+                    <th>Variable Name</th>
+                    <th>Required</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code></td>
+                    <td>Yes</td>
+                    <td>The browser-side API key for rendering the map.</td>
+                </tr>
+                <tr>
+                    <td><code>GOOGLE_MAPS_SERVER_KEY</code></td>
+                    <td>Optional</td>
+                    <td>A restricted key for server-side API calls (like Geocoding from a Route Handler).</td>
+                </tr>
+            </table>
+
+            <div class="warning">
+                <strong>⚠️ Security Warning:</strong> Because the client-side key is visible in the browser source code,
+                you <strong>MUST</strong> restrict it in the <a
+                    href="https://console.cloud.google.com/google/maps-apis/credentials" target="_blank">Google Cloud
+                    Console</a> to only allow your specific domain (e.g., <code>localhost:3000/*</code> and
+                <code>yourdomain.com/*</code>).
+            </div>
+        </section>
+
+        <!-- Core Features Section -->
+        <section id="core-features">
+            <h2>📍 Core Features (1-30)</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>1. Basic Map Initialization</h4>
+                    <p>Create and render a map on your page with custom center and zoom level</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Initialize a map by providing a DOM element and configuration options.</p>
+                        <div class="code-block"><code>&lt;Map
+  defaultCenter={{ lat: -34.397, lng: 150.644 }}
+  defaultZoom={8}
+/&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>2. Markers</h4>
+                    <p>Add clickable markers at specific coordinates with titles and info windows</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Place markers on the map to identify specific locations.</p>
+                        <div class="code-block"><code>&lt;Marker 
+  position={{ lat: -34.397, lng: 150.644 }} 
+  title="Hello World!" 
+/&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>3. Info Windows</h4>
+                    <p>Display popup information when markers are clicked</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Show descriptive text or HTML in a popup over the map.</p>
+                        <div class="code-block"><code>&lt;InfoWindow position={{ lat: -34.397, lng: 150.644 }}&gt;
+  &lt;h3&gt;Location Info&lt;/h3&gt;
+  &lt;p&gt;Details here...&lt;/p&gt;
+&lt;/InfoWindow&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>4. Polylines</h4>
+                    <p>Draw connected lines between multiple points (routes, paths)</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Draw linear paths between a series of coordinates.</p>
+                        <div class="code-block"><code>// Recommended: Use the Polyline component
+&lt;Map&gt;
+  &lt;Polyline 
+    path={[{lat: 37, lng: -122}, {lat: 38, lng: -123}]}
+    strokeColor="#FF0000"
+    strokeWeight={2}
+  /&gt;
+&lt;/Map&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>5. Polygons</h4>
+                    <p>Create closed shapes with fill and stroke styles</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Define an enclosed area on the map with custom styling.</p>
+                        <div class="code-block"><code>// Recommended: Use the Polygon component
+&lt;Map&gt;
+  &lt;Polygon 
+    paths={[{lat: 37, lng: -122}, {lat: 38, lng: -122}, {lat: 38, lng: -121}]}
+    fillColor="#00FF00"
+    strokeColor="#00FF00"
+  /&gt;
+&lt;/Map&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>6. Circles</h4>
+                    <p>Draw circular areas with customizable radius and styling</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Create a circle around a center point with a specific radius in meters.</p>
+                        <div class="code-block"><code>// Recommended: Use the Circle component
+&lt;Map&gt;
+  &lt;Circle 
+    center={{ lat: -34.397, lng: 150.644 }}
+    radius={1000}
+    fillColor="#FF0000"
+  /&gt;
+&lt;/Map&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>7. Rectangles</h4>
+                    <p>Create rectangular boundaries on the map</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Define a rectangle using north, south, east, and west boundaries.</p>
+                        <div class="code-block"><code>// Recommended: Use the Rectangle component
+&lt;Map&gt;
+  &lt;Rectangle 
+    bounds={{ north: 38, south: 37, east: -122, west: -123 }}
+    fillColor="#0000FF"
+  /&gt;
+&lt;/Map&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>8. Map Types</h4>
+                    <p>Switch between roadmap, satellite, terrain, and hybrid views</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Change the visual style of the map tiles.</p>
+                        <div class="code-block"><code>&lt;Map defaultMapTypeId="satellite" /&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>9. Zoom Control</h4>
+                    <p>Enable/disable zoom buttons and set min/max zoom levels</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Configure how users can zoom in and out.</p>
+                        <div class="code-block"><code>&lt;Map 
+  zoomControl={true} 
+  minZoom={5} 
+  maxZoom={15} 
+/&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>10. Pan Control</h4>
+                    <p>Allow users to move around the map with directional controls</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Enable the UI control for panning the map.</p>
+                        <div class="code-block"><code>&lt;Map panControl={true} /&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>11. Street View</h4>
+                    <p>Embed 360° street-level imagery from Google Street View</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Initialize a Street View panorama in a div.</p>
+                        <div class="code-block"><code>// Pattern: Create a component or use useEffect
+const map = useMap();
+useEffect(() => {
+  if (!map) return;
+  const panorama = new google.maps.StreetViewPanorama(
+    document.getElementById('pano'),
+    { position: {lat: 42, lng: -71} }
+  );
+  map.setStreetView(panorama);
+}, [map]);</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>12. Custom Map Styles</h4>
+                    <p>Apply custom styling to map appearance (colors, labels, features)</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Use a JSON array to customize the visual appearance of map elements.</p>
+                        <div class="code-block"><code>&lt;Map 
+  styles={[{ elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] }]} 
+/&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>13. Geolocation</h4>
+                    <p>Get user's current location using browser geolocation API</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Retrieve the device's current GPS coordinates.</p>
+                        <div class="code-block"><code>// Use inside a useEffect or event handler
+useEffect(() => {
+  navigator.geolocation.getCurrentPosition(pos => {
+    setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+  });
+}, []);</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>14. Bounds</h4>
+                    <p>Automatically fit map to show all markers or polygons</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Extend a LatLngBounds object and fit the map viewport to it.</p>
+                        <div class="code-block"><code>const map = useMap();
+useEffect(() => {
+  if (!map) return;
+  const bounds = new google.maps.LatLngBounds();
+  points.forEach(p => bounds.extend(p));
+  map.fitBounds(bounds);
+}, [map, points]);</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>15. Clustering</h4>
+                    <p>Group nearby markers for better visualization of large datasets</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Use the MarkerClusterer library to manage large numbers of markers.</p>
+                        <div class="code-block"><code>new MarkerClusterer(map, markers, {
+  imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+});</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>16. Custom Markers</h4>
+                    <p>Use custom images or symbols instead of default markers</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Define an icon property in the Marker constructor.</p>
+                        <div class="code-block"><code>&lt;Marker 
+  position={{ lat: -34, lng: 150 }} 
+  icon="https://example.com/marker.png" 
+/&gt;</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>17. Marker Animations</h4>
+                    <p>Add drop, bounce, and fade animations to markers</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Set the animation property to BOUNCE or DROP.</p>
+                        <div class="code-block"><code>&lt;Marker animation={google.maps.Animation.BOUNCE} /&gt;</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>18. Event Listeners</h4>
+                    <p>Handle click, drag, zoom, and other map events</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Register callback functions for specific UI interactions.</p>
+                        <div class="code-block">
+                            <code>&lt;Map onClick={(e) =&gt; console.log(e.detail.latLng)} /&gt;</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>19. Heatmaps</h4>
+                    <p>Visualize intensity of point data across geographic areas</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Use HeatmapLayer from the visualization library.</p>
+                        <div class="code-block"><code>const heatmap = new google.maps.visualization.HeatmapLayer({
+  data: [new google.maps.LatLng(37.7, -122.4), ...],
+  map: map
+});</code></div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h4>20. KML/GeoJSON Layers</h4>
+                    <p>Import and display geographic data from KML and GeoJSON files</p>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                    <div class="extra-info">
+                        <h5>Usage</h5>
+                        <p>Load external spatial data files directly onto the map.</p>
+                        <div class="code-block"><code>const map = useMap();
+useEffect(() => {
+  if (map) map.data.loadGeoJson(url);
+}, [map]);</code></div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>21. Geocoding</h4>
+                <p>Convert addresses to coordinates and vice versa</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use the Geocoder service to find coordinates for an address.</p>
+                    <div class="code-block"><code>const geocoder = new google.maps.Geocoder();
+geocoder.geocode({ address: 'New York' }, (results, status) => {
+  if (status === 'OK') map.setCenter(results[0].geometry.location);
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>22. Distance Matrix</h4>
+                <p>Calculate distances between multiple origin/destination pairs</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Compute distance and duration between sets of points.</p>
+                    <div class="code-block"><code>const service = new google.maps.DistanceMatrixService();
+service.getDistanceMatrix({
+  origins: ['Seattle'], destinations: ['Portland'],
+  travelMode: 'DRIVING'
+}, callback);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>23. Directions API</h4>
+                <p>Get turn-by-turn directions and route alternatives</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Generate routes and display them using DirectionsRenderer.</p>
+                    <div class="code-block"><code>const directionsService = new google.maps.DirectionsService();
+directionsService.route({
+  origin: 'Chicago', destination: 'St Louis',
+  travelMode: 'DRIVING'
+}, (response, status) => { ... });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>24. Responsive Maps</h4>
+                <p>Create maps that adapt to different screen sizes</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Trigger a resize event when the container size changes.</p>
+                    <div class="code-block"><code>window.addEventListener('resize', () => {
+  google.maps.event.trigger(map, 'resize');
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>25. Layer Control</h4>
+                <p>Toggle visibility of map layers dynamically</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Show or hide specific layers by setting the map property.</p>
+                    <div class="code-block"><code>layer.setMap(isVisible ? map : null);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>26. Traffic Layer</h4>
+                <p>Display real-time traffic information on the map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay current traffic flow data.</p>
+                    <div class="code-block"><code>const trafficLayer = new google.maps.TrafficLayer();
+trafficLayer.setMap(map);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>27. Transit Layer</h4>
+                <p>Show public transportation routes (buses, trains, etc.)</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay public transit lines and stations.</p>
+                    <div class="code-block"><code>const transitLayer = new google.maps.TransitLayer();
+transitLayer.setMap(map);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>28. Bicycling Layer</h4>
+                <p>Display bike routes and paths</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay bike-friendly paths and routes.</p>
+                    <div class="code-block"><code>const bikeLayer = new google.maps.BicyclingLayer();
+bikeLayer.setMap(map);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>29. Data Driven Styling</h4>
+                <p>Style map features based on data attributes</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Apply conditional styling to GeoJSON features.</p>
+                    <div class="code-block"><code>map.data.setStyle((feature) => {
+  return { fillColor: feature.getProperty('color') };
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>30. Fullscreen Mode</h4>
+                <p>Allow users to expand map to fullscreen view</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable the standard fullscreen UI control.</p>
+                    <div class="code-block"><code>&lt;Map fullscreenControl={true} /&gt;</code></div>
+                </div>
+            </div>
+    </div>
+
+    <h3>Example: Complete Basic Implementation</h3>
+    <div class="code-block"><code>import { APIProvider, Map, Marker, InfoWindow, useMap } from '@vis.gl/react-google-maps';
+import { useEffect, useState } from 'react';
+
+export default function MyMap() {
+  const [showInfo, setShowInfo] = useState(false);
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+    // Add layers or imperative features here
+    const trafficLayer = new google.maps.TrafficLayer();
+    trafficLayer.setMap(map);
+    return () => trafficLayer.setMap(null);
+  }, [map]);
+
+  return (
+    &lt;Map
+      defaultCenter={{ lat: 40.7128, lng: -74.0060 }}
+      defaultZoom={12}
+      gestureHandling={'greedy'}
+    &gt;
+      &lt;Marker 
+        position={{ lat: 40.7580, lng: -73.9855 }} 
+        onClick={() =&gt; setShowInfo(true)} 
+      /&gt;
+      
+      {showInfo && (
+        &lt;InfoWindow 
+          position={{ lat: 40.7580, lng: -73.9855 }} 
+          onCloseClick={() =&gt; setShowInfo(false)}
+        &gt;
+          &lt;strong&gt;Times Square&lt;/strong&gt;
+        &lt;/InfoWindow&gt;
+      )}
+    &lt;/Map&gt;
+  );
+}</code></div>
+    </section>
+
+    <section id="maps-api">
+        <h2>🎨 Maps JavaScript API Features (31-60)</h2>
+        <div class="tip">
+            <strong>React Developer Note:</strong> For features that don't have a direct component in
+            <code>@vis.gl/react-google-maps</code>,
+            use the <code>useMap()</code> hook to get the native <code>google.maps.Map</code> instance and initialize
+            the feature inside a <code>useEffect</code> hook.
+        </div>
+
+        <h3>Advanced Marker Features</h3>
+        <div class="api-method">
+            <div class="method-name">31. Marker with Custom Icon</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Create markers with custom images or SVG icons
+                </div>
+                <div class="code-block"><code>&lt;Marker
+  position={{ lat: 40.7128, lng: -74.0060 }}
+  icon={{
+    url: 'custom-icon.png',
+    scaledSize: { width: 32, height: 32 }
+  }}
+/&gt;</code></div>
+            </div>
+        </div>
+
+        <div class="api-method">
+            <div class="method-name">32. Advanced Polylines with Encoding</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Draw optimized routes using encoded polylines
+                </div>
+                <div class="code-block"><code>const map = useMap();
+useEffect(() => {
+  if (!map) return;
+  const polyline = new google.maps.Polyline({
+    path: google.maps.geometry.encoding.decodePath(encodedPath),
+    geodesic: true,
+    strokeColor: '#FF0000',
+    map: map
+  });
+}, [map]);</code></div>
+            </div>
+        </div>
+
+        <div class="api-method">
+            <div class="method-name">33. Custom Map Styles</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Apply professional styling to map appearance
+                </div>
+                <div class="code-block">
+                    <code>const styledMapType = new google.maps.StyledMapType([
+                            {
+                            elementType: 'geometry',
+                            stylers: [{ color: '#242f3e' }]
+                            },
+                            {
+                            elementType: 'labels.text.stroke',
+                            stylers: [{ color: '#242f3e' }]
+                            },
+                            {
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#746855' }]
+                            }
+                            ]);
+
+                            map.mapTypes.set('styled_map', styledMapType);
+                            map.setMapTypeId('styled_map');</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>34. Symbol Paths</h4>
+                <p>Use predefined symbols (circles, squares) as marker icons</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Set the icon to a Symbol object with a predefined path.</p>
+                    <div class="code-block"><code>icon: {
+  path: google.maps.SymbolPath.CIRCLE,
+  scale: 10,
+  fillColor: 'red',
+  fillOpacity: 1
+}</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>35. Custom Overlays</h4>
+                <p>Create custom map elements by extending OverlayView</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Extend the OverlayView class and implement onAdd, draw, and onRemove.</p>
+                    <div class="code-block"><code>class CustomOverlay extends google.maps.OverlayView {
+  onAdd() { /* Create DOM element */ }
+  draw() { /* Position DOM element */ }
+}</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>36. Drawing Tools</h4>
+                <p>Enable users to draw shapes on the map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use DrawingManager to allow users to draw points, lines, and shapes.</p>
+                    <div class="code-block"><code>new google.maps.drawing.DrawingManager({
+  drawingMode: google.maps.drawing.OverlayType.MARKER,
+  map: map
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>37. Geometry Utilities</h4>
+                <p>Calculate distances, containment, and area operations</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Perform spherical geometry calculations.</p>
+                    <div class="code-block"><code>google.maps.geometry.spherical.computeDistanceBetween(p1, p2);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>38. Visualization Heatmaps</h4>
+                <p>Create density visualizations from weighted point data</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Render heatmaps for large point datasets.</p>
+                    <div class="code-block"><code>new google.maps.visualization.HeatmapLayer({
+  data: points, map: map
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>39. Data Layer Styling</h4>
+                <p>Style GeoJSON features dynamically based on properties</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Define global or conditional styles for the data layer.</p>
+                    <div class="code-block"><code>map.data.setStyle({
+  fillColor: 'green',
+  strokeWeight: 1
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>40. Cluster Manager</h4>
+                <p>Manage and cluster large numbers of markers efficiently</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Group markers based on zoom level.</p>
+                    <div class="code-block"><code>new MarkerClusterer(map, markers);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>41. Animation Callbacks</h4>
+                <p>Execute functions when marker animations complete</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Listen for changes in the marker's animation state.</p>
+                    <div class="code-block"><code>marker.addListener('animation_changed', () => {
+  if (!marker.getAnimation()) console.log('Done!');
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>42. Map Projection</h4>
+                <p>Convert between lat/lng and pixel coordinates</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access the current map projection for coordinate conversion.</p>
+                    <div class="code-block"><code>const projection = map.getProjection();
+const point = projection.fromLatLngToPoint(latLng);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>43. Control Positioning</h4>
+                <p>Position custom controls at specific corners</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Place UI elements at defined map control positions.</p>
+                    <div class="code-block"><code>map.controls[google.maps.ControlPosition.TOP_RIGHT].push(btn);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>44. Zoom Animation</h4>
+                <p>Smooth zoom transitions between different zoom levels</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Smoothly change the magnification level of the map.</p>
+                    <div class="code-block"><code>map.setZoom(10); // Standard setZoom is smooth</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>45. Panning Animation</h4>
+                <p>Smooth map movements to new locations</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Smoothly shift the map center to new coordinates.</p>
+                    <div class="code-block"><code>map.panTo({ lat: 40, lng: -74 });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>46. Drag Listeners</h4>
+                <p>Detect and respond to user dragging interactions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Trigger actions when the user starts, continues, or stops dragging.</p>
+                    <div class="code-block"><code>map.addListener('dragend', () => {
+  console.log('User stopped dragging');
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>47. Context Menu</h4>
+                <p>Show right-click menus with custom options</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Listen for the right-click event to display custom UI.</p>
+                    <div class="code-block"><code>map.addListener('rightclick', (e) => {
+  showMenuAt(e.pixel.x, e.pixel.y);
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>48. Mouse Events</h4>
+                <p>Handle mouseover, mouseout, and other pointer events</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Interact with map features via mouse movement events.</p>
+                    <div class="code-block"><code>marker.addListener('mouseover', () => {
+  marker.setOpacity(1.0);
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>49. Bounds Calculation</h4>
+                <p>Automatically fit all markers in view</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Calculate the smallest bounding box containing all points.</p>
+                    <div class="code-block"><code>const bounds = new google.maps.LatLngBounds();
+bounds.extend(p1); bounds.extend(p2);
+map.fitBounds(bounds);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>50. Map Lock</h4>
+                <p>Prevent user interaction with the map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Disable all gestures and UI controls.</p>
+                    <div class="code-block"><code>map.setOptions({ gestureHandling: 'none' });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>51. Heading & Tilt</h4>
+                <p>Rotate map and apply 3D tilt effects</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Adjust the camera orientation for 3D views.</p>
+                    <div class="code-block"><code>map.setHeading(90); map.setTilt(45);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>52. Gesture Handling</h4>
+                <p>Optimize touch and mobile interactions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Define how the map responds to touch and mouse gestures.</p>
+                    <div class="code-block"><code>map.setOptions({ gestureHandling: 'greedy' });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>53. Attribution Control</h4>
+                <p>Manage map attribution display</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable or disable the display of map data sources.</p>
+                    <div class="code-block"><code>map.setOptions({ mapTypeControl: true });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>54. Label Icon</h4>
+                <p>Add text labels to marker icons</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Correct Usage</h5>
+                    <p>Display text characters directly on top of marker icons.</p>
+                    <div class="code-block"><code>// Recommended: Use the Marker component
+&lt;Map&gt;
+  &lt;Marker 
+    position={{ lat: 40.7128, lng: -74.0060 }}
+    title="New York City"
+    onClick={() =&gt; alert('Marker clicked!')}
+  /&gt;
+&lt;/Map&gt;</code></div>
+                    <div class="code-block"><code>new google.maps.Marker({
+  label: 'A',
+  position: pos,
+  map: map
+});</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>55. Marker Rotation</h4>
+                <p>Rotate marker icons for directional indication</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Rotate symbols or custom icons by degrees.</p>
+                    <div class="code-block"><code>icon: { path: '...', rotation: 45 }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>56. Shadow Effects</h4>
+                <p>Add drop shadows to markers and overlays</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Apply shadow styles or use secondary markers as shadows.</p>
+                    <div class="code-block">
+                        <code>// Modern markers handle shadows via SVG filters or custom images</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>57. Opacity Control</h4>
+                <p>Set transparency levels for overlays</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Adjust the visual transparency of markers and layers.</p>
+                    <div class="code-block"><code>marker.setOpacity(0.5);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>58. Z-Index Management</h4>
+                <p>Control layering and visibility of overlays</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Specify the stack order of markers and shapes.</p>
+                    <div class="code-block"><code>marker.setZIndex(100);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>59. Clickable Shapes</h4>
+                <p>Make polygons and polylines interactive</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable or disable mouse click events on vector shapes.</p>
+                    <div class="code-block"><code>polygon.setOptions({ clickable: true });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>60. Shape Editing</h4>
+                <p>Allow users to edit polygon and polyline vertices</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable visual handles for users to drag and modify shapes.</p>
+                    <div class="code-block"><code>polyline.setEditable(true);</code></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Geometry Utilities Example</h3>
+        <div class="code-block"><code>// Calculate distance between two points
+const point1 = { lat: 40.7128, lng: -74.0060 };
+const point2 = { lat: 40.7580, lng: -73.9855 };
+
+const distance = google.maps.geometry.spherical.computeDistanceBetween(
+  new google.maps.LatLng(point1.lat, point1.lng),
+  new google.maps.LatLng(point2.lat, point2.lng)
+);
+
+console.log('Distance: ' + (distance / 1000).toFixed(2) + ' km');
+
+// Check if point is within polygon
+const polygon = new google.maps.Polygon({
+  paths: [
+    { lat: 40.7, lng: -74 },
+    { lat: 40.8, lng: -74 },
+    { lat: 40.8, lng: -73.9 }
+  ]
+});
+
+const isInside = google.maps.geometry.poly.containsLocation(
+  new google.maps.LatLng(40.75, lng: -73.95),
+  polygon
+);
+
+console.log('Point inside polygon: ' + isInside);</code></div>
+    </section>
+
+    <!-- Places API Section -->
+    <section id="places-api">
+        <h2>🏢 Places API Features (61-90)</h2>
+
+        <h3>Places Search & Discovery</h3>
+        <div class="api-method">
+            <div class="method-name">61. Text Search</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Search for places by text query (restaurants, hotels, etc.)
+                </div>
+                <div class="code-block"><code>const service = new google.maps.places.PlacesService(map);
+
+service.textSearch({
+  query: 'restaurants near Times Square',
+  location: { lat: 40.7580, lng: -73.9855 },
+  radius: 5000
+}, (results, status) => {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    results.forEach(place => {
+      console.log(place.name, place.rating);
+    });
+  }
+});</code></div>
+            </div>
+        </div>
+
+        <div class="api-method">
+            <div class="method-name">62. Nearby Search</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Find places near a specific location
+                </div>
+                <div class="code-block"><code>service.nearbySearch({
+  location: { lat: 40.7128, lng: -74.0060 },
+  radius: 2000,
+  type: 'restaurant',
+  keyword: 'pizza'
+}, (results, status) => {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    results.slice(0, 5).forEach(place => {
+      new google.maps.Marker({
+        position: place.geometry.location,
+        map: map,
+        title: place.name
+      });
+    });
+  }
+});</code></div>
+            </div>
+        </div>
+
+        <div class="api-method">
+            <div class="method-name">63. Place Details</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Get detailed information about a specific place
+                </div>
+                <div class="code-block"><code>service.getDetails({
+  placeId: 'ChIJIQBpAG2dQIcR_6128GltTXQ',
+  fields: ['name', 'rating', 'formatted_address', 'photos', 
+           'opening_hours', 'reviews', 'website', 'phone_number']
+}, (place, status) => {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    console.log('Name:', place.name);
+    console.log('Rating:', place.rating);
+    console.log('Reviews:', place.reviews);
+  }
+});</code></div>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>64. Autocomplete</h4>
+                <p>Real-time suggestions as users type place names</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Attach an autocomplete widget to a text input element.</p>
+                    <div class="code-block"><code>new google.maps.places.Autocomplete(input);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>65. Autocomplete Predictions</h4>
+                <p>Get place predictions with specific types and components</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Programmatically retrieve predictions without the UI widget.</p>
+                    <div class="code-block"><code>service.getPlacePredictions({ input: 'Paris' }, callback);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>66. Query Autocomplete</h4>
+                <p>Autocomplete for search queries, not just places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Get suggestions for broad search terms.</p>
+                    <div class="code-block"><code>service.getQueryPredictions({ input: 'pizza near' }, callback);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>67. Place Photos</h4>
+                <p>Retrieve and display photos from Google Places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access high-quality images associated with a place.</p>
+                    <div class="code-block"><code>const url = place.photos[0].getUrl({ maxWidth: 400 });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>68. Place Reviews</h4>
+                <p>Access user reviews and ratings for places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Display snippets of user-generated reviews.</p>
+                    <div class="code-block"><code>place.reviews.forEach(r => console.log(r.text));</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>69. Opening Hours</h4>
+                <p>Get business hours and opening status</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Check if a business is currently open.</p>
+                    <div class="code-block"><code>if (place.opening_hours.isOpen()) { ... }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>70. Business Status</h4>
+                <p>Check if place is open, closed, or permanently closed</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Verify the operational status of a business.</p>
+                    <div class="code-block"><code>const status = place.business_status; // OPERATIONAL</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>71. Place Types</h4>
+                <p>Filter searches by place types (100+ categories)</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Restrict search results to specific categories.</p>
+                    <div class="code-block"><code>service.nearbySearch({ types: ['atm'] }, callback);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>72. Price Level</h4>
+                <p>Filter by price level ($, $$, $$$, $$$$)</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access price information (0 for free, 4 for expensive).</p>
+                    <div class="code-block"><code>console.log('Price Level:', place.price_level);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>73. Rating Filter</h4>
+                <p>Filter places by minimum rating threshold</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Filter results based on the numeric rating score.</p>
+                    <div class="code-block"><code>const topRated = results.filter(p => p.rating > 4.5);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>74. User Ratings</h4>
+                <p>Display average user ratings and review counts</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Show how many people have reviewed the place.</p>
+                    <div class="code-block"><code>console.log(place.user_ratings_total + ' reviews');</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>75. Website URL</h4>
+                <p>Get official website links for places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Provide a direct link to the business's website.</p>
+                    <div class="code-block"><code>const site = place.website;</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>76. Phone Numbers</h4>
+                <p>Access formatted and international phone numbers</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Retrieve contact information for a place.</p>
+                    <div class="code-block"><code>const phone = place.formatted_phone_number;</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>77. Operating Hours Widget</h4>
+                <p>Display formatted opening hours</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Retrieve a list of formatted weekday strings.</p>
+                    <div class="code-block"><code>place.opening_hours.weekday_text.forEach(day => ...);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>78. Distance Matrix for Places</h4>
+                <p>Calculate distance to multiple places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Determine the travel time to several nearby locations.</p>
+                    <div class="code-block"><code>service.getDistanceMatrix({ origins, destinations }, callback);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>79. Place Autocomplete Field</h4>
+                <p>UI component for address/place input</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Embed a self-contained address entry field.</p>
+                    <div class="code-block"><code>new google.maps.places.Autocomplete(inputElement);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>80. Autocomplete Restrictions</h4>
+                <p>Limit results to specific countries or areas</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Constrain suggestions to a particular geographic region.</p>
+                    <div class="code-block"><code>{ componentRestrictions: { country: 'au' } }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>81. Autocomplete Session Tokens</h4>
+                <p>Reduce billing by grouping prediction requests</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use tokens to group user typing into a single billable event.</p>
+                    <div class="code-block">
+                        <code>const token = new google.maps.places.AutocompleteSessionToken();</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>82. Place Search Pagination</h4>
+                <p>Load more results from search queries</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access the next set of results using the pagination object.</p>
+                    <div class="code-block"><code>if (pagination.hasNextPage) pagination.nextPage();</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>83. Permanent Closed Places</h4>
+                <p>Identify permanently closed businesses</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Filter out businesses that are no longer operational.</p>
+                    <div class="code-block"><code>if (p.business_status === 'CLOSED_PERMANENTLY') { ... }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>84. Plus Code Support</h4>
+                <p>Work with Open Location Code (Plus Code) system</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Retrieve the Plus Code for a location.</p>
+                    <div class="code-block"><code>const plusCode = place.plus_code.global_code;</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>85. Place Address Components</h4>
+                <p>Parse addresses into street, city, zip components</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access structured address data (city, country, etc.).</p>
+                    <div class="code-block">
+                        <code>place.address_components.find(c => c.types.includes('locality'));</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>86. Preferred Languages</h4>
+                <p>Get results in user's preferred language</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Specify the language in the API loader script.</p>
+                    <div class="code-block"><code>&lt;script src="...&amp;language=fr"&gt;&lt;/script&gt;</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>87. Accessibility Info</h4>
+                <p>Check wheelchair accessibility for places</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Identify locations with accessible features.</p>
+                    <div class="code-block"><code>const isAccessible = place.wheelchair_accessible_entrance;</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>88. User Contributions</h4>
+                <p>Show recent user-submitted photos and updates</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Display attribution for community-contributed content.</p>
+                    <div class="code-block"><code>const attribution = photo.html_attributions[0];</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>89. Place Geometry</h4>
+                <p>Access place boundaries and viewport information</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Get the recommended viewport for viewing a place.</p>
+                    <div class="code-block"><code>map.fitBounds(place.geometry.viewport);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>90. Search Results Bias</h4>
+                <p>Bias results toward user's preferred area</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Prioritize results within a specific radius or bounds.</p>
+                    <div class="code-block">
+                        <code>service.textSearch({ query: 'cafe', locationBias: circle }, callback);</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Autocomplete Example</h3>
+        <div class="code-block"><code>// Setup autocomplete with restrictions
+const input = document.getElementById('autocomplete-input');
+const options = {
+  types: ['establishment'],
+  componentRestrictions: { country: 'us' },
+  fields: ['place_id', 'geometry', 'formatted_address', 'name']
+};
+
+const autocomplete = new google.maps.places.Autocomplete(input, options);
+autocomplete.bindTo('bounds', map);
+
+autocomplete.addListener('place_changed', () => {
+  const place = autocomplete.getPlace();
+  
+  if (!place.geometry) {
+    console.log('Place details missing');
+    return;
+  }
+
+  // Center map on selected place
+  map.setCenter(place.geometry.location);
+  map.setZoom(15);
+
+  // Add marker
+  new google.maps.Marker({
+    position: place.geometry.location,
+    map: map,
+    title: place.name
+  });
+});</code></div>
+    </section>
+
+    <!-- Advanced Features Section -->
+    <section id="advanced-features">
+        <h2>⚡ Advanced Features (91-120)</h2>
+
+        <h3>Routing & Navigation</h3>
+        <div class="api-method">
+            <div class="method-name">91. Directions Service</div>
+            <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+            <div class="extra-info">
+                <div class="parameters">
+                    <strong>Usage:</strong> Get directions and routing between locations
+                </div>
+                <div class="code-block">
+                    <code>const directionsService = new google.maps.DirectionsService();
+                        const directionsRenderer = new google.maps.DirectionsRenderer();
+                        directionsRenderer.setMap(map);
+
+                        directionsService.route({
+                        origin: 'New York, NY',
+                        destination: 'Boston, MA',
+                        waypoints: [
+                        { location: 'Philadelphia, PA' }
+                        ],
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        unitSystem: google.maps.UnitSystem.METRIC
+                        }, (result, status) => {
+                        if (status === google.maps.DirectionsStatus.OK) {
+                        directionsRenderer.setDirections(result);
+                        const route = result.routes[0];
+                        console.log('Distance:', route.legs[0].distance.text);
+                        console.log('Duration:', route.legs[0].duration.text);
+                        }
+                        });</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>92. Multiple Route Options</h4>
+                <p>Get multiple alternative routes and let users choose</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Request alternative paths in the directions request.</p>
+                    <div class="code-block">
+                        <code>service.route({ provideRouteAlternatives: true, ... }, callback);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>93. Travel Modes</h4>
+                <p>Support driving, walking, transit, and bicycling</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Specify the mode of transport for routing.</p>
+                    <div class="code-block"><code>{ travelMode: google.maps.TravelMode.BICYCLING }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>94. Avoid Options</h4>
+                <p>Avoid tolls, highways, or ferries in routing</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Configure routing to skip specific road features.</p>
+                    <div class="code-block"><code>{ avoidTolls: true, avoidHighways: true }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>95. Waypoints Management</h4>
+                <p>Add multiple stops to a route</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Define intermediate locations for a route.</p>
+                    <div class="code-block"><code>waypoints: [{ location: 'St. Louis, MO', stopover: true }]</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>96. Route Alternatives</h4>
+                <p>Display and compare alternative routes</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Iterate through the routes array in the response.</p>
+                    <div class="code-block"><code>response.routes.forEach((route, i) => { ... });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>97. Step-by-Step Directions</h4>
+                <p>Get detailed turn-by-turn instructions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access individual maneuvers within a route leg.</p>
+                    <div class="code-block">
+                        <code>route.legs[0].steps.forEach(step => console.log(step.instructions));</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>98. Distance Matrix API</h4>
+                <p>Calculate many-to-many distances efficiently</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Compute travel data for multiple origins and destinations.</p>
+                    <div class="code-block"><code>service.getDistanceMatrix({ origins, destinations }, callback);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>99. Travel Time Calculation</h4>
+                <p>Get estimated travel times in different conditions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Retrieve the expected duration for a specific trip.</p>
+                    <div class="code-block"><code>console.log(route.legs[0].duration.text);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>100. Polyline Decoding</h4>
+                <p>Convert encoded polylines to coordinates</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Decode compressed path strings into LatLng arrays.</p>
+                    <div class="code-block"><code>google.maps.geometry.encoding.decodePath(encodedString);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>101. Route Legs</h4>
+                <p>Break routes into segments for detailed analysis</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Analyze the journey between individual waypoints.</p>
+                    <div class="code-block"><code>const firstLeg = response.routes[0].legs[0];</code></div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h4>102. Traffic-Aware Routes</h4>
+                <p>Consider real-time traffic in directions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable traffic considerations for driving directions.</p>
+                    <div class="code-block">
+                        <code>drivingOptions: { departureTime: new Date(), trafficModel: 'pessimistic' }</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>103. Toll Information</h4>
+                <p>Display toll costs and toll roads</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Check if a route contains toll-road segments.</p>
+                    <div class="code-block"><code>// Identified via metadata in the directions response</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>104. Copyrights & Attribution</h4>
+                <p>Manage data source attribution properly</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Display mandatory legal attribution for route data.</p>
+                    <div class="code-block"><code>console.log(response.routes[0].copyrights);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>105. Service Status Handling</h4>
+                <p>Handle API errors and rate limiting gracefully</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Check the status code returned by API services.</p>
+                    <div class="code-block"><code>if (status === google.maps.DirectionsStatus.OK) { ... }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>106. Caching Strategies</h4>
+                <p>Cache results to improve performance and reduce cost</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Store API results in local storage or a database.</p>
+                    <div class="code-block"><code>localStorage.setItem('route_cache', JSON.stringify(data));</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h4>107. Advanced Styling</h4>
+                <p>Style route overlays with gradients and patterns</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Customize the polyline appearance of a route.</p>
+                    <div class="code-block"><code>polylineOptions: { strokeColor: '#FF0000', strokeWeight: 5 }</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>108. Feature-Based Styling</h4>
+                <p>Style map elements based on data properties</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use logic to determine feature appearance.</p>
+                    <div class="code-block"><code>map.data.setStyle(f => ({ icon: f.getProperty('icon_url') }));</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>109. SVG Overlay Integration</h4>
+                <p>Overlay SVG graphics on the map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use SVG path strings for custom markers or overlays.</p>
+                    <div class="code-block"><code>icon: { path: 'M 10 10 L 20 20...', scale: 1 }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>110. Canvas Overlay</h4>
+                <p>Use Canvas API for custom rendering</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Render complex graphics directly onto a canvas element on the map.</p>
+                    <div class="code-block"><code>ctx.beginPath(); ctx.arc(x, y, radius, 0, 2*Math.PI);</code></div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h4>111. WebGL Rendering</h4>
+                <p>Leverage WebGL for high-performance visuals</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use WebGLOverlayView for hardware-accelerated 2D/3D graphics.</p>
+                    <div class="code-block"><code>const webgl = new google.maps.WebGLOverlayView();</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>112. Custom Control Panels</h4>
+                <p>Create custom UI controls and panels</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Push custom DOM elements into the map's control positions.</p>
+                    <div class="code-block"><code>map.controls[google.maps.ControlPosition.LEFT_TOP].push(myDiv);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>113. Legend Implementation</h4>
+                <p>Add legends to explain map colors and symbols</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Add a floating legend box to the map interface.</p>
+                    <div class="code-block"><code>const legend = document.getElementById('legend');
+map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>114. Tooltip System</h4>
+                <p>Show contextual information on hover</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Display tooltips when the mouse enters a feature.</p>
+                    <div class="code-block"><code>marker.addListener('mouseover', () => showTooltip(marker));</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>115. Accessibility Features</h4>
+                <p>Support screen readers and keyboard navigation</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Provide alternate text and keyboard focus management.</p>
+                    <div class="code-block"><code>marker.setOptions({ ariaLabel: 'Hospital Location' });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>116. Mobile Touch Handling</h4>
+                <p>Optimize for touch and mobile interactions</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable cooperative gesture handling for better scrolling.</p>
+                    <div class="code-block"><code>gestureHandling: 'cooperative'</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>117. Dark Mode Support</h4>
+                <p>Automatically adapt to device dark mode</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Apply dark-themed styles based on system preferences.</p>
+                    <div class="code-block"><code>if (isDarkMode) map.setOptions({ styles: darkStyles });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>118. Print Functionality</h4>
+                <p>Enable printing maps with proper styling</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Configure print-specific CSS for map containers.</p>
+                    <div class="code-block"><code>@media print { .map { height: 100%; width: 100%; } }</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>119. Export Capabilities</h4>
+                <p>Export maps as images or PDFs</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use the Static Maps API or client-side capture for exports.</p>
+                    <div class="code-block">
+                        <code>// Link to Static Map: https://maps.googleapis.com/maps/api/staticmap?...</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>120. Real-time Updates</h4>
+                <p>Update map data in real-time from WebSocket/MQTT</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Animate markers to new positions as data arrives.</p>
+                    <div class="code-block"><code>socket.on('pos', (p) => marker.setPosition(p));</code></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Advanced Directions Example</h3>
+        <div class="code-block"><code>// Complex routing with multiple options
+const origin = 'Times Square, New York';
+const destination = 'Central Park, New York';
+
+// Request multiple alternatives
+directionsService.route({
+  origin: origin,
+  destination: destination,
+  travelMode: google.maps.TravelMode.WALKING,
+  provideRouteAlternatives: true,
+  avoidFerries: true,
+  avoidHighways: false,
+  optimizeWaypoints: true,
+  waypoints: [
+    { location: 'Grand Central Terminal' }
+  ]
+}, (response, status) => {
+  if (status === google.maps.DirectionsStatus.OK) {
+    // Display primary route
+    directionsRenderer.setDirections(response);
+
+    // Analyze all routes
+    response.routes.forEach((route, index) => {
+      const leg = route.legs[0];
+      console.log(`Route ${index + 1}:`);
+      console.log(`Distance: ${leg.distance.text}`);
+      console.log(`Duration: ${leg.duration.text}`);
+      console.log(`Steps: ${leg.steps.length}`);
+    });
+  }
+});</code></div>
+    </section>
+
+    <!-- API Integrations Section -->
+    <section id="integrations">
+        <h2>🔗 Extended API Integrations (121-150)</h2>
+
+        <h3>Data Sources & Integrations</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>121. Real-time Vehicle Tracking</h4>
+                <p>Track moving objects (delivery vehicles, Uber, etc.) in real-time</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Periodically update marker positions based on incoming coordinate data.</p>
+                    <div class="code-block"><code>setInterval(() => marker.setPosition(newPos), 1000);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>122. Fleet Management</h4>
+                <p>Monitor and manage multiple vehicles on a single map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Maintain a collection of markers representing a fleet.</p>
+                    <div class="code-block"><code>const fleet = { 'v1': marker1, 'v2': marker2 };</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>123. Geofencing</h4>
+                <p>Trigger alerts when objects enter/exit predefined areas</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Check if a point is within the boundaries of a polygon.</p>
+                    <div class="code-block"><code>google.maps.geometry.poly.containsLocation(point, polygon);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>124. Heat Map Analytics</h4>
+                <p>Visualize density patterns from location data</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Analyze and display point density using HeatmapLayer.</p>
+                    <div class="code-block"><code>new google.maps.visualization.HeatmapLayer({ data: points });</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>125. Population Data Integration</h4>
+                <p>Overlay census and demographic data on maps</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Display demographic information using themed polygons (Choropleth map).</p>
+                    <div class="code-block"><code>map.data.loadGeoJson('census_data.json');</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>126. Weather API Integration</h4>
+                <p>Display weather conditions on specific locations</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Fetch weather data and show it in info windows.</p>
+                    <div class="code-block"><code>fetch(`weather_api?lat=${lat}&lon=${lng}`).then(...);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>127. Air Quality Index Layer</h4>
+                <p>Show AQI data and pollution levels</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay AQI values for different city regions.</p>
+                    <div class="code-block"><code>// Integration with IQAir or World Air Quality Index APIs</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>128. Pollen Count Overlay</h4>
+                <p>Display pollen forecasts and allergy information</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Show regional pollen intensity levels.</p>
+                    <div class="code-block"><code>// Use Google Pollen API or Ambee Pollen Data</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>129. Earthquake Data Integration</h4>
+                <p>Show seismic activity and earthquake epicenters</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Plot recent seismic events from the USGS API.</p>
+                    <div class="code-block">
+                        <code>map.data.loadGeoJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson');</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>130. Climate Data Visualization</h4>
+                <p>Display temperature, precipitation, and climate zones</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Render climate trends using data layers or KML files.</p>
+                    <div class="code-block"><code>new google.maps.KmlLayer({ url: 'climate_zones.kml' });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>131. Solar Radiation Maps</h4>
+                <p>Show solar potential for specific locations</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Access solar insolation data for renewable energy planning.</p>
+                    <div class="code-block"><code>// Use Google Solar API to calculate roof potential</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>132. Wildfire Tracking</h4>
+                <p>Display active wildfires and affected areas</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Plot fire perimeters using real-time satellite feeds.</p>
+                    <div class="code-block"><code>// Integration with NASA FIRMS or state fire agencies</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>133. Flood Risk Data</h4>
+                <p>Show flood zones and flood risk levels</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay FEMA or local flood risk maps.</p>
+                    <div class="code-block"><code>new google.maps.GroundOverlay('flood_map.png', bounds);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>134. Real Estate Overlays</h4>
+                <p>Display property values and market data</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Show property listings with price labels on markers.</p>
+                    <div class="code-block"><code>new google.maps.Marker({ label: '$500k', ... });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>135. School & Institution Locator</h4>
+                <p>Find and display schools, hospitals, universities</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Search for specific institution types using Places API.</p>
+                    <div class="code-block"><code>service.nearbySearch({ type: 'school' }, callback);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>136. Crime Statistics Heatmaps</h4>
+                <p>Visualize crime data by neighborhood</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Plot incident density to identify safe/risk zones.</p>
+                    <div class="code-block"><code>// Map crime incident coordinates to a HeatmapLayer</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>137. Public Transport Integration</h4>
+                <p>Display real-time transit schedules and tracking</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Overlay public transport routes and live vehicle locations.</p>
+                    <div class="code-block"><code>new google.maps.TransitLayer().setMap(map);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>138. Bike Share Station Locator</h4>
+                <p>Find and display bike-sharing station availability</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Show live bike counts at stations via GBFS (General Bikeshare Feed Specification).</p>
+                    <div class="code-block"><code>fetch(station_status_url).then(...);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>139. Parking Spot Finder</h4>
+                <p>Display available parking locations and rates</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Locate parking facilities and display pricing information.</p>
+                    <div class="code-block"><code>service.nearbySearch({ type: 'parking' }, callback);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>140. EV Charging Stations</h4>
+                <p>Locate electric vehicle charging infrastructure</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Filter for charging stations and show connector types.</p>
+                    <div class="code-block"><code>// Integration with Open Charge Map or Tesla Supercharger APIs</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>141. Social Media Integration</h4>
+                <p>Display geotagged social media content on maps</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Plot Instagram/X posts with location data on the map.</p>
+                    <div class="code-block"><code>new google.maps.Marker({ icon: user_avatar, ... });</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>142. Historical Data Layers</h4>
+                <p>Overlay historical maps and imagery</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Use ImageMapType to display scanned historical maps.</p>
+                    <div class="code-block"><code>map.overlayMapTypes.insertAt(0, historicalLayer);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>143. 3D Building Models</h4>
+                <p>Display 3D building structures on the map</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Enable 3D buildings by tilting the map camera.</p>
+                    <div class="code-block">
+                        <code>map.setTilt(45); // Buildings appear in Vector maps at high zoom</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>144. Satellite Imagery Updates</h4>
+                <p>Access fresh satellite imagery with refresh intervals</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Toggle high-resolution satellite/hybrid views.</p>
+                    <div class="code-block"><code>map.setMapTypeId(google.maps.MapTypeId.HYBRID);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>145. Terrain & Elevation Data</h4>
+                <p>Show terrain features and elevation profiles</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Query ground elevation for specific coordinates.</p>
+                    <div class="code-block">
+                        <code>new google.maps.ElevationService().getElevationForLocations(...);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>146. Protected Areas & Parks</h4>
+                <p>Display national parks and protected wildlife areas</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Identify park boundaries and facilities.</p>
+                    <div class="code-block"><code>service.nearbySearch({ type: 'park' }, callback);</code></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>147. Land Use Classification</h4>
+                <p>Overlay zoning and land use data</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Style regions based on land classification properties.</p>
+                    <div class="code-block">
+                        <code>map.data.setStyle(f => ({ fillColor: getColor(f.getProperty('zone')) }));</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>148. Network & Infrastructure Maps</h4>
+                <p>Visualize utility networks and infrastructure</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Draw complex infrastructure networks using polylines and markers.</p>
+                    <div class="code-block">
+                        <code>const fiberLine = new google.maps.Polyline({ path, color: 'blue' });</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>149. Custom Database Integration</h4>
+                <p>Connect to PostgreSQL, MongoDB, Firebase for dynamic data</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Sync map state with a backend spatial database.</p>
+                    <div class="code-block"><code>fetch('/api/v1/markers').then(r => r.json()).then(showMarkers);</code>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h4>150. GraphQL Data Source</h4>
+                <p>Query map data efficiently using GraphQL APIs</p>
+                <button class="expand-btn" onclick="toggleExpand(this)">Show Example & Usage</button>
+                <div class="extra-info">
+                    <h5>Usage</h5>
+                    <p>Retrieve only the necessary spatial fields via GraphQL.</p>
+                    <div class="code-block"><code>const { data } = await client.query({ query: GET_MAP_DATA });</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section id="best-practices">
+        <h2>✨ Best Practices & Tips</h2>
+
+        <div class="tip">
+            <strong>⚛️ React State Management:</strong> Use <code>useState</code> to manage dynamic data (like markers
+            or paths) and pass them as props to the map components. This ensures your map stays in sync with your
+            application state.
+        </div>
+
+        <h3>Performance Optimization</h3>
+        <div class="tip">
+            <strong>🚀 Lazy Load Maps:</strong> Only initialize maps when they come into view to improve page load
+            time
+        </div>
+        <div class="code-block"><code>// Lazy load map with Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      initMap();
+      observer.unobserve(entry.target);
+    }
+  });
+});
+
+observer.observe(document.getElementById('map'));</code></div>
+
+        <div class="tip">
+            <strong>📦 Marker Clustering:</strong> Use clustering for large marker datasets to reduce DOM elements
+        </div>
+        <div class="code-block"><code>// Include markerclusterer library
+const clusterer = new MarkerClusterer(map, markers, {
+  maxZoom: 15,
+  gridSize: 60,
+  imagePath: 'images/m'
+});</code></div>
+
+        <h3>API Key Security</h3>
+        <div class="warning">
+            <strong>🔒 Never Expose Keys:</strong> Always use backend proxies for sensitive API calls
+        </div>
+        <div class="code-block"><code>// Backend proxy pattern (Node.js/Express)
+app.get('/api/directions', async (req, res) => {
+  const { origin, destination } = req.query;
+  const result = await directionsService(origin, destination);
+  res.json(result);
+});
+
+// Frontend - call your proxy, not Google API directly
+fetch('/api/directions?origin=...&destination=...')
+  .then(r => r.json())
+  .then(data => console.log(data));</code></div>
+
+        <h3>Cost Optimization</h3>
+        <div class="highlight">
+            <strong>💰 API Pricing Tips:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Cache geocoding results to avoid repeated queries</li>
+                <li>Use session tokens for autocomplete to group predictions</li>
+                <li>Batch distance matrix requests efficiently</li>
+                <li>Set appropriate zoom level constraints</li>
+                <li>Use static maps API for non-interactive displays</li>
+            </ul>
+        </div>
+
+        <h3>User Experience</h3>
+        <div class="tip">
+            <strong>📱 Mobile Responsive:</strong> Always test on mobile and adjust controls
+        </div>
+        <div class="code-block"><code>// Responsive map initialization
+const map = new google.maps.Map(document.getElementById('map'), {
+  center: defaultCenter,
+  zoom: window.innerWidth < 768 ? 12 : 13,
+  gestureHandling: 'greedy', // Better mobile experience
+  fullscreenControl: true,
+  zoomControl: true,
+  streetViewControl: window.innerWidth > 768
+});</code></div>
+
+        <h3>Accessibility</h3>
+        <div class="highlight">
+            <strong>♿ Accessibility Guidelines:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Provide text alternatives for map content</li>
+                <li>Support keyboard navigation</li>
+                <li>Use proper ARIA labels and roles</li>
+                <li>Ensure sufficient color contrast</li>
+                <li>Test with screen readers</li>
+            </ul>
+        </div>
+
+        <h3>SEO Optimization</h3>
+        <div class="code-block"><code>// Schema markup for maps
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Your Business",
+  "image": "https://example.com/image.jpg",
+  "description": "Business description",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Main St",
+    "addressLocality": "City",
+    "postalCode": "12345"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "40.7128",
+    "longitude": "-74.0060"
+  }
+}
+</script></code></div>
+
+        <h3>Testing & Debugging</h3>
+        <div class="code-block"><code>// Enable debug mode
+google.maps.MapTypeId.DEBUG = true;
+
+// Log all events
+map.addListener('idle', () => console.log('Map idle'));
+map.addListener('center_changed', () => console.log('Center:', map.getCenter()));
+map.addListener('zoom_changed', () => console.log('Zoom:', map.getZoom()));</code></div>
+    </section>
+
+    <!-- External APIs Section -->
+    <section id="external-apis">
+        <h2>🌍 External API Integrations</h2>
+
+        <h3>Weather API Integration</h3>
+        <div class="service-box">
+            <h4>OpenWeatherMap</h4>
+            <p><strong>Endpoint:</strong> api.openweathermap.org/data/2.5/weather</p>
+            <p><strong>Features:</strong> Current weather, forecasts, air quality</p>
+            <div class="code-block"><code>// Get weather for map location
+async function getWeather(lat, lng) {
+  const apiKey = 'YOUR_OPENWEATHER_KEY';
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric`;
+  
+  const response = await fetch(url);
+  const data = await response.json();
+  
+  return {
+    temp: data.main.temp,
+    description: data.weather[0].description,
+    humidity: data.main.humidity,
+    windSpeed: data.wind.speed,
+    icon: data.weather[0].icon
+  };
+}
+
+// Display weather on map
+map.addListener('idle', async () => {
+  const center = map.getCenter();
+  const weather = await getWeather(center.lat(), center.lng());
+  console.log(`${weather.temp}°C - ${weather.description}`);
+});</code></div>
+        </div>
+
+        <div class="service-box">
+            <h4>Weather.gov (NOAA)</h4>
+            <p><strong>Coverage:</strong> USA only, highly accurate</p>
+            <p><strong>Cost:</strong> Free, no API key required</p>
+            <div class="code-block"><code>// NOAA Weather API (USA)
+async function getNOAAWeather(lat, lng) {
+  // First get grid point
+  const gridUrl = `https://api.weather.gov/points/${lat},${lng}`;
+  const gridRes = await fetch(gridUrl);
+  const gridData = await gridRes.json();
+  
+  // Then get forecast
+  const forecastUrl = gridData.properties.forecast;
+  const forecastRes = await fetch(forecastUrl);
+  const forecast = await forecastRes.json();
+  
+  return forecast.properties.periods;
+}
+
+getNOAAWeather(40.7128, -74.0060).then(periods => {
+  periods.slice(0, 3).forEach(period => {
+    console.log(`${period.name}: ${period.temperature}°${period.temperatureUnit}`);
+  });
+});</code></div>
+        </div>
+
+        <h3>Air Quality & Pollen Integration</h3>
+        <div class="service-box">
+            <h4>IQAir - Air Quality API</h4>
+            <p><strong>Coverage:</strong> Global air quality data</p>
+            <p><strong>Features:</strong> AQI, pollutant levels, health recommendations</p>
+            <div class="code-block"><code>// Get Air Quality Index
+async function getAirQuality(lat, lng) {
+  const apiKey = 'YOUR_IQAIR_KEY';
+  const url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${apiKey}`;
+  
+  const response = await fetch(url);
+  const data = await response.json();
+  
+  if (data.status === 'ok') {
+    const aqi = data.data.aqi;
+    let quality = 'Unknown';
+    
+    if (aqi <= 50) quality = 'Good';
+    else if (aqi <= 100) quality = 'Moderate';
+    else if (aqi <= 150) quality = 'Unhealthy for Sensitive Groups';
+    else if (aqi <= 200) quality = 'Unhealthy';
+    else if (aqi <= 300) quality = 'Very Unhealthy';
+    else quality = 'Hazardous';
+    
+    return { aqi, quality, city: data.data.city.name };
+  }
+}
+
+// Add AQI info window to map
+getAirQuality(40.7128, -74.0060).then(data => {
+  const infoWindow = new google.maps.InfoWindow({
+    content: `&lt;strong&gt;${data.city}&lt;/strong&gt;&lt;br&gt;AQI: ${data.aqi} (${data.quality})`
+  });
+  infoWindow.open(map);
+});</code></div>
+        </div>
+
+        <div class="service-box">
+            <h4>Google Pollen API</h4>
+            <p><span class="badge new">New</span> Allergen forecast data</p>
+            <p><strong>Coverage:</strong> USA, Europe, and expanding</p>
+            <div class="code-block"><code>// Get Pollen Forecast (requires Maps SDK v1.47+)
+async function getPollenForecast(lat, lng) {
+  const location = { latitude: lat, longitude: lng };
+  
+  // Use Google Pollen API
+  const pollenMap = new google.maps.pollen.PollenetMap();
+  pollenMap.addListener('click', (event) => {
+    const pollenData = event.getPollenInfo();
+    console.log('Pollen Index:', pollenData.pollenIndex);
+    console.log('Allergens:', pollenData.allergens);
+  });
+}
+
+// Display pollen info
+const allergenInfo = {
+  'tree': 'Tree Pollen',
+  'grass': 'Grass Pollen',
+  'weed': 'Weed Pollen'
+};
+
+const forecastData = {
+  tree: 'Low',
+  grass: 'High',
+  weed: 'Moderate'
+};
+
+let content = '&lt;strong&gt;Pollen Forecast&lt;/strong&gt;&lt;br&gt;';
+Object.entries(forecastData).forEach(([key, level]) => {
+  content += `${allergenInfo[key]}: ${level}&lt;br&gt;`;
+});
+
+const infoWindow = new google.maps.InfoWindow({ content });
+infoWindow.open(map);</code></div>
+        </div>
+
+        <div class="service-box">
+            <h4>Ambee - Pollen Data</h4>
+            <p><strong>Global Coverage:</strong> Worldwide pollen tracking</p>
+            <p><strong>Features:</strong> Pollen index, risk levels, recommendations</p>
+            <div class="code-block"><code>// Ambee Pollen API
+async function getAmbeePollen(lat, lng) {
+  const apiKey = 'YOUR_AMBEE_KEY';
+  const url = `https://api.ambeedata.com/latest/pollen?lat=${lat}&lng=${lng}`;
+  
+  const response = await fetch(url, {
+    headers: { 'x-api-key': apiKey }
+  });
+  
+  const data = await response.json();
+  const result = data.data.riskLevel;
+  
+  return {
+    riskLevel: result.plantType,
+    risk: result.risk,
+    concentration: result.concentration
+  };
+}
+
+// Create pollen layer on map
+async function createPollenLayer(lat, lng) {
+  const pollen = await getAmbeePollen(lat, lng);
+  
+  const color = pollen.risk > 300 ? 'red' : 
+                pollen.risk > 150 ? 'orange' : 
+                pollen.risk > 50 ? 'yellow' : 'green';
+  
+  new google.maps.Circle({
+    center: { lat, lng },
+    radius: 5000,
+    fillColor: color,
+    fillOpacity: 0.3,
+    strokeColor: color,
+    strokeOpacity: 0.8,
+    map: map
+  });
+}</code></div>
+        </div>
+
+        <h3>Additional Useful APIs</h3>
+        <table>
+            <tr>
+                <th>API Name</th>
+                <th>Purpose</th>
+                <th>Key Feature</th>
+                <th>Pricing</th>
+            </tr>
+            <tr>
+                <td>TimeZoneDB</td>
+                <td>Timezone information</td>
+                <td>Get timezone for any coordinate</td>
+                <td>Free tier available</td>
+            </tr>
+            <tr>
+                <td>OpenStreetMap</td>
+                <td>Alternative map tiles</td>
+                <td>Open-source, customizable</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td>Here Maps API</td>
+                <td>Routing alternative</td>
+                <td>Advanced routing, traffic</td>
+                <td>Paid</td>
+            </tr>
+            <tr>
+                <td>Mapbox</td>
+                <td>Custom mapping</td>
+                <td>Custom styles, vector tiles</td>
+                <td>Free + paid tiers</td>
+            </tr>
+            <tr>
+                <td>Overpass API</td>
+                <td>OSM data queries</td>
+                <td>Query OSM database</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td>NASA FIRMS</td>
+                <td>Fire/hotspot detection</td>
+                <td>Real-time satellite data</td>
+                <td>Free</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2>📚 Resources & References</h2>
+
+        <h3>Official Documentation</h3>
+        <ul style="margin-left: 20px;">
+            <li><a href="https://developers.google.com/maps/documentation" target="_blank">Google Maps Platform
+                    Documentation</a></li>
+            <li><a href="https://developers.google.com/maps/documentation/javascript" target="_blank">Maps
+                    JavaScript API Docs</a></li>
+            <li><a href="https://developers.google.com/maps/documentation/places" target="_blank">Places API
+                    Documentation</a></li>
+            <li><a href="https://developers.google.com/maps/documentation/directions" target="_blank">Directions API
+                    Docs</a></li>
+            <li><a href="https://developers.google.com/maps/documentation/geocoding" target="_blank">Geocoding API
+                    Docs</a></li>
+        </ul>
+
+        <h3>Useful Libraries & Tools</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>MarkerClusterer:</strong> Cluster markers efficiently</li>
+            <li><strong>Deck.gl:</strong> High-performance 3D mapping</li>
+            <li><strong>Leaflet:</strong> Lightweight mapping library</li>
+            <li><strong>Turf.js:</strong> Geospatial analysis</li>
+            <li><strong>Mapbox GL JS:</strong> Vector-based mapping</li>
+            <li><strong>Cesium.js:</strong> 3D mapping and GIS</li>
+        </ul>
+
+        <h3>Key Pricing Considerations</h3>
+        <div class="highlight">
+            <strong>API Costs:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Maps JavaScript API: $7 per 1000 loads (capped at $335/month)</li>
+                <li>Places API: $7-$32 per 1000 calls depending on endpoint</li>
+                <li>Directions API: $5 per 1000 requests (basic)</li>
+                <li>Geocoding API: $5 per 1000 requests</li>
+                <li>Distance Matrix: $5 per 1000 elements</li>
+                <li>Static Maps: $7 per 1000 images</li>
+                <li>$200 free monthly credit applies to most APIs</li>
+            </ul>
+        </div>
+
+        <h3>Code Snippets & Templates</h3>
+        <p>Visit <a href="https://github.com/googlemaps/js-samples" target="_blank">Google Maps JS Samples on
+                GitHub</a> for official code examples.</p>
+    </section>
+
+    <footer>
+        <p>Google Maps API Complete Reference Guide v1.0 | Last Updated: 2024</p>
+        <p>This guide covers 150+ features across Maps JavaScript API, Places API, and related services</p>
+    </footer>
+    </div>
+    <script>
+        function toggleExpand(btn) {
+            const info = btn.nextElementSibling;
+            const isVisible = info.classList.contains('visible');
+
+            if (isVisible) {
+                info.classList.remove('visible');
+                btn.textContent = 'Show Example & Usage';
+            } else {
+                info.classList.add('visible');
+                btn.textContent = 'Hide Example & Usage';
+            }
+        }
+
+        // Add copy buttons to all code blocks
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+            const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+            document.querySelectorAll('.code-block').forEach(block => {
+                const button = document.createElement('button');
+                button.className = 'copy-btn';
+                button.innerHTML = copyIcon;
+
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const codeElement = block.querySelector('code');
+                    const code = codeElement.innerText || codeElement.textContent;
+
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.innerHTML = checkIcon;
+                        button.classList.add('copied');
+
+                        setTimeout(() => {
+                            button.innerHTML = copyIcon;
+                            button.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                });
+
+                block.appendChild(button);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -13,6 +13,7 @@
     "@ai-sdk/react": "^3.0.161",
     "@ai-sdk/xai": "^3.0.82",
     "@vercel/blob": "^0.23.4",
+    "@vis.gl/react-google-maps": "^1.8.3",
     "ai": "^6.0.159",
     "bcryptjs": "^3.0.3",
     "next": "16.2.2",

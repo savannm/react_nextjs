@@ -3,7 +3,7 @@
 // We import our CSS styles from a "CSS Module" file.
 // CSS Modules keep styles scoped to just this component (no name conflicts).
 import styles from "../page.module.css";
-import ContentfulReference from '@/components/ContentfulReference'
+import ContentfulReference from '@/components/DocContentful'
 
 // This is the ReactReference component — the main content of the react page.
 // "export default" means this is the main thing exported from this file,
