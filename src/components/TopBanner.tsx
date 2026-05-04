@@ -48,7 +48,7 @@ export default function TopBanner() {
       <span>
         Explore the latest demo: AI Chat with Tools integration.&nbsp;
         <a
-          href="https://codeplenty-git-main-savannms-projects.vercel.app"
+          href="https://codeplenty.vercel.app/"
           target="_blank"
           style={{
             color: "#fff",
