@@ -1,6 +1,12 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
   globals.css — Global Styles
   ===========================
+
   These styles apply to EVERY page in the app.
   Think of this as your "base" stylesheet.
 

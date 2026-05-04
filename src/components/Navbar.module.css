@@ -40,6 +40,10 @@
   /* Soft drop shadow */
 }
 
+.active {
+  display: flex;
+}
+
 /* ── Brand / Logo ──────────────────────────────────────────────────────────
    The site name on the left side of the navbar.
 */
@@ -66,15 +70,23 @@
 .navLinks {
   display: flex;
   flex-direction: row;
-  /* Links side by side */
   align-items: center;
-  gap: 32px;
-  /* Space between each link */
   list-style: none;
-  /* Remove default bullet points from the list */
   margin: 0;
   padding: 0;
 }
+
+.desktopMenu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+}
+
+.mobileGrid {
+  display: none;
+}
+
 
 /* Styles for individual nav links */
 .link {
@@ -207,16 +219,244 @@
   }
 }
 
-/* ── Mobile Responsive ─────────────────────────────────────────────────────
-   On small screens, reduce the padding so nothing gets cut off.
+
+/* ── Hamburger Menu ────────────────────────────────────────────────────────
+   Button and bars for the mobile menu toggle.
 */
-@media (max-width: 600px) {
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 101;
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  background-color: #333;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+/* Transform hamburger to 'X' when active */
+.bar.active:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.bar.active:nth-child(2) {
+  opacity: 0;
+}
+
+.bar.active:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+/* ── Mobile Responsive ─────────────────────────────────────────────────────
+   On small screens, we hide the regular nav links and show the hamburger.
+*/
+@media (max-width: 768px) {
   .navbar {
     padding: 0 20px;
   }
 
+  .hamburger {
+    display: flex;
+    order: 2;
+  }
+
+  .brand {
+    display: flex;
+    order: 1;
+  }
+
+  .desktopMenu {
+    display: none;
+  }
+
+  .mobileGrid {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding-top: 60px; /* Space for the top close button */
+  }
+
+  .mobileSlider {
+    display: flex;
+    width: 200%; /* Two sections side by side */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobileSlider.showSubmenu {
+    transform: translateX(-50%);
+  }
+
+  .menuSection {
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 20px;
+    padding: 20px;
+    justify-items: center;
+    align-content: start;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+
+
+  .mobileItem {
+    list-style: none;
+  }
+
+  .mobileLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .mobileLink:active {
+    transform: scale(0.9);
+  }
+
+  .iconCircle {
+    width: 60px;
+    height: 60px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .iconLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+  }
+
+  .mobileBackItem {
+    grid-column: 1 / -1;
+    margin-bottom: 10px;
+    list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mobileBackButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid #eee;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mobileBackButton:active {
+    background-color: #f5f5f5;
+    transform: translateX(-4px);
+  }
+
+  .mobileCloseItem {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    list-style: none;
+    z-index: 2001;
+  }
+
+
+  .mobileCloseButton {
+    width: 44px;
+    height: 44px;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+
+
+  .mobileCloseButton:active {
+    transform: scale(0.9);
+  }
+
   .navLinks {
-    gap: 20px;
-    /* Tighter spacing between links on mobile */
+    display: none;
+    flex-direction: column;
+    justify-content: center; /* Center the grid vertically */
+    position: fixed;
+    top: 0; /* Cover full screen */
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 2000;
+    overflow-y: auto;
+  }
+
+  .navLinks.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .navLinks {
+    background-color: #121212;
+  }
+  .iconCircle {
+    background-color: #fff;
+    color: #000;
+  }
+  .mobileCloseButton {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .iconLabel {
+    color: #ccc;
+  }
+  .mobileBackButton {
+    border-color: #333;
+    color: #999;
+  }
+  .bar {
+    background-color: #ededed;
   }
 }

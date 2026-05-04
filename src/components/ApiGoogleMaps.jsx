@@ -76,9 +76,11 @@ export default function GoogleMaps() {
                 </div>
 
                 <APIProvider apiKey={API_KEY}>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'row', gap: '2px', background: '#000', overflow: 'hidden' }}>
+                    <div className="flex flex-col lg:flex-row" style={{ flex: 1, gap: '2px', background: '#000', overflow: 'hidden' }}>
+
+
                         {/* Left: Interactive Map */}
-                        <div style={{ flex: 1, position: 'relative' }}>
+                        <div className="h-[60vh]" style={{ flex: 1, position: 'relative' }}>
                             <Map
                                 defaultCenter={selectedLocation.position}
                                 center={selectedLocation.position}
@@ -115,7 +117,7 @@ export default function GoogleMaps() {
 
 
                         {/* Right: Street View Panorama */}
-                        <div style={{ flex: 1, position: 'relative', background: '#1e293b', padding: '10px', display: 'flex', flexDirection: 'column' }}>
+                        <div className="h-[60vh]" style={{ flex: 1, position: 'relative', background: '#1e293b', padding: '10px', display: 'flex', flexDirection: 'column' }}>
                             <div style={{ marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <h2 style={{ fontSize: '18px', fontWeight: '700', margin: 0 }}>Street View</h2>
                                 <span style={{ fontSize: '12px', padding: '4px 8px', background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa', borderRadius: '4px' }}>Live Panorama</span>

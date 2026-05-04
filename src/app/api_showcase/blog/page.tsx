@@ -8,9 +8,9 @@ export const metadata = {
 
 export default function AddPage() {
   return (
-    <main style={{ padding: '4rem 1rem', background: '#fafafa', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-      <AddMember />
-      <AddBlogForm />
+    <main className="flex flex-col md:flex-row justify-center justify-items-top p-4 gap-4">
+      <div><AddMember /></div>
+      <div><AddBlogForm /></div>
     </main>
   );
 }
