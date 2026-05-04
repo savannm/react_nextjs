@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-
 // ─── CONTENT DATA ─────────────────────────────────────────────────────────────
 
 const TRACKS = [
@@ -1227,6 +1226,7 @@ export default function APISkillsCourse() {
   const track = TRACKS.find(t => t.id === activeId);
 
   const handleNav = (id) => {
+
     setActiveId(id);
     if (contentRef.current) contentRef.current.scrollTop = 0;
   };
@@ -1340,6 +1340,8 @@ export default function APISkillsCourse() {
           <div>Supabase · GA4 · Pusher · Tavily</div>
         </div>
       </nav>
+
+
 
       {/* ── CONTENT ── */}
       <main
