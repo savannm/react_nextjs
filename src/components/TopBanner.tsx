@@ -46,9 +46,10 @@ export default function TopBanner() {
 
       {/* Message */}
       <span>
-        <strong>New:</strong> Smart Services are live — explore our Intelligence-powered E-Commerce, Marketing &amp; Voice tools.&nbsp;
+        Explore the latest demo: AI Chat with Tools integration.&nbsp;
         <a
-          href="/ServiceAi"
+          href="https://codeplenty-git-main-savannms-projects.vercel.app"
+          target="_blank"
           style={{
             color: "#fff",
             textDecoration: "underline",

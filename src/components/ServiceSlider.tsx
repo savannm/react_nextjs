@@ -72,7 +72,7 @@ export default function ServiceSlider() {
       {/* Heading */}
       <div className={styles.heading}>
         <h2>
-          <span className={styles.accent}>6 Intelligent</span> Services Built for you {" "}
+          <span className={styles.accent}>Future AI</span> Services Built for you {" "}
         </h2>
       </div>
 

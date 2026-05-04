@@ -1,17 +1,11 @@
 'use client';
 
-import styles from "../../page.module.css"
 import GoogleMaps from '@/components/ApiGoogleMaps';
 
-// This is the ReactReference component — the main content of the react page.
-// "export default" means this is the main thing exported from this file,
-// and Next.js will use it to render the page.
 export default function GooglePage() {
-    // "return" sends back the JSX (HTML-like code) that gets displayed on screen.
     return (
-        // A <div> is a generic container — here it wraps the whole page.
-        <div className={styles.page}>
+        <main style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <GoogleMaps />
-        </div>
+        </main>
     );
 }

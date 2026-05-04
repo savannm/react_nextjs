@@ -45,13 +45,8 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link href="/blog" className={styles.link}>
-            Blog
-          </Link>
-        </li>
-        <li>
           <Link href="/ServiceAi" className={styles.link}>
-            Services
+            Future Services
           </Link>
         </li>
         <li>
@@ -66,11 +61,20 @@ export default function Navbar() {
           </Link>
 
           <div className={styles.dropdownContent}>
+            <Link href="https://codeplenty-git-main-savannms-projects.vercel.app" target="_blank" className={styles.dropdownItem}>
+              AI Chat with Tools integration
+            </Link>
             <Link href="/api_showcase/Google" className={styles.dropdownItem}>
               Google Maps
             </Link>
             <Link href="/api_showcase/OpenWeather" className={styles.dropdownItem}>
               OpenWeather
+            </Link>
+            <Link href="/api_showcase/RAG" className={styles.dropdownItem}>
+              RAG Ai
+            </Link>
+            <Link href="/api_showcase/blog" className={styles.dropdownItem}>
+              Blog CRUD
             </Link>
           </div>
         </li>
