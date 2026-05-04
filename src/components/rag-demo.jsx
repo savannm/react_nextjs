@@ -119,7 +119,7 @@ export default function RAGDemo() {
 
     return (
         <div style={{
-            minHeight: "100vh",
+            minHeight: "",
             background: "#0b0e14",
             fontFamily: "'Courier New', monospace",
             color: "#e2e8f0",

@@ -7,11 +7,11 @@
 // We import the Image component from Next.js.
 // It's like a regular <img> tag, but smarter — it auto-optimises images.
 "use client"
-import RAGDemo from "@/components/rag-demo";
+
 
 import Image from "next/image";
 import { Suspense } from "react";
-import CryptoDashboard from "@/components/CryptoDashboard";
+
 
 
 
@@ -112,8 +112,7 @@ export default function Home() {
         {/* Introductory text block */}
         <div className={styles.intro}>
           {/* <div>{person1.myAction()}</div> */}
-          <RAGDemo />
-          <CryptoDashboard />
+
 
         </div>
 
