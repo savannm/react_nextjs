@@ -76,6 +76,9 @@ export default function Navbar() {
             <Link href="/api_showcase/blog" className={styles.dropdownItem}>
               Blog CRUD
             </Link>
+            <Link href="https://youtubemp3converter-production-c65d.up.railway.app" className={styles.dropdownItem}>
+              Youtube mp3 converter
+            </Link>
           </div>
         </li>
         <li className={styles.dropdown}>
