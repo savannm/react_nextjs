@@ -61,7 +61,7 @@ export default function Navbar() {
           </Link>
 
           <div className={styles.dropdownContent}>
-            <Link href="https://codeplenty-git-main-savannms-projects.vercel.app" target="_blank" className={styles.dropdownItem}>
+            <Link href="https://codeplenty.vercel.app" target="_blank" className={styles.dropdownItem}>
               AI Chat with Tools integration
             </Link>
             <Link href="/api_showcase/Google" className={styles.dropdownItem}>
