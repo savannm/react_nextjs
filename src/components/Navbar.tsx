@@ -165,11 +165,11 @@ export default function Navbar() {
               Home
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/ServiceAi" className={styles.link}>
               Future Services
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link href="/member" className={styles.link}>
               Member
@@ -218,6 +218,12 @@ export default function Navbar() {
               </Link>
               <Link href="/Resources/Api" className={styles.dropdownItem}>
                 Api
+              </Link>
+              <Link href="/Resources/Stripe" className={styles.dropdownItem}>
+                Stripe
+              </Link>
+              <Link href="/Resources/Websocket" className={styles.dropdownItem}>
+                Web socket
               </Link>
               <Link href="/docs/Google_Maps_API.html" target="_blank" className={styles.dropdownItem}>
                 Google Maps

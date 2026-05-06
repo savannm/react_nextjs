@@ -1,6 +1,18 @@
+/**READ MEE!
+ * This module provides server-side functions to interact with the Google Analytics Data API (GA4).
+ * It uses the REST API for better compatibility in serverless environments.
+ * END POINTS: POST https://analyticsdata.googleapis.com/v1beta/{property=properties/*}:runReport
+*MORE RESOURCE HERE: https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties
+ * 
+ * 
+ */
 import 'server-only';
 import { google } from "googleapis";
 
+/**
+ * Generates an OAuth2 access token using client credentials and a refresh token.
+ * This token is required for authenticating REST requests to the Google Analytics Data API.
+ */
 async function getAccessToken() {
     const client_id = process.env.GOOGLE_ANALYTICS_CLIENT;
     const client_secret = process.env.GOOGLE_ANALYTICS_SECRET;
@@ -18,6 +30,10 @@ async function getAccessToken() {
     return token;
 }
 
+/**
+ * Fetches overview metrics (users, sessions, pageviews) grouped by date.
+ * Also retrieves totals for the specified date range.
+ */
 export async function getOverviewData(startDate: string = '30daysAgo', endDate: string = 'today') {
     const propertyId = process.env.GA_PROPERTY_ID;
     if (!propertyId) {
@@ -27,6 +43,7 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
     try {
         const accessToken = await getAccessToken();
 
+        // Perform a POST request to the runReport endpoint
         const response = await fetch(
             `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
             {
@@ -36,7 +53,6 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-
                     dateRanges: [{ startDate, endDate }],
                     metrics: [
                         { name: 'activeUsers' },
@@ -58,7 +74,7 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
 
         const data = await response.json();
 
-        // Format data for Recharts
+        // Transform the raw API response into a format suitable for the chart (Recharts)
         const chartData = data.rows?.map((row: any) => ({
             date: row.dimensionValues?.[0]?.value ?
                 `${row.dimensionValues[0].value.substring(4, 6)}/${row.dimensionValues[0].value.substring(6, 8)}` : '',
@@ -67,7 +83,7 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
             pageViews: parseInt(row.metricValues?.[2]?.value || '0'),
         })) || [];
 
-        // Aggregated totals
+        // Extract and format totals for KPI cards
         const totals = {
             activeUsers: data.totals?.[0]?.metricValues?.[0]?.value || '0',
             sessions: data.totals?.[0]?.metricValues?.[1]?.value || '0',
@@ -82,3 +98,135 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
         throw error;
     }
 }
+
+/**
+ * Fetches user distribution by device category (mobile, desktop, tablet).
+ */
+export async function getDeviceData(startDate: string = '30daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'activeUsers' }],
+                dimensions: [{ name: 'deviceCategory' }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    return data.rows?.map((row: any) => ({
+        name: row.dimensionValues?.[0]?.value,
+        value: parseInt(row.metricValues?.[0]?.value || '0'),
+    })) || [];
+}
+
+/**
+ * Fetches the top 5 pages by screen page views.
+ */
+export async function getPageData(startDate: string = '30daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
+                dimensions: [{ name: 'pagePath' }],
+                limit: 5,
+                orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    return data.rows?.map((row: any) => ({
+        path: row.dimensionValues?.[0]?.value,
+        views: parseInt(row.metricValues?.[0]?.value || '0'),
+        users: parseInt(row.metricValues?.[1]?.value || '0'),
+    })) || [];
+}
+
+/**
+ * Fetches the top 5 countries by active users.
+ */
+export async function getGeoData(startDate: string = '30daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'activeUsers' }],
+                dimensions: [{ name: 'country' }],
+                limit: 5,
+                orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    return data.rows?.map((row: any) => ({
+        country: row.dimensionValues?.[0]?.value,
+        users: parseInt(row.metricValues?.[0]?.value || '0'),
+    })) || [];
+
+
+}
+
+
+/**
+ * Sav test 
+ */
+export async function getSavBounce(startDate: string = '7daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'bounceRate' }], //https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions
+                dimensions: [{ name: 'pagePath' }], //https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#metrics
+                limit: 5,
+                // orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    // console.log("google api results are:", data);
+    return data.rows?.map((row: any) => ({
+        //takes result value, transforms structure for recharts json format. json structure row > metricValues/DimensionValues
+        totalBounceRate: Math.round(row.metricValues[0]?.value * 100 || 0) / 100
+    })) || [];
+}
+

@@ -5,7 +5,7 @@ type Props = { title: string; value: string; change: string; trend: "up" | "down
 
 export default function KPICard({ title, value, change, trend }: Props) {
     return (
-        <div className="group relative bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+        <div className="group relative bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden !p-3">
             <div className="flex items-start justify-between">
                 <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">{title}</p>
