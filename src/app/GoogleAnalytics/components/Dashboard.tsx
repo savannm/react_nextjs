@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * AnalyticsDashboard Component
+ * This is the main client-side shell for the analytics dashboard.
+ * it receives pre-fetched data from the server and renders various
+ * visualization components using Recharts.
+ */
 import React from 'react';
 import {
     AreaChart,
@@ -13,6 +19,10 @@ import {
     Bar,
 } from 'recharts';
 import KPICard from './KPICard';
+import TopPages from './TopPages';
+import DeviceBreakdown from './DeviceBreakdown';
+import GeoDistribution from './GeoDistribution';
+import BounceRate from './Sav';
 
 interface AnalyticsDashboardProps {
     data: {
@@ -25,13 +35,17 @@ interface AnalyticsDashboardProps {
             engagementRate: string;
         };
     };
+    deviceData: any[];
+    pageData: any[];
+    geoData: any[];
+    BounceData: any[];
 }
 
-export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
+export default function AnalyticsDashboard({ data, deviceData, pageData, geoData, BounceData }: AnalyticsDashboardProps) {
     const { chartData, totals } = data;
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] p-8 space-y-8">
+        <div className="min-h-screen bg-[#f8fafc] !p-8 space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Analytics Overview</h1>
@@ -44,8 +58,14 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                 </div>
             </div>
 
+            {/* 
+                KPI Cards Section 
+                Displays high-level metrics at a glance.
+                Currently commented out as requested in previous iterations,
+                but ready to be toggled on.
+            */}
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                 <KPICard
                     title="Active Users"
                     value={totals.activeUsers}
@@ -76,13 +96,12 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                     change="+1.2%"
                     trend="up"
                 />
-            </div>
+            </div> */}
 
-
-
-            {/* Charts Section */}
+            {/* Main Charts Section: Traffic Trends and Page Views */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                {/* Traffic Trend: Area Chart showing Users vs Sessions over time */}
+                <div className="lg:col-span-2 bg-white rounded-2xl !p-3 border border-slate-200 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                         <h3 className="text-lg font-semibold text-slate-800">Traffic Trend</h3>
                         <div className="flex items-center gap-4 text-sm">
@@ -91,13 +110,13 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                                 <span className="text-slate-600">Users</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <div className="w-3 h-3 rounded-full bg-indigo-200"></div>
+                                <div className="w-3 h-3 rounded-full bg-slate-200"></div>
                                 <span className="text-slate-600">Sessions</span>
                             </div>
                         </div>
                     </div>
                     <div className="h-[400px] w-full p-6 pt-10">
-                        <ResponsiveContainer width="100%" height="100%">
+                        <ResponsiveContainer width="100%" height="100%" minHeight={300} minWidth={300}>
                             <AreaChart data={chartData}>
                                 <defs>
                                     <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
@@ -146,7 +165,8 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                {/* Page Views by Day: Bar Chart for daily volume comparison */}
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm !p-3 overflow-hidden">
                     <div className="p-6 border-b border-slate-100">
                         <h3 className="text-lg font-semibold text-slate-800">Page Views by Day</h3>
                     </div>
@@ -185,6 +205,19 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                         </ResponsiveContainer>
                     </div>
                 </div>
+            </div>
+
+            {/* 
+                Detailed Data Components:
+                - TopPages: List of most visited URLs
+                - DeviceBreakdown: Pie chart of user devices
+                - GeoDistribution: Geographic distribution of users
+            */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-full !pt-8 gap-8">
+                <BounceRate data={BounceData} />
+                <TopPages data={pageData} />
+                <DeviceBreakdown data={deviceData} />
+                <GeoDistribution data={geoData} />
             </div>
 
             {/* Glassmorphic Background Accents */}

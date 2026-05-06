@@ -1,18 +1,47 @@
 // Architecture: Server Component fetches data (REST) -> Client Component renders charts (Recharts).
 
-import { getOverviewData } from '@/lib/analytics';
-import AnalyticsDashboard from './components/Chart';
+import { getOverviewData, getDeviceData, getPageData, getGeoData, getSavBounce } from '@/lib/analytics';
+import AnalyticsDashboard from './components/Dashboard';
+
 
 export const metadata = {
     title: 'Google Analytics Dashboard',
 };
 
+/**
+ * Main Analytics Dashboard Page.
+ * This is a Server Component that fetches data in parallel on the server
+ * before passing it down to client-side visualization components.
+ */
 export default async function DashboardPage() {
     try {
-        const data = await getOverviewData();
+        // Fetch all required analytics data from analytics.ts
+        const [overview, devices, pages, geo, sav] = await Promise.all([
+            getOverviewData(),
+            getDeviceData(),
+            getPageData(),
+            getGeoData(),
+            getSavBounce(),
+        ]);
 
-        return <AnalyticsDashboard data={data} />;
+        // Render the main dashboard shell with the fetched data
+        return (
+            <>
+                <div>
+                    <AnalyticsDashboard
+                        data={overview}
+                        deviceData={devices}
+                        pageData={pages}
+                        geoData={geo}
+                        BounceData={sav}
+                    />
+                </div>
+
+            </>)
+
+
     } catch (error: any) {
+        // Error state: Display a user-friendly setup guide if GA credentials are missing or invalid
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
                 <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-xl text-center">
