@@ -31,7 +31,7 @@ async function getAccessToken() {
 }
 
 /**
- * Fetches overview metrics (users, sessions, pageviews) grouped by date.
+ * Fetches overview metrics (users, sessions, pageviews, etc.) grouped by date.
  * Also retrieves totals for the specified date range.
  */
 export async function getOverviewData(startDate: string = '30daysAgo', endDate: string = 'today') {
@@ -60,6 +60,9 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
                         { name: 'screenPageViews' },
                         { name: 'totalUsers' },
                         { name: 'engagementRate' },
+                        { name: 'newUsers' },
+                        { name: 'averageSessionDuration' },
+                        { name: 'sessionsPerUser' },
                     ],
                     dimensions: [{ name: 'date' }],
                     orderBys: [{ dimension: { dimensionName: 'date' } }],
@@ -83,6 +86,13 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
             pageViews: parseInt(row.metricValues?.[2]?.value || '0'),
         })) || [];
 
+        // Helper to format seconds to MM:SS
+        const formatDuration = (seconds: number) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}m ${secs}s`;
+        };
+
         // Extract and format totals for KPI cards
         const totals = {
             activeUsers: data.totals?.[0]?.metricValues?.[0]?.value || '0',
@@ -90,6 +100,9 @@ export async function getOverviewData(startDate: string = '30daysAgo', endDate: 
             pageViews: data.totals?.[0]?.metricValues?.[2]?.value || '0',
             totalUsers: data.totals?.[0]?.metricValues?.[3]?.value || '0',
             engagementRate: (parseFloat(data.totals?.[0]?.metricValues?.[4]?.value || '0') * 100).toFixed(1) + '%',
+            newUsers: data.totals?.[0]?.metricValues?.[5]?.value || '0',
+            avgSessionDuration: formatDuration(parseFloat(data.totals?.[0]?.metricValues?.[6]?.value || '0')),
+            sessionsPerUser: parseFloat(data.totals?.[0]?.metricValues?.[7]?.value || '0').toFixed(2),
         };
 
         return { chartData, totals };
@@ -126,6 +139,69 @@ export async function getDeviceData(startDate: string = '30daysAgo', endDate: st
     return data.rows?.map((row: any) => ({
         name: row.dimensionValues?.[0]?.value,
         value: parseInt(row.metricValues?.[0]?.value || '0'),
+    })) || [];
+}
+
+/**
+ * Fetches traffic sources (e.g., Organic Search, Direct, Social).
+ */
+export async function getTrafficSourceData(startDate: string = '30daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'activeUsers' }],
+                dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+                orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    return data.rows?.map((row: any) => ({
+        source: row.dimensionValues?.[0]?.value,
+        users: parseInt(row.metricValues?.[0]?.value || '0'),
+    })) || [];
+}
+
+/**
+ * Fetches top events by count.
+ */
+export async function getEventData(startDate: string = '30daysAgo', endDate: string = 'today') {
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dateRanges: [{ startDate, endDate }],
+                metrics: [{ name: 'eventCount' }],
+                dimensions: [{ name: 'eventName' }],
+                limit: 10,
+                orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
+            }),
+        }
+    );
+
+    const data = await response.json();
+    return data.rows?.map((row: any) => ({
+        event: row.dimensionValues?.[0]?.value,
+        count: parseInt(row.metricValues?.[0]?.value || '0'),
     })) || [];
 }
 
@@ -192,13 +268,11 @@ export async function getGeoData(startDate: string = '30daysAgo', endDate: strin
         country: row.dimensionValues?.[0]?.value,
         users: parseInt(row.metricValues?.[0]?.value || '0'),
     })) || [];
-
-
 }
 
 
 /**
- * Sav test 
+ * Fetches bounce rate for pages.
  */
 export async function getSavBounce(startDate: string = '7daysAgo', endDate: string = 'today') {
     const propertyId = process.env.GA_PROPERTY_ID;
@@ -214,19 +288,18 @@ export async function getSavBounce(startDate: string = '7daysAgo', endDate: stri
             },
             body: JSON.stringify({
                 dateRanges: [{ startDate, endDate }],
-                metrics: [{ name: 'bounceRate' }], //https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions
-                dimensions: [{ name: 'pagePath' }], //https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#metrics
+                metrics: [{ name: 'bounceRate' }],
+                dimensions: [{ name: 'pagePath' }],
                 limit: 5,
-                // orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
             }),
         }
     );
 
     const data = await response.json();
-    // console.log("google api results are:", data);
     return data.rows?.map((row: any) => ({
-        //takes result value, transforms structure for recharts json format. json structure row > metricValues/DimensionValues
-        totalBounceRate: Math.round(row.metricValues[0]?.value * 100 || 0) / 100
+        path: row.dimensionValues?.[0]?.value,
+        totalBounceRate: Math.round(row.metricValues[0]?.value * 100 || 0)
     })) || [];
 }
+
 

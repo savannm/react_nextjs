@@ -1,13 +1,18 @@
 // Architecture: Server Component fetches data (REST) -> Client Component renders charts (Recharts).
 
-import { getOverviewData, getDeviceData, getPageData, getGeoData, getSavBounce } from '@/lib/analytics';
+import { 
+    getOverviewData, 
+    getDeviceData, 
+    getPageData, 
+    getGeoData, 
+    getSavBounce,
+    getTrafficSourceData,
+    getEventData
+} from '@/lib/analytics';
 import AnalyticsDashboard from './components/Dashboard';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-
-
-
 
 export const metadata = {
     title: 'Google Analytics Dashboard',
@@ -32,12 +37,14 @@ export default async function DashboardPage() {
 
     try {
         // Fetch all required analytics data from analytics.ts
-        const [overview, devices, pages, geo, sav] = await Promise.all([
+        const [overview, devices, pages, geo, sav, traffic, events] = await Promise.all([
             getOverviewData(),
             getDeviceData(),
             getPageData(),
             getGeoData(),
             getSavBounce(),
+            getTrafficSourceData(),
+            getEventData(),
         ]);
 
         // Render the main dashboard shell with the fetched data
@@ -50,10 +57,13 @@ export default async function DashboardPage() {
                         pageData={pages}
                         geoData={geo}
                         BounceData={sav}
+                        trafficData={traffic}
+                        eventData={events}
                     />
                 </div>
 
             </>)
+
 
 
     } catch (error: any) {
