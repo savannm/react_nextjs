@@ -1,8 +1,18 @@
 // Architecture: Server Component fetches data (REST) -> Client Component renders charts (Recharts).
 
-import { getOverviewData, getDeviceData, getPageData, getGeoData, getSavBounce } from '@/lib/analytics';
+import { 
+    getOverviewData, 
+    getDeviceData, 
+    getPageData, 
+    getGeoData, 
+    getSavBounce,
+    getTrafficSourceData,
+    getEventData
+} from '@/lib/analytics';
 import AnalyticsDashboard from './components/Dashboard';
-
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
     title: 'Google Analytics Dashboard',
@@ -14,14 +24,27 @@ export const metadata = {
  * before passing it down to client-side visualization components.
  */
 export default async function DashboardPage() {
+
+
+    // Check if the user is authenticated on the server
+    const session = await getServerSession(authOptions);
+
+    // If no session exists, redirect them to the sign-in page
+    if (!session) {
+        //goes to signin page and then back to member page after signin
+        redirect('/api/auth/signin?callbackUrl=/GoogleAnalytics');
+    }
+
     try {
         // Fetch all required analytics data from analytics.ts
-        const [overview, devices, pages, geo, sav] = await Promise.all([
+        const [overview, devices, pages, geo, sav, traffic, events] = await Promise.all([
             getOverviewData(),
             getDeviceData(),
             getPageData(),
             getGeoData(),
             getSavBounce(),
+            getTrafficSourceData(),
+            getEventData(),
         ]);
 
         // Render the main dashboard shell with the fetched data
@@ -34,10 +57,13 @@ export default async function DashboardPage() {
                         pageData={pages}
                         geoData={geo}
                         BounceData={sav}
+                        trafficData={traffic}
+                        eventData={events}
                     />
                 </div>
 
             </>)
+
 
 
     } catch (error: any) {

@@ -84,49 +84,8 @@ export default function Footer() {
             <span className={styles.columnTitle}>Navigate</span>
             <Link href="/" className={styles.footerLink}>Home</Link>
             <Link href="/blog" className={styles.footerLink}>Blog</Link>
-            <Link href="/ServiceAi" className={styles.footerLink}>Services</Link>
             <Link href="/member" className={styles.footerLink}>Member</Link>
             <Link href="/contact" className={styles.footerLink}>Contact</Link>
-          </div>
-
-          {/* Technologies column */}
-          <div className={styles.column}>
-            <span className={styles.columnTitle}>Tech Stack</span>
-            <span className={styles.footerLink}>Next.js</span>
-            <span className={styles.footerLink}>TypeScript</span>
-            <span className={styles.footerLink}>React</span>
-            <span className={styles.footerLink}>WordPress</span>
-            <span className={styles.footerLink}>REST APIs</span>
-          </div>
-
-          {/* Resources column */}
-          <div className={styles.column}>
-            <span className={styles.columnTitle}>Resources</span>
-            <a
-              href="https://nextjs.org/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.footerLink}
-            >
-              Next.js Docs
-            </a>
-            <a
-              href="https://react.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.footerLink}
-            >
-              React Docs
-            </a>
-            <a
-              href="https://www.typescriptlang.org/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.footerLink}
-            >
-              TypeScript Docs
-            </a>
-
           </div>
 
         </div>

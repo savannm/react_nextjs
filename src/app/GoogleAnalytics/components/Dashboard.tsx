@@ -1,11 +1,5 @@
 "use client";
 
-/**
- * AnalyticsDashboard Component
- * This is the main client-side shell for the analytics dashboard.
- * it receives pre-fetched data from the server and renders various
- * visualization components using Recharts.
- */
 import React from 'react';
 import {
     AreaChart,
@@ -23,6 +17,8 @@ import TopPages from './TopPages';
 import DeviceBreakdown from './DeviceBreakdown';
 import GeoDistribution from './GeoDistribution';
 import BounceRate from './Sav';
+import TrafficSource from './TrafficSource';
+import TopEvents from './TopEvents';
 
 interface AnalyticsDashboardProps {
     data: {
@@ -33,15 +29,28 @@ interface AnalyticsDashboardProps {
             pageViews: string;
             totalUsers: string;
             engagementRate: string;
+            newUsers: string;
+            avgSessionDuration: string;
+            sessionsPerUser: string;
         };
     };
     deviceData: any[];
     pageData: any[];
     geoData: any[];
     BounceData: any[];
+    trafficData: any[];
+    eventData: any[];
 }
 
-export default function AnalyticsDashboard({ data, deviceData, pageData, geoData, BounceData }: AnalyticsDashboardProps) {
+export default function AnalyticsDashboard({
+    data,
+    deviceData,
+    pageData,
+    geoData,
+    BounceData,
+    trafficData,
+    eventData
+}: AnalyticsDashboardProps) {
     const { chartData, totals } = data;
 
     return (
@@ -61,15 +70,18 @@ export default function AnalyticsDashboard({ data, deviceData, pageData, geoData
             {/* 
                 KPI Cards Section 
                 Displays high-level metrics at a glance.
-                Currently commented out as requested in previous iterations,
-                but ready to be toggled on.
             */}
-            {/* KPI Cards */}
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <KPICard
                     title="Active Users"
                     value={totals.activeUsers}
                     change="+12.5%"
+                    trend="up"
+                />
+                <KPICard
+                    title="New Users"
+                    value={totals.newUsers}
+                    change="+15.2%"
                     trend="up"
                 />
                 <KPICard
@@ -85,15 +97,27 @@ export default function AnalyticsDashboard({ data, deviceData, pageData, geoData
                     trend="down"
                 />
                 <KPICard
-                    title="Total Users"
-                    value={totals.totalUsers}
-                    change="+5.7%"
-                    trend="up"
-                />
-                <KPICard
                     title="Engagement Rate"
                     value={totals.engagementRate}
                     change="+1.2%"
+                    trend="up"
+                />
+                <KPICard
+                    title="Avg. Duration"
+                    value={totals.avgSessionDuration}
+                    change="+5.4%"
+                    trend="up"
+                />
+                <KPICard
+                    title="Sessions/User"
+                    value={totals.sessionsPerUser}
+                    change="+0.5%"
+                    trend="up"
+                />
+                <KPICard
+                    title="Total Users"
+                    value={totals.totalUsers}
+                    change="+5.7%"
                     trend="up"
                 />
             </div> */}
@@ -209,15 +233,20 @@ export default function AnalyticsDashboard({ data, deviceData, pageData, geoData
 
             {/* 
                 Detailed Data Components:
+                - TrafficSource: Acquisition channels
+                - TopEvents: Common interactions
                 - TopPages: List of most visited URLs
                 - DeviceBreakdown: Pie chart of user devices
                 - GeoDistribution: Geographic distribution of users
+                - BounceRate: Page-specific bounce metrics
             */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-full !pt-8 gap-8">
-                <BounceRate data={BounceData} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 !pt-8 gap-8">
+                <TrafficSource data={trafficData} />
+                <TopEvents data={eventData} />
                 <TopPages data={pageData} />
                 <DeviceBreakdown data={deviceData} />
                 <GeoDistribution data={geoData} />
+                <BounceRate data={BounceData} />
             </div>
 
             {/* Glassmorphic Background Accents */}
@@ -226,3 +255,4 @@ export default function AnalyticsDashboard({ data, deviceData, pageData, geoData
         </div>
     );
 }
+
